@@ -9,15 +9,15 @@ interface CMSConfig {
     credentials: any;
 }
 
-interface ComponentConfig {
+export interface ComponentConfig {
     name: string;
-    parameterAdjustments: ParameterConfig[];
+    parameterAdjustments?: ParameterConfig[];
 }
 
 interface ParameterConfig {
-    inputIdentifier: string[];
-    outputIdentifier: string[];
-    valueConverter: ValueConverter;
+    inputIdentifier?: string[];
+    outputIdentifier?: string[];
+    valueConverter?: ValueConverter;
 }
 
 type ValueConverter = (value: any) => any;
