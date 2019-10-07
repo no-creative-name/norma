@@ -1,4 +1,4 @@
-import { Content, NormalizedContent } from "./Content";
+import { Content } from "./Content";
 import { ComponentConfig } from "./AdapterConfig";
 
-export type ComponentHandler = (content: Content, componentConfig: ComponentConfig) => NormalizedContent;
+export type ComponentHandler = (content: Content, componentConfig: ComponentConfig) => Content;
