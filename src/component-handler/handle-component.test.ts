@@ -1,4 +1,4 @@
-import { handleComponent } from "./handleComponent"
+import { handleComponent } from "./handle-component"
 
 test('Throws an error when content input is undefined.', () => {
     expect(() => {handleComponent(undefined, {name: 'componentX'})}).toThrow(Error);

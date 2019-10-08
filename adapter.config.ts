@@ -1,4 +1,4 @@
-import { AdapterConfig } from "./src/interfaces/AdapterConfig";
+import { AdapterConfig } from "./src/interfaces/adapter-config";
 
 export const adapterConfig: AdapterConfig = {
     cms: {
