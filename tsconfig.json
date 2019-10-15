@@ -3,6 +3,8 @@
       "target": "es5",
       "module": "commonjs",
       "sourceMap": true,
+      "rootDir": "src",
       "outDir": "dist"
-    }
+    },
+    "exclude": ["adapter.config.ts", "test.ts"]
   }
