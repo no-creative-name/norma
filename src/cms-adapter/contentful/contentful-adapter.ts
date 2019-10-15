@@ -16,8 +16,18 @@ export class ContentfulAdapter implements CMSAdapter {
         this.client = contentful.createClient(config);
     }
 
-    public async fetchDataForContentId(contentId: string) {
-        return this.client.getEntry(contentId).catch(() => {
+    public async getNormalizedContentData(contentId: string, locale: string) {
+        return this.fetchContentData(contentId, locale)
+            .then(rawContentData => {
+                return {
+                    componentName: rawContentData.sys.contentType.sys.id,
+                    data: rawContentData.fields
+                }
+            });
+    }
+
+    private async fetchContentData(contentId: string, locale: string) {
+        return this.client.getEntry(contentId, {locale}).catch((e) => {
             throw new Error(`${this.constructor.name} could not fetch data for contentId ${contentId}`);
         });
     }
