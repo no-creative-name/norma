@@ -2,11 +2,15 @@ import { Content } from "../interfaces/content";
 import { ComponentHandler } from "../interfaces/component-handler";
 import { ContentConfig } from "../interfaces/adapter-config";
 
-export const handleComponent: ComponentHandler = (content: Content, contentConfig: ContentConfig): Content => {
-    if(!content || !contentConfig) {
+export const handleComponents: ComponentHandler = (content: Content, contentConfigs: ContentConfig[]): Content => {
+    if(!content || !contentConfigs) {
         throw new Error('Input is invalid.');
     }
-    return iterateThroughObject(content, contentConfig);
+    let handledContent = JSON.parse(JSON.stringify(content));
+    contentConfigs.forEach(contentConfig => {
+        handledContent = iterateThroughObject(handledContent, contentConfig)}
+    )
+    return handledContent;
 };
 
 export const iterateThroughObject = (input: Content, contentConfig: ContentConfig): Content => {
@@ -14,19 +18,19 @@ export const iterateThroughObject = (input: Content, contentConfig: ContentConfi
         type: '',
         data: {}
     };
-    if(typeof input.data === 'object') {
-        Object.keys(input.data).forEach(key => { 
+            
+    Object.keys(input.data || {}).forEach(key => {
+        if(Array.isArray(input.data[key])) {
+            output.data[key] = input.data[key].map(dataParameter => iterateThroughObject(dataParameter, contentConfig));
+        }
+        else if(typeof input.data[key] === 'object') {
             output.data[key] = iterateThroughObject(input.data[key], contentConfig);
-        });
-    }
-    else if (Array.isArray(input.data)) {
-        output.data = input.data.forEach(dataParameter => {
-            iterateThroughObject(dataParameter, contentConfig);
-        });
-    }
-    else {
-        output = JSON.parse(JSON.stringify(input));
-    }
+        }
+        else {
+           output.data[key] = input.data[key];
+        }
+    });
+    
     if(input.type) {
         if(input.type === contentConfig.inputType) {
             if(contentConfig.outputType) {

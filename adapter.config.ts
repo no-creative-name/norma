@@ -9,7 +9,7 @@ export const adapterConfig: AdapterConfig = {
         }
     },
     contents: [{
-        inputType: 'slider',
+        inputType: 'leadText',
         outputType: 'carousel',
         parameterAdjustments: [
             {
@@ -20,5 +20,8 @@ export const adapterConfig: AdapterConfig = {
                 }
             }
         ]
+    },{
+        inputType: 'page',
+        outputType: 'superSection'
     }], 
 }

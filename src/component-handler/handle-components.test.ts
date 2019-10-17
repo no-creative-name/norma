@@ -1,8 +1,8 @@
-import { handleComponent } from "./handle-component"
+import { handleComponents } from "./handle-components"
 
-describe('handleComponent', () => {
+describe('handleComponents', () => {
     test('throws an error when content input is undefined.', () => {
-        expect(() => {handleComponent(undefined, {inputType: 'componentX'})}).toThrow(Error);
+        expect(() => {handleComponents(undefined, [{inputType: 'componentX'}])}).toThrow(Error);
     });
     test('renames all instances of a single content type if desired', () => {
         const input = {
@@ -16,10 +16,10 @@ describe('handleComponent', () => {
                 }
             }
         }
-        const config = {
+        const configs = [{
             inputType: 'a',
             outputType: 'b',
-        }
+        }]
         const output = {
             type: "b",
             data: {
@@ -31,7 +31,7 @@ describe('handleComponent', () => {
                 }
             }
         }
-        const result = handleComponent(input, config);
+        const result = handleComponents(input, configs);
         expect(result).toMatchObject(output);
     });
 })
