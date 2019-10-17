@@ -3,6 +3,6 @@ import { adapterConfig } from "../adapter.config";
 
 window.onload = async () => {
     const cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
-    const content = await cmsAdapter.getNormalizedContentData('2L1YsXCiNcZhM10mCNnO26', 'de');
+    const content = await cmsAdapter.getNormalizedContentData('3DqQa1gtCoX0VqDKRxKCMX', 'en-US');
     console.log(content);
 }
