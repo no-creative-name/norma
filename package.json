@@ -4,7 +4,8 @@
   "description": "",
   "main": "fetch.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "webpack-dev-server --mode development"
   },
   "author": "",
   "license": "ISC",
@@ -12,7 +13,11 @@
     "@types/jest": "^24.0.18",
     "jest": "^24.8.0",
     "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
     "@types/node": "^12.7.11",
