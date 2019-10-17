@@ -1,4 +1,4 @@
 import { Content } from "./content";
-import { ComponentConfig } from "./adapter-config";
+import { ContentConfig } from "./adapter-config";
 
-export type ComponentHandler = (content: Content, componentConfig: ComponentConfig) => Content;
+export type ComponentHandler = (content: Content, contentConfig: ContentConfig) => Content;

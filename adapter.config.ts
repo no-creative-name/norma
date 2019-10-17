@@ -8,8 +8,9 @@ export const adapterConfig: AdapterConfig = {
             accessToken:"llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"
         }
     },
-    components: [{
-        name: 'accordion',
+    contents: [{
+        inputType: 'slider',
+        outputType: 'carousel',
         parameterAdjustments: [
             {
                 inputIdentifier: ['title'],

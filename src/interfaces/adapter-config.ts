@@ -1,6 +1,6 @@
 export interface AdapterConfig {
     cms: CMSConfig;
-    components: ComponentConfig[]; 
+    contents: ContentConfig[]; 
 }
 
 interface CMSConfig {
@@ -8,14 +8,15 @@ interface CMSConfig {
     credentials: any;
 }
 
-export interface ComponentConfig {
-    name: string;
+export interface ContentConfig {
+    inputType: string;
+    outputType?: string;
     parameterAdjustments?: ParameterConfig[];
 }
 
 interface ParameterConfig {
-    inputIdentifier?: string[];
-    outputIdentifier?: string[];
+    inputIdentifier?: string | string[];
+    outputIdentifier?: string | string[];
     valueConverter?: ValueConverter;
 }
 
