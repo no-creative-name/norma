@@ -15,7 +15,8 @@ const expectedInput = {
                     sys: {
                         id: 'contentTypeB'
                     }
-                }
+                },
+                id: '1'
             }
         },
         subContentB: [
@@ -29,7 +30,8 @@ const expectedInput = {
                         sys: {
                             id: 'contentTypeC'
                         }
-                    }
+                    },
+                    id: '2'
                 }
             },
             {
@@ -42,7 +44,8 @@ const expectedInput = {
                         sys: {
                             id: 'contentTypeC'
                         }
-                    }
+                    },
+                    id: '3'
                 }
             }
         ]
@@ -52,7 +55,8 @@ const expectedInput = {
             sys: {
                 id: 'contentTypeA'
             }
-        }
+        },
+        id: '4'
     }
 }
 const expectedOutput = {
@@ -91,7 +95,6 @@ describe('normalizeContentfulData', () => {
         expect(() => {normalizeContentfulData(undefined)}).toThrow(Error);
     });
     test('correctly converts raw to normalized data', () => {
-        console.log(normalizeContentfulData((expectedInput as Entry<unknown>)));
         const result = normalizeContentfulData((expectedInput as Entry<unknown>))
         expect(result).toMatchObject(expectedOutput);
     });
