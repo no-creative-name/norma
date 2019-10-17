@@ -14,7 +14,7 @@ export class ContentfulAdapter implements CmsAdapter {
     }
 
     private createContentfulClient(config: ContentfulConfig) {
-        this.client = contentful.createClient(config);
+        this.client = contentful.createClient({...config});
     }
 
     public async getNormalizedContentData(contentId: string, locale: string) {
@@ -28,7 +28,7 @@ export class ContentfulAdapter implements CmsAdapter {
 
     private async fetchContentData(contentId: string, locale: string) {
         return this.client.getEntry(contentId, {locale, include: 10}).catch((e: Error) => {
-            throw new Error(`${this.constructor.name} could not fetch data for contentId ${contentId}`);
+            throw new Error(`${this.constructor.name} could not fetch data for contentId ${contentId}. ${e.message}`);
         });
     }
 }
