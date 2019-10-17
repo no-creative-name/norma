@@ -5,7 +5,6 @@ export interface AdapterConfig {
 
 interface CMSConfig {
     type: string;
-    endpoint: string;
     credentials: any;
 }
 

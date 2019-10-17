@@ -1,6 +1,7 @@
 import { adapterNameByCmsType } from "./adapter-name-by-cms-type"
+import { CmsAdapter } from "./interfaces/cms-adapter";
 
-export const getCmsAdapter = (type: string, config: any) => {
+export const getCmsAdapter = (type: string, config: any): CmsAdapter => {
     if(!type) {
         throw new Error('Creation of cms adapter failed: type is undefined');
     }

@@ -2,8 +2,6 @@ import { Entry } from "contentful";
 import { Content } from "../../../interfaces/content";
 
 export const normalizeContentfulData = (rawContentData: Entry<unknown>): Content => {
-    console.log(rawContentData);
-    
     if(!rawContentData) {
         throw new Error('Normalization of contentful data failed: input undefined')
     }

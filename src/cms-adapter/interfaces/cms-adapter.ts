@@ -1,5 +1,5 @@
 import { Content } from '../../interfaces/content';
 
-export interface CMSAdapter {
+export interface CmsAdapter {
     getNormalizedContentData: (contentId: string, locale: string) => Promise<Content>
 }

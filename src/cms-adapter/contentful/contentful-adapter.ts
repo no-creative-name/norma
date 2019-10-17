@@ -1,9 +1,9 @@
 import { ContentfulConfig } from "./interfaces/contentful-config";
-import { CMSAdapter } from '../interfaces/cms-adapter';
+import { CmsAdapter } from '../interfaces/cms-adapter';
 import * as contentful from 'contentful';
 import { normalizeContentfulData } from "./helpers/normalize-contentful-data";
 
-export class ContentfulAdapter implements CMSAdapter {
+export class ContentfulAdapter implements CmsAdapter {
     private client: contentful.ContentfulClientApi;
 
     constructor(config: ContentfulConfig) {
