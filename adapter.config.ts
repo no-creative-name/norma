@@ -1,10 +1,12 @@
-import { AdapterConfig } from "./interfaces/AdapterConfig";
+import { AdapterConfig } from "./src/interfaces/adapter-config";
 
 export const adapterConfig: AdapterConfig = {
     cms: {
-        type: 'GraphCMS',
-        endpoint: 'endpoint.com/asdf',
-        credentials: {}
+        type: 'contentful',
+        credentials: {
+            space: "zjrd7s7o2cec",
+            accessToken:"llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"
+        }
     },
     components: [{
         name: 'accordion',
