@@ -1,4 +1,4 @@
 export interface Content {
-  componentName: string;
+  type: string;
   data: any;
 }

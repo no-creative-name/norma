@@ -1,6 +1,7 @@
 import { ContentfulConfig } from "./interfaces/contentful-config";
 import { CMSAdapter } from '../interfaces/cms-adapter';
 import * as contentful from 'contentful';
+import { normalizeContentfulData } from "./helpers/normalize-contentful-data";
 
 export class ContentfulAdapter implements CMSAdapter {
     private client: contentful.ContentfulClientApi;
@@ -19,15 +20,14 @@ export class ContentfulAdapter implements CMSAdapter {
     public async getNormalizedContentData(contentId: string, locale: string) {
         return this.fetchContentData(contentId, locale)
             .then(rawContentData => {
-                return {
-                    componentName: rawContentData.sys.contentType.sys.id,
-                    data: rawContentData.fields
-                }
+                return normalizeContentfulData(rawContentData)
+            }).catch((e: Error) => {
+                throw e;
             });
     }
 
     private async fetchContentData(contentId: string, locale: string) {
-        return this.client.getEntry(contentId, {locale}).catch((e) => {
+        return this.client.getEntry(contentId, {locale, include: 10}).catch((e: Error) => {
             throw new Error(`${this.constructor.name} could not fetch data for contentId ${contentId}`);
         });
     }
