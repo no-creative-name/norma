@@ -1,4 +1,4 @@
-import { handleContent, deepGet, deepSet } from "./handle-content"
+import { handleContent, deepGet, deepSet, deepRemove } from "./handle-content"
 
 describe('handleContent', () => {
     test('throws an error when content input is undefined.', () => {
@@ -118,5 +118,56 @@ describe('deepSet', () => {
         };
         const result = deepSet(inputObject, ['a', 'b', 'f', 'g'], 'value');
         expect(result).toMatchObject(outputObject);
+    });
+})
+
+describe('deepRemove', () => {
+    test('throws an error when object is undefined', () => {
+        expect(() => deepRemove(undefined, [''])).toThrow(Error);
+    });
+    test('throws an error when parameter array is undefined', () => {
+        expect(() => deepRemove({}, undefined)).toThrow(Error);
+    });
+    test('removes simple parameter in object', () => {
+        const inputObject = {
+            a: {
+                b: {
+                    c:''
+                },
+                d: {
+                    e: ''
+                }
+            }
+        };
+        const toRemove = ['a', 'b', 'c'];
+        const result = deepRemove(inputObject, toRemove);
+        expect(result).toMatchObject({
+            a: {
+                b: {
+                },
+                d: {
+                    e: ''
+                }
+            }})
+    });
+    test('removes object parameter in object', () => {
+        const inputObject = {
+            a: {
+                b: {
+                    c:''
+                },
+                d: {
+                    e: ''
+                }
+            }
+        };
+        const toRemove = ['a', 'b'];
+        const result = deepRemove(inputObject, toRemove);
+        expect(result).toMatchObject({
+            a: {
+                d: {
+                    e: ''
+                }
+            }})
     });
 })
