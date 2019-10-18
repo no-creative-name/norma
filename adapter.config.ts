@@ -9,19 +9,16 @@ export const adapterConfig: AdapterConfig = {
         }
     },
     contents: [{
-        inputType: 'leadText',
-        outputType: 'carousel',
+        inputType: 'page',
+        outputType: 'site',
         parameterAdjustments: [
             {
-                inputIdentifier: ['headline'],
-                outputIdentifier: ['headline', 'title'],
+                inputIdentifier: ['mainNavigation'],
+                outputIdentifier: ['subfolder', 'level2', 'content'],
                 valueConverter: (value) => {
                     return value.padStart(1);
                 }
             }
         ]
-    },{
-        inputType: 'page',
-        outputType: 'superSection'
     }], 
 }

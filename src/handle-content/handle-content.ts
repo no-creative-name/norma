@@ -16,43 +16,59 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
 export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig): Content => {
     let adjusted: Content = JSON.parse(JSON.stringify(input));
 
-    if(input.type === contentConfig.inputType && contentConfig.parameterAdjustments) {
+    if(adjusted.type === contentConfig.inputType && contentConfig.parameterAdjustments) {
         contentConfig.parameterAdjustments.map(parameterAdjustment => {
             let value;
             if(Array.isArray(parameterAdjustment.inputIdentifier)) {
-                value = deepGet(input.data, parameterAdjustment.inputIdentifier);
+                value = deepGet(adjusted.data, parameterAdjustment.inputIdentifier);
+                adjusted.data = deepRemove(adjusted.data, parameterAdjustment.inputIdentifier);
             }
             else {
-                value = deepGet(input.data, [parameterAdjustment.inputIdentifier]);
+                value = deepGet(adjusted.data, [parameterAdjustment.inputIdentifier]);
+                adjusted.data = deepRemove(adjusted.data, [parameterAdjustment.inputIdentifier]);
+            }
+
+            if(Array.isArray(parameterAdjustment.outputIdentifier)) {
+                adjusted.data = deepSet(adjusted.data, parameterAdjustment.outputIdentifier, value);
+            }
+            else {
+                adjusted.data = deepSet(adjusted.data, [parameterAdjustment.outputIdentifier], value);
             }
         });
-    }
-
+    }    
     let output: Content = {
         type: '',
         data: {}
     };
 
-    Object.keys(input.data || {}).forEach(key => {
-        if(Array.isArray(input.data[key])) {
-            output.data[key] = input.data[key].map(dataParameter => adjustContentToConfig(dataParameter, contentConfig));
+    console.log(adjusted);
+
+    if(!adjusted.data || !adjusted.type) {
+        return adjusted;
+    }
+    
+    Object.keys(adjusted.data || {}).forEach(key => {
+        if(Array.isArray(adjusted.data[key])) {
+            output.data[key] = adjusted.data[key].map(dataParameter => adjustContentToConfig(dataParameter, contentConfig));
         }
-        else if(typeof input.data[key] === 'object') {
-            output.data[key] = adjustContentToConfig(input.data[key], contentConfig);
+        else if(typeof adjusted.data[key] === 'object') {
+            console.log(adjusted.data[key]);
+            
+            output.data[key] = adjustContentToConfig(adjusted.data[key], contentConfig);
         }
         else {
-           output.data[key] = input.data[key];
+           output.data[key] = adjusted.data[key];
         }
     });
     
-    if(input.type) {
-        if(input.type === contentConfig.inputType) {
+    if(adjusted.type) {
+        if(adjusted.type === contentConfig.inputType) {
             if(contentConfig.outputType) {
                 output.type = contentConfig.outputType;
             }
         }
         else {
-            output.type = input.type;
+            output.type = adjusted.type;
         }
     }
     return output;
