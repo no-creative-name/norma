@@ -13,7 +13,7 @@ export const adapterConfig: AdapterConfig = {
         outputType: 'carousel',
         parameterAdjustments: [
             {
-                inputIdentifier: ['title'],
+                inputIdentifier: ['headline'],
                 outputIdentifier: ['headline', 'title'],
                 valueConverter: (value) => {
                     return value.padStart(1);
