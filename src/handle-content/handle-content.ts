@@ -86,26 +86,24 @@ export const deepSet = (object: any, parameterArray: string[], value: any): any 
         throw new Error(`Couldn't set value for ${parameterArray.toString()} in ${JSON.stringify(object)}: value is undefined`);
     }
 
-    let nextLevel = objectCopy;
-    let toCreate = false;
-    let beenCreated = false;
+    let currentLevel = objectCopy;
+    let goDeeper = true;
     let restParameters;
     
+    // find master object level on where the next parameter of the array does not exist yet
     parameterArray.forEach((parameter: string, index: number) => {
-        if(!nextLevel[parameter] && !beenCreated) {
-            toCreate = true;
-        }
-        else if (!beenCreated) {
-            nextLevel = nextLevel[parameter] || undefined;
-        }
-        if(toCreate) {
-            restParameters = parameterArray.slice(index);
-            toCreate = false;
-            beenCreated = true;
+        if(goDeeper) {
+            if(!currentLevel[parameter]) {
+                restParameters = parameterArray.slice(index);
+                goDeeper = false;
+            }
+            else {
+                currentLevel = currentLevel[parameter] || undefined;
+            }
         }
     });
     
-
+    // create object to insert into that level of master object
     let dataToInsert = {};
     const reversedRestParameters = [...restParameters].reverse();
     
@@ -121,14 +119,15 @@ export const deepSet = (object: any, parameterArray: string[], value: any): any 
         }
     });
     
-    if(nextLevel[restParameters[0]] !== undefined) {
+    // insert new object into master object
+    if(currentLevel[restParameters[0]] !== undefined) {
         throw new Error(`Deep set failed: tried to overwrite existing parameter ${restParameters[0]} in ${objectCopy}`)
     }
     if(restParameters.length === 1) {
-        nextLevel[restParameters[0]] = dataToInsert[restParameters[0]];
+        currentLevel[restParameters[0]] = dataToInsert[restParameters[0]];
     }
     else {
-        nextLevel[restParameters[0]] = dataToInsert;
+        currentLevel[restParameters[0]] = dataToInsert;
     }
     
     return objectCopy;
