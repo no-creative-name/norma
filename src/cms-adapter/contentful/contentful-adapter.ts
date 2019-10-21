@@ -20,8 +20,6 @@ export class ContentfulAdapter implements CmsAdapter {
     public async getNormalizedContentData(contentId: string, locale: string) {
         return this.fetchContentData(contentId, locale)
             .then(rawContentData => {
-                console.log(rawContentData);
-                
                 return normalizeContentfulData(rawContentData)
             }).catch((e: Error) => {
                 throw e;
