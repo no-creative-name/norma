@@ -31,11 +31,30 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
                 processedInput.data = deepRemove(processedInput.data, [propertyAdjustment.inputIdentifier]);
             }
 
-            if(Array.isArray(propertyAdjustment.outputIdentifier)) {
-                processedInput.data = deepSet(processedInput.data, propertyAdjustment.outputIdentifier, value);
+            if(propertyAdjustment.valueConverter) {
+                try {
+                    value = propertyAdjustment.valueConverter(value);
+                }
+                catch(error) {
+                    throw new Error(`Couldn't convert value: ${error}`)
+                }
+            }
+
+            if(propertyAdjustment.outputIdentifier) {
+                if(Array.isArray(propertyAdjustment.outputIdentifier)) {
+                    processedInput.data = deepSet(processedInput.data, propertyAdjustment.outputIdentifier, value);
+                }
+                else {
+                    processedInput.data = deepSet(processedInput.data, [propertyAdjustment.outputIdentifier], value);
+                }
             }
             else {
-                processedInput.data = deepSet(processedInput.data, [propertyAdjustment.outputIdentifier], value);
+                if(Array.isArray(propertyAdjustment.inputIdentifier)) {
+                    processedInput.data = deepSet(processedInput.data, propertyAdjustment.inputIdentifier, value);
+                }
+                else {
+                    processedInput.data = deepSet(processedInput.data, [propertyAdjustment.inputIdentifier], value);
+                }
             }
         });
     };

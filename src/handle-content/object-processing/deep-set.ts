@@ -8,7 +8,7 @@ export const deepSet = (object: any, propertyArray: string[], value: any): any =
     if(!propertyArray) {
         throw new Error(`Couldn't set value in ${JSON.stringify(object)}: property array is undefined`);
     }
-    if(!value) {
+    if(value === undefined) {
         throw new Error(`Couldn't set value for ${propertyArray.toString()} in ${JSON.stringify(object)}: value is undefined`);
     }
 

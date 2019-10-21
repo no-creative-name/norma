@@ -16,7 +16,13 @@ export const adapterConfig: AdapterConfig = {
                 inputIdentifier: ['mainNavigation'],
                 outputIdentifier: ['subfolder', 'level2', 'content'],
                 valueConverter: (value) => {
-                    return value.padStart(1);
+                    return JSON.stringify(value);
+                }
+            },
+            {
+                inputIdentifier: ['title'],
+                valueConverter: (value) => {
+                    return `wooooop ${value}`;
                 }
             }
         ]
