@@ -10,7 +10,8 @@ describe('deepSet', () => {
     test('throws an error when value is undefined', () => {
         expect(() => deepSet({}, [''], undefined)).toThrow(Error);
     });
-    test('throws error if property already exists', () => {
+    test('warns user if property already exists', () => {
+        const spy = jest.spyOn(global.console, 'warn').mockImplementation();
         const inputObject = {
             a: {
                 b: {
@@ -21,8 +22,9 @@ describe('deepSet', () => {
                 }
             }
         };
-        expect(() => {deepSet(inputObject, ['a', 'b', 'c'], 'value')}).toThrow(Error);
-    })
+        deepSet(inputObject, ['a', 'b', 'c'], 'value');
+        expect(console.warn).toHaveBeenCalled();
+    });
     test('returns extended array', () => {
         const inputObject = {
             a: {

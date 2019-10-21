@@ -6,7 +6,7 @@ describe('ContentfulAdapter', () => {
     });
     describe('fetchDataForContentId', () => {
         const adapter = new ContentfulAdapter({space: "zjrd7s7o2cec", accessToken:"llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"});
-        test('throws an error when no content is associated with content id', () => {
+        test('throws an error when no content is associated with content id', async () => {
             adapter.getNormalizedContentData('fas', 'en-US').catch(e => expect(e).toMatch('error'));
         });
     })
