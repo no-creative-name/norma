@@ -41,8 +41,6 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
         data: {}
     };
 
-    console.log(adjusted);
-
     if(!adjusted.data || !adjusted.type) {
         return adjusted;
     }
@@ -52,8 +50,6 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
             output.data[key] = adjusted.data[key].map(dataParameter => adjustContentToConfig(dataParameter, contentConfig));
         }
         else if(typeof adjusted.data[key] === 'object') {
-            console.log(adjusted.data[key]);
-            
             output.data[key] = adjustContentToConfig(adjusted.data[key], contentConfig);
         }
         else {
