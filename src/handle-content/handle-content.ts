@@ -17,25 +17,25 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
 };
 
 export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig): Content => {
-    let adjusted: Content = JSON.parse(JSON.stringify(input));
+    let processedInput: Content = JSON.parse(JSON.stringify(input));
 
-    if(adjusted.type === contentConfig.inputType && contentConfig.parameterAdjustments) {
-        contentConfig.parameterAdjustments.map(parameterAdjustment => {
+    if(processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
+        contentConfig.propertyAdjustments.map(propertyAdjustment => {
             let value;
-            if(Array.isArray(parameterAdjustment.inputIdentifier)) {
-                value = deepGet(adjusted.data, parameterAdjustment.inputIdentifier);
-                adjusted.data = deepRemove(adjusted.data, parameterAdjustment.inputIdentifier);
+            if(Array.isArray(propertyAdjustment.inputIdentifier)) {
+                value = deepGet(processedInput.data, propertyAdjustment.inputIdentifier);
+                processedInput.data = deepRemove(processedInput.data, propertyAdjustment.inputIdentifier);
             }
             else {
-                value = deepGet(adjusted.data, [parameterAdjustment.inputIdentifier]);
-                adjusted.data = deepRemove(adjusted.data, [parameterAdjustment.inputIdentifier]);
+                value = deepGet(processedInput.data, [propertyAdjustment.inputIdentifier]);
+                processedInput.data = deepRemove(processedInput.data, [propertyAdjustment.inputIdentifier]);
             }
 
-            if(Array.isArray(parameterAdjustment.outputIdentifier)) {
-                adjusted.data = deepSet(adjusted.data, parameterAdjustment.outputIdentifier, value);
+            if(Array.isArray(propertyAdjustment.outputIdentifier)) {
+                processedInput.data = deepSet(processedInput.data, propertyAdjustment.outputIdentifier, value);
             }
             else {
-                adjusted.data = deepSet(adjusted.data, [parameterAdjustment.outputIdentifier], value);
+                processedInput.data = deepSet(processedInput.data, [propertyAdjustment.outputIdentifier], value);
             }
         });
     };
@@ -45,30 +45,30 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
         data: {}
     };
 
-    if(!adjusted.data || !adjusted.type) {
-        return adjusted;
+    if(!processedInput.data || !processedInput.type) {
+        return processedInput;
     }
     
-    Object.keys(adjusted.data || {}).forEach(key => {
-        if(Array.isArray(adjusted.data[key])) {
-            output.data[key] = adjusted.data[key].map(dataParameter => adjustContentToConfig(dataParameter, contentConfig));
+    Object.keys(processedInput.data || {}).forEach(key => {
+        if(Array.isArray(processedInput.data[key])) {
+            output.data[key] = processedInput.data[key].map(prop => adjustContentToConfig(prop, contentConfig));
         }
-        else if(typeof adjusted.data[key] === 'object') {
-            output.data[key] = adjustContentToConfig(adjusted.data[key], contentConfig);
+        else if(typeof processedInput.data[key] === 'object') {
+            output.data[key] = adjustContentToConfig(processedInput.data[key], contentConfig);
         }
         else {
-           output.data[key] = adjusted.data[key];
+           output.data[key] = processedInput.data[key];
         }
     });
     
-    if(adjusted.type) {
-        if(adjusted.type === contentConfig.inputType) {
+    if(processedInput.type) {
+        if(processedInput.type === contentConfig.inputType) {
             if(contentConfig.outputType) {
                 output.type = contentConfig.outputType;
             }
         }
         else {
-            output.type = adjusted.type;
+            output.type = processedInput.type;
         }
     }
     return output;

@@ -4,10 +4,10 @@ describe('deepGet', () => {
     test('throws an error when object is undefined', () => {
         expect(() => deepGet(undefined, [''])).toThrow(Error);
     });
-    test('throws an error when parameter array is undefined', () => {
+    test('throws an error when property array is undefined', () => {
         expect(() => deepGet({}, undefined)).toThrow(Error);
     });
-    test('returns undefined when parameter is not found', () => {
+    test('returns undefined when property is not found', () => {
         const result = deepGet({
             a: {
                 b: {

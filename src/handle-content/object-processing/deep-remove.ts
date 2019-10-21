@@ -1,20 +1,20 @@
-export const deepRemove = (object: any, parameterArray: string[]): any => {
+export const deepRemove = (object: any, propertyArray: string[]): any => {
     const objectCopy = JSON.parse(JSON.stringify(object));
 
     if(!object) {
-        throw new Error(`Couldn't get value for ${parameterArray.toString()}: object is undefined`);
+        throw new Error(`Couldn't get value for ${propertyArray.toString()}: object is undefined`);
     }
-    if(!parameterArray) {
-        throw new Error(`Couldn't get value in ${JSON.stringify(object)}: parameter array is undefined`);
+    if(!propertyArray) {
+        throw new Error(`Couldn't get value in ${JSON.stringify(object)}: property array is undefined`);
     }
 
     let value = objectCopy;
-    parameterArray.forEach((parameter: string, index: number) => {
-        if(index === parameterArray.length - 1 && value[parameter]) {
-            delete value[parameter];
+    propertyArray.forEach((property: string, index: number) => {
+        if(index === propertyArray.length - 1 && value[property]) {
+            delete value[property];
         }
-        else if(value[parameter]) {
-            value = value[parameter];
+        else if(value[property]) {
+            value = value[property];
         }
     });
     return objectCopy;

@@ -11,10 +11,10 @@ interface CMSConfig {
 export interface ContentConfig {
     inputType: string;
     outputType?: string;
-    parameterAdjustments?: ParameterConfig[];
+    propertyAdjustments?: PropertyConfig[];
 }
 
-interface ParameterConfig {
+interface PropertyConfig {
     inputIdentifier?: string | string[];
     outputIdentifier?: string | string[];
     valueConverter?: ValueConverter;

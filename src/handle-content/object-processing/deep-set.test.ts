@@ -4,13 +4,13 @@ describe('deepSet', () => {
     test('throws an error when object is undefined', () => {
         expect(() => deepSet(undefined, [''], '')).toThrow(Error);
     });
-    test('throws an error when parameter array is undefined', () => {
+    test('throws an error when property array is undefined', () => {
         expect(() => deepSet({}, undefined, '')).toThrow(Error);
     });
     test('throws an error when value is undefined', () => {
         expect(() => deepSet({}, [''], undefined)).toThrow(Error);
     });
-    test('throws error if parameter already exists', () => {
+    test('throws error if property already exists', () => {
         const inputObject = {
             a: {
                 b: {

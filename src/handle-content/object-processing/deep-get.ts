@@ -1,14 +1,14 @@
-export const deepGet = (object: any, parameterArray: string[]): any => {
+export const deepGet = (object: any, propertyArray: string[]): any => {
     if(!object) {
-        throw new Error(`Couldn't get value for ${parameterArray.toString()}: object is undefined`);
+        throw new Error(`Couldn't get value for ${propertyArray.toString()}: object is undefined`);
     }
-    if(!parameterArray) {
-        throw new Error(`Couldn't get value in ${JSON.stringify(object)}: parameter array is undefined`);
+    if(!propertyArray) {
+        throw new Error(`Couldn't get value in ${JSON.stringify(object)}: propertyArray array is undefined`);
     }
 
     let value = object;
-    parameterArray.forEach(parameter => {
-        value = value[parameter] || undefined;
+    propertyArray.forEach(property => {
+        value = value[property] || undefined;
     });
     return value;
 }

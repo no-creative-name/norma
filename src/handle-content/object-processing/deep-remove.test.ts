@@ -4,10 +4,10 @@ describe('deepRemove', () => {
     test('throws an error when object is undefined', () => {
         expect(() => deepRemove(undefined, [''])).toThrow(Error);
     });
-    test('throws an error when parameter array is undefined', () => {
+    test('throws an error when property array is undefined', () => {
         expect(() => deepRemove({}, undefined)).toThrow(Error);
     });
-    test('removes simple parameter in object', () => {
+    test('removes simple property in object', () => {
         const inputObject = {
             a: {
                 b: {
@@ -29,7 +29,7 @@ describe('deepRemove', () => {
                 }
             }})
     });
-    test('removes object parameter in object', () => {
+    test('removes object property in object', () => {
         const inputObject = {
             a: {
                 b: {

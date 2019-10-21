@@ -11,7 +11,7 @@ export const adapterConfig: AdapterConfig = {
     contents: [{
         inputType: 'page',
         outputType: 'site',
-        parameterAdjustments: [
+        propertyAdjustments: [
             {
                 inputIdentifier: ['mainNavigation'],
                 outputIdentifier: ['subfolder', 'level2', 'content'],
