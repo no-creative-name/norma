@@ -5,6 +5,7 @@
   "main": "fetch.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch --silent",
     "start": "webpack-dev-server --mode development"
   },
   "author": "",
