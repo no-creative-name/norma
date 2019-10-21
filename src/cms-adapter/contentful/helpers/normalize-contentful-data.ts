@@ -8,7 +8,7 @@ export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyN
 
     alreadyNormalizedContents[rawContentData.sys.id] = {};
 
-    const normalizedContent = {
+    const normalizedContent: Content = {
         type: rawContentData.sys.contentType ? rawContentData.sys.contentType.sys.id : rawContentData.sys.type,
         data: {}
     };

@@ -1,4 +1,8 @@
 export interface Content {
   type: string;
-  data: any;
+  data: ContentData;
+}
+
+interface ContentData {
+  [key: string]: any;
 }
