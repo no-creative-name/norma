@@ -1,5 +1,5 @@
-import { Content } from "../interfaces/content";
-import { ContentHandler } from "../interfaces/content-handler";
+import { Content } from "../interfaces/contents";
+import { ContentHandler } from "./content-handler";
 import { ContentConfig } from "../interfaces/adapter-config";
 import { deepGet } from "./object-processing/deep-get";
 import { deepSet } from "./object-processing/deep-set";

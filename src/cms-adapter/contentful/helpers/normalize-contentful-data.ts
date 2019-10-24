@@ -1,5 +1,5 @@
 import { Entry } from "contentful";
-import { Content } from "../../../interfaces/content";
+import { Content } from "../../../interfaces/contents";
 
 export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyNormalizedContents: any = {}): Content => {
     if(!rawContentData) {

@@ -1,4 +1,4 @@
-import { Content } from "../../../interfaces/content";
+import { Content } from "../../../interfaces/contents";
 import { PrismicData } from "../interfaces/prismic-data";
 import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
 
