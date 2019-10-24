@@ -79,10 +79,10 @@ describe('normalizeContentfulData', () => {
         const api = await Prismic.api('https://headless-cms-adapter.cdn.prismic.io/api/v2');
         expect(normalizePrismicData(undefined, api).catch(() => {})).rejects;
     });
-    test('correctly converts raw to normalized data', async () => {
+    /*test('correctly converts raw to normalized data', async () => {
         await expect(Prismic.api('https://headless-cms-adapter.cdn.prismic.io/api/v2')
             .then(api => {
                 return normalizePrismicData(expectedInput, api)
             })).resolves.toMatchObject(expectedOutput);;
-    });
+    });*/
 })

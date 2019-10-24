@@ -71,5 +71,55 @@ describe('handleContent', () => {
         }
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
-    })
+    });
+    test('resolves value with circular referencess', () => {
+        const objA = {
+            type: "a",
+            data: {
+                x: "",
+                y: "",
+                z: {
+                }
+            }
+        }
+
+        const objB = {
+            type: "a",
+            data: {
+                x: "",
+                y: "",
+                z: {
+                }
+            }
+        }
+
+        objB.data.z = objA;
+        objA.data.z = objB;
+        
+        const configs = [{
+            inputType: 'a',
+            outputType: 'a',
+            propertyAdjustments: [
+                {
+                    inputIdentifier: ['x'],
+                    valueConverter: (value) => {
+                        return `test`;
+                    }
+                }
+            ]
+        }]
+        const output = {
+            type: "a",
+            data: {
+                x: "test",
+                y: "",
+                z: {
+                    type: "a",
+                    data: {}
+                }
+            }
+        }
+        const result = handleContent(objA, configs);
+        expect(result).toMatchObject(output);
+    });
 })

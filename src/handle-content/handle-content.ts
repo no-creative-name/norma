@@ -9,7 +9,7 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
     if(!content || !contentConfigs) {
         throw new Error('Input is invalid.');
     }
-    
+
     let handledContent = Object.assign({}, content);
 
     contentConfigs.forEach(contentConfig => {

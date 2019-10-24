@@ -15,12 +15,12 @@ export const adapterConfig: AdapterConfig = {
         }
     },
     contents: [{
-        inputType: 'slider',
-        outputType: 'shizzel',
+        inputType: 'page',
+        outputType: 'asd',
         propertyAdjustments: [
             {
-                inputIdentifier: ['headline'],
-                outputIdentifier: ['head', 'line', 'content'],
+                inputIdentifier: ['title'],
+                outputIdentifier: [''],
                 valueConverter: (value) => {
                     return JSON.stringify(value[0].text);
                 }

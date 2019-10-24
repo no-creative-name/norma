@@ -1,6 +1,7 @@
 import { CmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { ContentConfig } from "./interfaces/adapter-config";
 import { Content } from "./interfaces/content";
+import { handleContent } from "./handle-content/handle-content";
 
 export class ContentAdapter {
     private cmsAdapter;
@@ -22,8 +23,8 @@ export class ContentAdapter {
             throw new Error(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
-        //const handledContent = this.contentConfigs ? handleContent(content, this.contentConfigs): content;
-        return content;
+        const handledContent = this.contentConfigs ? handleContent(content, this.contentConfigs): content;
+        return handledContent;
     }
 
 }
