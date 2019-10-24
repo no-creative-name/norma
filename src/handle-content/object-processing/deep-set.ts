@@ -47,7 +47,7 @@ export const deepSet = (object: any, propertyArray: string[], value: any): any =
     
     // insert new object into master object
     if(currentLevel[restProperties[0]] !== undefined) {
-        console.warn(`Deep set failed: tried to overwrite existing property ${restProperties[0]} in ${JSON.stringify(objectCopy)}`)
+        console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in ${JSON.stringify(objectCopy)}`)
     }
     if(restProperties.length === 1) {
         currentLevel[restProperties[0]] = dataToInsert[restProperties[0]];
