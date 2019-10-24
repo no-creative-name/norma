@@ -1,4 +1,4 @@
-import { Content } from "../interfaces/contents";
+import { Content } from "../interfaces/content";
 import { ContentHandler } from "./content-handler";
 import { ContentConfig } from "../interfaces/adapter-config";
 import { deepGet } from "./object-processing/deep-get";

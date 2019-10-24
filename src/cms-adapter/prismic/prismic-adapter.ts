@@ -1,6 +1,6 @@
 import { CmsAdapter } from "../interfaces/cms-adapter";
 import * as Prismic from 'prismic-javascript'
-import { Content } from "../../interfaces/contents";
+import { Content } from "../../interfaces/content";
 import { PrismicConfig } from "./interfaces/prismic-config";
 import { PrismicData } from "./interfaces/prismic-data";
 import { normalizePrismicData } from "./helpers/normalize-prismic-data";

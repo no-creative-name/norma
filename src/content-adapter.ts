@@ -1,6 +1,6 @@
 import { CmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { ContentConfig } from "./interfaces/adapter-config";
-import { Content } from "./interfaces/contents";
+import { Content } from "./interfaces/content";
 
 export class ContentAdapter {
     private cmsAdapter;
