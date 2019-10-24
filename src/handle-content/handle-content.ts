@@ -9,16 +9,19 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
     if(!content || !contentConfigs) {
         throw new Error('Input is invalid.');
     }
-    let handledContent = JSON.parse(JSON.stringify(content));
+    
+    let handledContent = Object.assign({}, content);
+
     contentConfigs.forEach(contentConfig => {
-        handledContent = adjustContentToConfig(handledContent, contentConfig)}
-    )
+        handledContent = adjustContentToConfig(handledContent, contentConfig)
+    });
+    
     return handledContent;
 };
 
 export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig): Content => {
-    let processedInput: Content = JSON.parse(JSON.stringify(input));
-
+    let processedInput: Content = Object.assign({}, input);
+    
     if(processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
         contentConfig.propertyAdjustments.map(propertyAdjustment => {
             let value;
@@ -63,7 +66,7 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
         type: '',
         data: {}
     };
-
+    
     if(!processedInput.data || !processedInput.type) {
         return processedInput;
     }

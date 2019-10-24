@@ -1,5 +1,7 @@
 import { ContentfulAdapter } from "./contentful/contentful-adapter";
+import { PrismicAdapter } from "./prismic/prismic-adapter";
 
 export const adapterNameByCmsType = {
-    'contentful': ContentfulAdapter
+    'contentful': ContentfulAdapter,
+    'prismic': PrismicAdapter
 }

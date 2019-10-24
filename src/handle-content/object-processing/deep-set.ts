@@ -1,6 +1,6 @@
 
 export const deepSet = (object: any, propertyArray: string[], value: any): any => {
-    const objectCopy = JSON.parse(JSON.stringify(object));
+    const objectCopy = Object.assign({}, object);
     
     if(!object) {
         throw new Error(`Couldn't set value for ${propertyArray.toString()}: object is undefined`);

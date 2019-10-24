@@ -1,6 +1,6 @@
 export interface AdapterConfig {
     cms: CMSConfig;
-    contents: ContentConfig[]; 
+    contents?: ContentConfig[]; 
 }
 
 interface CMSConfig {

@@ -5,5 +5,6 @@ import { ContentAdapter } from "./content-adapter";
 window.onload = async () => {
     const cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
     const contentAdapter = new ContentAdapter(cmsAdapter, adapterConfig.contents);
-    console.log(await contentAdapter.getContent('44eh1S0IXmC0LeMciK6z6t', 'en-US'));
+    
+    console.log(await contentAdapter.getContent('XbGTUBIAACkA2IQ3', 'de-de'));
 }

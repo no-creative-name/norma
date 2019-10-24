@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@types/node": "^12.7.11",
-    "contentful": "^7.10.0"
+    "contentful": "^7.10.0",
+    "prismic-javascript": "^2.1.1"
   }
 }
