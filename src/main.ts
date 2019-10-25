@@ -3,8 +3,7 @@ import { adapterConfig } from "../adapter.config";
 import { ContentAdapter } from "./content-adapter";
 
 window.onload = async () => {
-    const cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
-    const contentAdapter = new ContentAdapter(cmsAdapter, adapterConfig.contents);
+    const contentAdapter = new ContentAdapter(adapterConfig);
     
-    console.log(await contentAdapter.getContent('XbK69BIAACEAt2GT', 'de-de'));
+    console.log(await contentAdapter.getContent('XbGTUBIAACkA2IQ3', 'de-de'));
 }

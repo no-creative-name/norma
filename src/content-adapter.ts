@@ -1,18 +1,19 @@
 import { CmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
-import { ContentConfig } from "./interfaces/adapter-config";
+import { ContentConfig, AdapterConfig } from "./interfaces/adapter-config";
 import { Content } from "./interfaces/content";
 import { handleContent } from "./handle-content/handle-content";
+import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
 
 export class ContentAdapter {
-    private cmsAdapter;
-    private contentConfigs;
+    private cmsAdapter: CmsAdapter;
+    private adapterConfig: AdapterConfig;
 
-    constructor(cmsAdapter: CmsAdapter, contentConfigs?: ContentConfig[]) {
-        if(!cmsAdapter) {
-            throw new Error(`Creation of content adapter failed: cms adapter is undefined`);
+    constructor(adapterConfig: AdapterConfig) {
+        if(!adapterConfig) {
+            throw new Error(`Creation of content adapter failed: adapter config is undefined`);
         }
-        this.cmsAdapter = cmsAdapter;
-        this.contentConfigs = contentConfigs || null;
+        this.cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
+        this.adapterConfig = adapterConfig;
     }
 
     public async getContent (contentId: string, locale: string): Promise<Content> {
@@ -25,7 +26,7 @@ export class ContentAdapter {
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
         console.log(content);
         
-        const handledContent = this.contentConfigs ? handleContent(content, this.contentConfigs): content;
+        const handledContent = this.adapterConfig.contents ? handleContent(content, this.adapterConfig.contents): content;
         return handledContent;
     }
 

@@ -16,11 +16,10 @@ export const adapterConfig: AdapterConfig = {
     },
     contents: [{
         inputType: 'page',
-        outputType: 'asd',
+        outputType: 'website',
         propertyAdjustments: [
             {
                 inputIdentifier: ['title'],
-                outputIdentifier: [''],
                 valueConverter: (value) => {
                     return JSON.stringify(value[0].text);
                 }
