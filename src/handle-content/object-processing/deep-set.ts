@@ -6,10 +6,10 @@ export const deepSet = (object: any, propertyArray: string[], value: any): any =
         throw new Error(`Couldn't set value for ${propertyArray.toString()}: object is undefined`);
     }
     if(!propertyArray) {
-        throw new Error(`Couldn't set value in ${JSON.stringify(object)}: property array is undefined`);
+        throw new Error(`Couldn't set value in object: property array is undefined`);
     }
     if(value === undefined) {
-        throw new Error(`Couldn't set value for ${propertyArray.toString()} in ${JSON.stringify(object)}: value is undefined`);
+        throw new Error(`Couldn't set value for ${propertyArray.toString()} in object: value is undefined`);
     }
 
     let currentLevel = objectCopy;
@@ -47,7 +47,7 @@ export const deepSet = (object: any, propertyArray: string[], value: any): any =
     
     // insert new object into master object
     if(currentLevel[restProperties[0]] !== undefined) {
-        console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in ${JSON.stringify(objectCopy)}`)
+        console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in object`)
     }
     if(restProperties.length === 1) {
         currentLevel[restProperties[0]] = dataToInsert[restProperties[0]];

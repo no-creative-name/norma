@@ -12,9 +12,11 @@ describe('handleContent', () => {
                 y: "",
                 z: {
                     type: "a",
-                    data: {}
+                    data: {},
+                    id: "5678"
                 }
-            }
+            },
+            id: "1234"
         }
         const configs = [{
             inputType: 'a',
@@ -42,9 +44,11 @@ describe('handleContent', () => {
                 y: "",
                 z: {
                     type: "a",
-                    data: {}
+                    data: {},
+                    id: "5678"
                 }
-            }
+            },
+            id: "1234"
         }
         const configs = [{
             inputType: 'a',
@@ -72,54 +76,31 @@ describe('handleContent', () => {
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
-    test('resolves value with circular referencess', () => {
+    test('resolves value with circular references', () => {
         const objA = {
-            type: "a",
+            type: "self-referencing",
             data: {
-                x: "",
-                y: "",
-                z: {
-                }
-            }
+                title: [],
+                'self-reference': {}
+            },
+            id: "XbK69BIAACEAt2GT"
         }
-
-        const objB = {
-            type: "a",
-            data: {
-                x: "",
-                y: "",
-                z: {
-                }
-            }
-        }
-
-        objB.data.z = objA;
-        objA.data.z = objB;
+        objA.data['self-reference'] = objA;
         
         const configs = [{
-            inputType: 'a',
-            outputType: 'a',
+            inputType: 'page',
+            outputType: 'asd',
             propertyAdjustments: [
                 {
-                    inputIdentifier: ['x'],
+                    inputIdentifier: ['title'],
+                    outputIdentifier: [''],
                     valueConverter: (value) => {
-                        return `test`;
+                        return JSON.stringify(value[0].text);
                     }
                 }
             ]
         }]
-        const output = {
-            type: "a",
-            data: {
-                x: "test",
-                y: "",
-                z: {
-                    type: "a",
-                    data: {}
-                }
-            }
-        }
-        const result = handleContent(objA, configs);
-        expect(result).toMatchObject(output);
+        
+        expect(() => {handleContent(objA, configs)}).not.toThrow(RangeError);
     });
 })

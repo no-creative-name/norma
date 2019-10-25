@@ -10,7 +10,8 @@ export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyN
 
     const normalizedContent: Content = {
         type: rawContentData.sys.contentType ? rawContentData.sys.contentType.sys.id : rawContentData.sys.type,
-        data: {}
+        data: {},
+        id: rawContentData.sys.id
     };
 
     Object.keys(rawContentData.fields).forEach((fieldIdentifier) => {

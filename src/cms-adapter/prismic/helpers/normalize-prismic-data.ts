@@ -9,7 +9,8 @@ export const normalizePrismicData = async (rawContentData: PrismicData, api: Res
 
     const normalizedContent: Content = {
         type: rawContentData.type,
-        data: {}
+        data: {},
+        id: rawContentData.id
     };
 
     // iterate over fields under data
@@ -26,7 +27,7 @@ export const normalizePrismicData = async (rawContentData: PrismicData, api: Res
                 // if is a seperate content to be fetched
                 if(contentObject.type && contentObject.id) {
                     const subContentData = alreadyNormalizedContents[contentObject.id] || await api.getByID(contentObject.id).then(res => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                    normalizedSubField.push({type: contentObject.type, data: subContentData.data});
+                    normalizedSubField.push({type: contentObject.type, data: subContentData.data, id: subContentData.id});
                 }
 
                 // if has one subobject (prismic specific 'group')
@@ -35,7 +36,7 @@ export const normalizePrismicData = async (rawContentData: PrismicData, api: Res
 
                     if(subContent.id) {
                         const subContentData = alreadyNormalizedContents[subContent.id] || await api.getByID(subContent.id).then(res => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                        normalizedSubField.push({type: subContent.type, data: subContentData.data});
+                        normalizedSubField.push({type: subContent.type, data: subContentData.data, id: subContentData.id});
                     }
                     else {
                         normalizedSubField.push(contentObject);
@@ -49,7 +50,7 @@ export const normalizePrismicData = async (rawContentData: PrismicData, api: Res
             // if is a seperate content to be fetched
             if(contentField.id && contentField.type) {
                 const contentFieldData = alreadyNormalizedContents[contentField.id] || await api.getByID(contentField.id).then(res => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                normalizedContent.data[fieldIdentifier] = {type: contentField.type, data: contentFieldData.data};
+                normalizedContent.data[fieldIdentifier] = {type: contentField.type, data: contentFieldData.data, id: contentFieldData.id};
             }
             // if is 'pure' data
             else {

@@ -9,7 +9,7 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
     if(!content || !contentConfigs) {
         throw new Error('Input is invalid.');
     }
-
+    
     let handledContent = Object.assign({}, content);
 
     contentConfigs.forEach(contentConfig => {
@@ -19,7 +19,7 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
     return handledContent;
 };
 
-export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig): Content => {
+export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig, alreadyHandledContents: any = {}): Content => {
     let processedInput: Content = Object.assign({}, input);
     
     if(processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
@@ -71,23 +71,23 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
         return processedInput;
     }
     
+    alreadyHandledContents[processedInput.id] = processedInput;
+    
     Object.keys(processedInput.data || {}).forEach(key => {
         if(Array.isArray(processedInput.data[key])) {
-            output.data[key] = processedInput.data[key].map(prop => adjustContentToConfig(prop, contentConfig));
+            output.data[key] = alreadyHandledContents[processedInput.data[key].id] || processedInput.data[key].map(prop => adjustContentToConfig(prop, contentConfig, alreadyHandledContents));
         }
         else if(typeof processedInput.data[key] === 'object') {
-            output.data[key] = adjustContentToConfig(processedInput.data[key], contentConfig);
+            output.data[key] = alreadyHandledContents[processedInput.data[key].id] || adjustContentToConfig(processedInput.data[key], contentConfig, alreadyHandledContents);
         }
         else {
-           output.data[key] = processedInput.data[key];
+            output.data[key] = processedInput.data[key];
         }
     });
     
     if(processedInput.type) {
-        if(processedInput.type === contentConfig.inputType) {
-            if(contentConfig.outputType) {
-                output.type = contentConfig.outputType;
-            }
+        if(processedInput.type === contentConfig.inputType && contentConfig.outputType) {
+            output.type = contentConfig.outputType;
         }
         else {
             output.type = processedInput.type;

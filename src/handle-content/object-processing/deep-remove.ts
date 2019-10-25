@@ -5,7 +5,7 @@ export const deepRemove = (object: any, propertyArray: string[]): any => {
         throw new Error(`Couldn't get value for ${propertyArray.toString()}: object is undefined`);
     }
     if(!propertyArray) {
-        throw new Error(`Couldn't get value in ${JSON.stringify(object)}: property array is undefined`);
+        throw new Error(`Couldn't get value in object: property array is undefined`);
     }
 
     let value = objectCopy;
