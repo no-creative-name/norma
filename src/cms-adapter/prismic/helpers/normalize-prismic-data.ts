@@ -1,10 +1,11 @@
+import * as PrismicDocument from "prismic-javascript/d.ts/documents";
 import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
 import { IContent } from "../../../interfaces/content";
-import { IPrismicData } from "../interfaces/prismic-data";
 
 export const normalizePrismicData = async (
-    rawContentData: IPrismicData, api: ResolvedApi,
-    alreadyNormalizedContents: any = {},
+    rawContentData: PrismicDocument.Document,
+    api: ResolvedApi,
+    alreadyNormalizedContents: {[key: string]: IContent} = {},
 ): Promise<IContent> => {
     if (!rawContentData) {
         throw new Error("Normalization of prismic data failed: input undefined");
@@ -32,7 +33,7 @@ export const normalizePrismicData = async (
                     const subContentData =
                         alreadyNormalizedContents[contentObject.id] ||
                         await api.getByID(contentObject.id)
-                            .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                            .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                     normalizedSubField.push(
                         {type: contentObject.type, data: subContentData.data, id: subContentData.id},
                     );
@@ -43,7 +44,7 @@ export const normalizePrismicData = async (
                         const subContentData =
                             alreadyNormalizedContents[subContent.id] ||
                             await api.getByID(subContent.id)
-                                .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                                .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                         normalizedSubField.push(
                             {type: contentObject.type, data: subContentData.data, id: subContentData.id},
                         );
@@ -60,7 +61,7 @@ export const normalizePrismicData = async (
                 const contentFieldData =
                     alreadyNormalizedContents[contentField.id] ||
                     await api.getByID(contentField.id)
-                        .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                        .then((res) => normalizePrismicData(res, api, alreadyNormalizedContents));
                 normalizedContent.data[fieldIdentifier] = {
                     data: contentFieldData.data,
                     id: contentFieldData.id,

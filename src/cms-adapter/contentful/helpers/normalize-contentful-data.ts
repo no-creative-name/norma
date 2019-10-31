@@ -39,7 +39,10 @@ export const normalizeContentfulData = (
             }
         }
     });
-    alreadyNormalizedContents[rawContentData.sys.id] = normalizedContent;
+
+    alreadyNormalizedContents[rawContentData.sys.id].data = normalizedContent.data;
+    alreadyNormalizedContents[rawContentData.sys.id].type = normalizedContent.type;
+    alreadyNormalizedContents[rawContentData.sys.id].id = normalizedContent.id;
 
     return normalizedContent;
 };

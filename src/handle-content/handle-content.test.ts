@@ -36,6 +36,34 @@ describe("handleContent", () => {
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
+    test("throws TypeError if value converter returns undefined", () => {
+        const input = {
+            data: {
+                x: "",
+                y: "",
+                z: {
+                    data: {},
+                    id: "5678",
+                    type: "a",
+                },
+            },
+            id: "1234",
+            type: "a",
+        };
+        const configs = [{
+            inputType: "a",
+            outputType: "a",
+            propertyAdjustments: [
+                {
+                    inputIdentifier: ["x"],
+                    valueConverter: (value) => {
+                        return undefined;
+                    },
+                },
+            ],
+        }];
+        expect(() => handleContent(input, configs)).toThrow(TypeError)
+    });
     test("converts value if converter if provided", () => {
         const input = {
             data: {

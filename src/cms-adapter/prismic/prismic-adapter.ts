@@ -1,12 +1,12 @@
 import * as Prismic from "prismic-javascript";
-import { IContent } from "../../interfaces/content";
+import * as PrismicDocument from "prismic-javascript/d.ts/documents";
+import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
 import { ICmsAdapter } from "../interfaces/cms-adapter";
 import { normalizePrismicData } from "./helpers/normalize-prismic-data";
 import { IPrismicConfig } from "./interfaces/prismic-config";
-import { IPrismicData } from "./interfaces/prismic-data";
 
 export class PrismicAdapter implements ICmsAdapter {
-    private client;
+    private client: Promise<ResolvedApi>;
 
     constructor(config: IPrismicConfig) {
         if (!config) {
@@ -17,12 +17,12 @@ export class PrismicAdapter implements ICmsAdapter {
 
     public async getNormalizedContentData(contentId: string, locale: string) {
         const api = await this.client;
-        let res: IPrismicData = await api.getByID(contentId);
+        let res = await api.getByID(contentId);
 
         if (res.lang !== locale) {
-            const altLang = res.alternate_languages.find((alternateLang) => alternateLang.lang === locale);
+            const altLang = res.alternate_languages.find((alternateLang) => (alternateLang as any).lang === locale);
             if (altLang) {
-                res = await api.getByID(altLang.id);
+                res = await api.getByID((altLang as any).id);
             }
         }
 

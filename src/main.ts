@@ -6,5 +6,5 @@ window.onload = async () => {
     const contentAdapter = new ContentAdapter(adapterConfig);
 
     // tslint:disable-next-line
-    console.log(await contentAdapter.getContent("XbGTUBIAACkA2IQ3", "de-de"));
+    console.log(await contentAdapter.getContent("44eh1S0IXmC0LeMciK6z6t", "de"));
 };

@@ -22,7 +22,7 @@ export const handleContent: ContentHandler = (content: IContent, contentConfigs:
 export const adjustContentToConfig = (
     input: IContent,
     contentConfig: IContentConfig,
-    alreadyHandledContents: any = {},
+    alreadyHandledContents: {[key: string]: IContent} = {},
 ): IContent => {
     const processedInput: IContent = Object.assign({}, input);
 
@@ -42,6 +42,9 @@ export const adjustContentToConfig = (
                     value = propertyAdjustment.valueConverter(value);
                 } catch (error) {
                     throw new Error(`Couldn't convert value: ${error}`);
+                }
+                if (value === undefined) {
+                    throw new TypeError(`Value converter for ${propertyAdjustment.inputIdentifier} returned undefined`);
                 }
             }
 

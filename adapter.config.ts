@@ -1,19 +1,19 @@
 import { IAdapterConfig } from "./src/interfaces/adapter-config";
 
 export const adapterConfig: IAdapterConfig = {
-    /*cms: {
-        type: 'contentful',
-        credentials: {
-            space: "zjrd7s7o2cec",
-            accessToken:"llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"
-        }
-    },*/
     cms: {
+        credentials: {
+            accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE",
+            space: "zjrd7s7o2cec",
+        },
+        type: "contentful",
+    },
+    /*cms: {
         credentials: {
             endpoint: "https://headless-cms-adapter.cdn.prismic.io/api/v2",
         },
         type: "prismic",
-    },
+    },*/
     contents: [{
         inputType: "page",
         outputType: "website",
@@ -21,7 +21,7 @@ export const adapterConfig: IAdapterConfig = {
             {
                 inputIdentifier: ["title"],
                 valueConverter: (value) => {
-                    return JSON.stringify(value[0].text);
+                    return value;
                 },
             },
         ],
