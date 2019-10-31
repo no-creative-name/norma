@@ -2,7 +2,10 @@ import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
 import { IContent } from "../../../interfaces/content";
 import { IPrismicData } from "../interfaces/prismic-data";
 
-export const normalizePrismicData = async (rawContentData: IPrismicData, api: ResolvedApi, alreadyNormalizedContents: any = {}): Promise<IContent> => {
+export const normalizePrismicData = async (
+    rawContentData: IPrismicData, api: ResolvedApi,
+    alreadyNormalizedContents: any = {},
+): Promise<IContent> => {
     if (!rawContentData) {
         throw new Error("Normalization of prismic data failed: input undefined");
     }
@@ -26,14 +29,24 @@ export const normalizePrismicData = async (rawContentData: IPrismicData, api: Re
 
                 // if is a seperate content to be fetched
                 if (contentObject.type && contentObject.id) {
-                    const subContentData = alreadyNormalizedContents[contentObject.id] || await api.getByID(contentObject.id).then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                    normalizedSubField.push({type: contentObject.type, data: subContentData.data, id: subContentData.id});
+                    const subContentData =
+                        alreadyNormalizedContents[contentObject.id] ||
+                        await api.getByID(contentObject.id)
+                            .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                    normalizedSubField.push(
+                        {type: contentObject.type, data: subContentData.data, id: subContentData.id},
+                    );
                 } else if (contentObject[Object.keys(contentObject)[0]]) {
                     const subContent = contentObject[Object.keys(contentObject)[0]];
 
                     if (subContent.id) {
-                        const subContentData = alreadyNormalizedContents[subContent.id] || await api.getByID(subContent.id).then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                        normalizedSubField.push({type: subContent.type, data: subContentData.data, id: subContentData.id});
+                        const subContentData =
+                            alreadyNormalizedContents[subContent.id] ||
+                            await api.getByID(subContent.id)
+                                .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                        normalizedSubField.push(
+                            {type: contentObject.type, data: subContentData.data, id: subContentData.id},
+                        );
                     } else {
                         normalizedSubField.push(contentObject);
                     }
@@ -44,8 +57,15 @@ export const normalizePrismicData = async (rawContentData: IPrismicData, api: Re
         } else {
             // if is a seperate content to be fetched
             if (contentField.id && contentField.type) {
-                const contentFieldData = alreadyNormalizedContents[contentField.id] || await api.getByID(contentField.id).then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
-                normalizedContent.data[fieldIdentifier] = {type: contentField.type, data: contentFieldData.data, id: contentFieldData.id};
+                const contentFieldData =
+                    alreadyNormalizedContents[contentField.id] ||
+                    await api.getByID(contentField.id)
+                        .then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
+                normalizedContent.data[fieldIdentifier] = {
+                    data: contentFieldData.data,
+                    id: contentFieldData.id,
+                    type: contentField.type,
+                };
             } else {
                 normalizedContent.data[fieldIdentifier] = contentField;
             }

@@ -19,7 +19,11 @@ export const handleContent: ContentHandler = (content: IContent, contentConfigs:
     return handledContent;
 };
 
-export const adjustContentToConfig = (input: IContent, contentConfig: IContentConfig, alreadyHandledContents: any = {}): IContent => {
+export const adjustContentToConfig = (
+    input: IContent,
+    contentConfig: IContentConfig,
+    alreadyHandledContents: any = {},
+): IContent => {
     const processedInput: IContent = Object.assign({}, input);
 
     if (processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
@@ -70,9 +74,15 @@ export const adjustContentToConfig = (input: IContent, contentConfig: IContentCo
 
     Object.keys(processedInput.data || {}).forEach((key) => {
         if (Array.isArray(processedInput.data[key])) {
-            output.data[key] = alreadyHandledContents[processedInput.data[key].id] || processedInput.data[key].map((prop) => adjustContentToConfig(prop, contentConfig, alreadyHandledContents));
+            output.data[key] =
+                alreadyHandledContents[processedInput.data[key].id] ||
+                processedInput.data[key].map(
+                    (prop) => adjustContentToConfig(prop, contentConfig, alreadyHandledContents),
+                );
         } else if (typeof processedInput.data[key] === "object") {
-            output.data[key] = alreadyHandledContents[processedInput.data[key].id] || adjustContentToConfig(processedInput.data[key], contentConfig, alreadyHandledContents);
+            output.data[key] =
+                alreadyHandledContents[processedInput.data[key].id] ||
+                adjustContentToConfig(processedInput.data[key], contentConfig, alreadyHandledContents);
         } else {
             output.data[key] = processedInput.data[key];
         }

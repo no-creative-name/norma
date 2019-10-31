@@ -26,7 +26,7 @@ export class ContentfulAdapter implements ICmsAdapter {
         this.client = contentful.createClient({...config});
     }
 
-    private async fetchContentData(contentId: string, locale: string) {
+    private async fetchContentData(contentId: string, locale: string): Promise<contentful.Entry<unknown>> {
         return this.client.getEntry(contentId, {locale, include: 10}).catch((e: Error) => {
             throw new Error(`${this.constructor.name} could not fetch data for contentId ${contentId}. ${e.message}`);
         });

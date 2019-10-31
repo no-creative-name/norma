@@ -1,7 +1,10 @@
 import { Entry } from "contentful";
 import { IContent } from "../../../interfaces/content";
 
-export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyNormalizedContents: any = {}): IContent => {
+export const normalizeContentfulData = (
+    rawContentData: Entry<unknown>,
+    alreadyNormalizedContents: any = {},
+): IContent => {
     if (!rawContentData) {
         throw new Error("Normalization of contentful data failed: input undefined");
     }
@@ -28,7 +31,9 @@ export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyN
             normalizedContent.data[fieldIdentifier] = normalizedSubField;
         } else {
             if (contentField.fields && contentField.sys) {
-                normalizedContent.data[fieldIdentifier] = alreadyNormalizedContents[contentField.sys.id] || normalizeContentfulData(contentField, alreadyNormalizedContents);
+                normalizedContent.data[fieldIdentifier] =
+                    alreadyNormalizedContents[contentField.sys.id] ||
+                    normalizeContentfulData(contentField, alreadyNormalizedContents);
             } else {
                 normalizedContent.data[fieldIdentifier] = contentField;
             }

@@ -15,7 +15,7 @@ export class PrismicAdapter implements ICmsAdapter {
         this.client = Prismic.api(config.endpoint);
     }
 
-    public async getNormalizedContentData(contentId: string, locale: string): Promise<IContent> {
+    public async getNormalizedContentData(contentId: string, locale: string) {
         const api = await this.client;
         let res: IPrismicData = await api.getByID(contentId);
 
