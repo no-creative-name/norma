@@ -1,34 +1,34 @@
 import { deepGet } from "./deep-get";
 
-describe('deepGet', () => {
-    test('throws an error when object is undefined', () => {
-        expect(() => deepGet(undefined, [''])).toThrow(Error);
+describe("deepGet", () => {
+    test("throws an error when object is undefined", () => {
+        expect(() => deepGet(undefined, [""])).toThrow(Error);
     });
-    test('throws an error when property array is undefined', () => {
+    test("throws an error when property array is undefined", () => {
         expect(() => deepGet({}, undefined)).toThrow(Error);
     });
-    test('returns undefined when property is not found', () => {
+    test("returns undefined when property is not found", () => {
         const result = deepGet({
             a: {
                 b: {
-                    c:''
+                    c: "",
                 },
                 d: {
-                    e: ''
-                }
-            }}, ['a', 'b', 'e']);
+                    e: "",
+                },
+            }}, ["a", "b", "e"]);
         expect(result).toBe(undefined);
     });
-    test('gets a value by an array of strings', () => {
+    test("gets a value by an array of strings", () => {
         const result = deepGet({
             a: {
                 b: {
-                    c: 'value'
+                    c: "value",
                 },
                 d: {
-                    e: ''
-                }
-            }}, ['a', 'b', 'c']);
-        expect(result).toBe('value');
+                    e: "",
+                },
+            }}, ["a", "b", "c"]);
+        expect(result).toBe("value");
     });
-})
+});

@@ -1,101 +1,101 @@
-import { normalizeContentfulData } from "./normalize-contentful-data"
 import { Entry } from "contentful";
+import { normalizeContentfulData } from "./normalize-contentful-data";
 
 const expectedInput = {
     fields: {
-        fieldA: '',
+        fieldA: "",
         fieldB: 0,
         subContentA: {
             fields: {
-                fieldA: '',
+                fieldA: "",
                 fieldB: 0,
             },
             sys: {
                 contentType: {
                     sys: {
-                        id: 'contentTypeB'
-                    }
+                        id: "contentTypeB",
+                    },
                 },
-                id: '1'
-            }
+                id: "1",
+            },
         },
         subContentB: [
             {
                 fields: {
-                    fieldA: '',
+                    fieldA: "",
                     fieldB: 0,
                 },
                 sys: {
                     contentType: {
                         sys: {
-                            id: 'contentTypeC'
-                        }
+                            id: "contentTypeC",
+                        },
                     },
-                    id: '2'
-                }
+                    id: "2",
+                },
             },
             {
                 fields: {
-                    fieldA: '',
+                    fieldA: "",
                     fieldB: 0,
                 },
                 sys: {
                     contentType: {
                         sys: {
-                            id: 'contentTypeC'
-                        }
+                            id: "contentTypeC",
+                        },
                     },
-                    id: '3'
-                }
-            }
-        ]
+                    id: "3",
+                },
+            },
+        ],
     },
     sys: {
         contentType: {
             sys: {
-                id: 'contentTypeA'
-            }
+                id: "contentTypeA",
+            },
         },
-        id: '4'
-    }
-}
+        id: "4",
+    },
+};
 const expectedOutput = {
-    type: 'contentTypeA',
     data: {
-        fieldA: '',
+        fieldA: "",
         fieldB: 0,
         subContentA: {
-            type: 'contentTypeB',
             data: {
-                fieldA: '',
-                fieldB: 0
-            }
+                fieldA: "",
+                fieldB: 0,
+            },
+            type: "contentTypeB",
         },
         subContentB: [
             {
-                type:'contentTypeC',
                 data: {
-                    fieldA: '',
+                    fieldA: "",
                     fieldB: 0,
-                }
+                },
+                type: "contentTypeC",
             },
             {
-                type:'contentTypeC',
                 data: {
-                    fieldA: '',
+                    fieldA: "",
                     fieldB: 0,
-                }
+                },
+                type: "contentTypeC",
             },
-        ]
-    }
-}
+        ],
+    },
+    type: "contentTypeA",
+};
 
-describe('normalizeContentfulData', () => {
-    test('throws an error for undefined input', () => {
-        expect(() => {normalizeContentfulData(undefined)}).toThrow(Error);
+describe("normalizeContentfulData", () => {
+    test("throws an error for undefined input", () => {
+        expect(() => {normalizeContentfulData(undefined); }).toThrow(Error);
     });
-    test('correctly converts raw to normalized data', () => {
-        const result = normalizeContentfulData((expectedInput as Entry<unknown>))
+    test("correctly converts raw to normalized data", () => {
+        const result = normalizeContentfulData((expectedInput as Entry<unknown>));
         expect(result).toMatchObject(expectedOutput);
     });
-})
+});

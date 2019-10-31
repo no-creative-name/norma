@@ -9,21 +9,21 @@ export const adapterConfig: AdapterConfig = {
         }
     },*/
     cms: {
-        type: 'prismic',
         credentials: {
-            endpoint: 'https://headless-cms-adapter.cdn.prismic.io/api/v2'
-        }
+            endpoint: "https://headless-cms-adapter.cdn.prismic.io/api/v2",
+        },
+        type: "prismic",
     },
     contents: [{
-        inputType: 'page',
-        outputType: 'website',
+        inputType: "page",
+        outputType: "website",
         propertyAdjustments: [
             {
-                inputIdentifier: ['title'],
+                inputIdentifier: ["title"],
                 valueConverter: (value) => {
                     return JSON.stringify(value[0].text);
-                }
-            }
-        ]
-    }], 
-}
+                },
+            },
+        ],
+    }],
+};

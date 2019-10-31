@@ -1,10 +1,10 @@
-import { handleContent } from "./handle-content"
+import { handleContent } from "./handle-content";
 
-describe('handleContent', () => {
-    test('throws an error when content input is undefined.', () => {
-        expect(() => {handleContent(undefined, [{inputType: 'componentX'}])}).toThrow(Error);
+describe("handleContent", () => {
+    test("throws an error when content input is undefined.", () => {
+        expect(() => {handleContent(undefined, [{inputType: "componentX"}]);}).toThrow(Error);
     });
-    test('renames all instances of a single content type if desired', () => {
+    test("renames all instances of a single content type if desired", () => {
         const input = {
             type: "a",
             data: {
@@ -13,15 +13,15 @@ describe('handleContent', () => {
                 z: {
                     type: "a",
                     data: {},
-                    id: "5678"
-                }
+                    id: "5678",
+                },
             },
-            id: "1234"
-        }
+            id: "1234",
+        };
         const configs = [{
-            inputType: 'a',
-            outputType: 'b',
-        }]
+            inputType: "a",
+            outputType: "b",
+        }];
         const output = {
             type: "b",
             data: {
@@ -29,14 +29,14 @@ describe('handleContent', () => {
                 y: "",
                 z: {
                     type: "b",
-                    data: {}
-                }
-            }
-        }
+                    data: {},
+                },
+            },
+        };
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
-    test('converts value if converter if provided', () => {
+    test("converts value if converter if provided", () => {
         const input = {
             type: "a",
             data: {
@@ -45,23 +45,23 @@ describe('handleContent', () => {
                 z: {
                     type: "a",
                     data: {},
-                    id: "5678"
-                }
+                    id: "5678",
+                },
             },
-            id: "1234"
-        }
+            id: "1234",
+        };
         const configs = [{
-            inputType: 'a',
-            outputType: 'a',
+            inputType: "a",
+            outputType: "a",
             propertyAdjustments: [
                 {
-                    inputIdentifier: ['x'],
+                    inputIdentifier: ["x"],
                     valueConverter: (value) => {
                         return `test`;
-                    }
-                }
-            ]
-        }]
+                    },
+                },
+            ],
+        }];
         const output = {
             type: "a",
             data: {
@@ -69,38 +69,38 @@ describe('handleContent', () => {
                 y: "",
                 z: {
                     type: "a",
-                    data: {}
-                }
-            }
-        }
+                    data: {},
+                },
+            },
+        };
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
-    test('resolves value with circular references', () => {
+    test("resolves value with circular references", () => {
         const objA = {
             type: "self-referencing",
             data: {
-                title: [],
-                'self-reference': {}
+                "title": [],
+                "self-reference": {},
             },
-            id: "XbK69BIAACEAt2GT"
-        }
-        objA.data['self-reference'] = objA;
-        
+            id: "XbK69BIAACEAt2GT",
+        };
+        objA.data["self-reference"] = objA;
+
         const configs = [{
-            inputType: 'page',
-            outputType: 'asd',
+            inputType: "page",
+            outputType: "asd",
             propertyAdjustments: [
                 {
-                    inputIdentifier: ['title'],
-                    outputIdentifier: [''],
+                    inputIdentifier: ["title"],
+                    outputIdentifier: [""],
                     valueConverter: (value) => {
                         return JSON.stringify(value[0].text);
-                    }
-                }
-            ]
-        }]
-        
-        expect(() => {handleContent(objA, configs)}).not.toThrow(RangeError);
+                    },
+                },
+            ],
+        }];
+
+        expect(() => {handleContent(objA, configs);}).not.toThrow(RangeError);
     });
-})
+});

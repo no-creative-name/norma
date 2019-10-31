@@ -1,52 +1,52 @@
 import { deepRemove } from "./deep-remove";
 
-describe('deepRemove', () => {
-    test('throws an error when object is undefined', () => {
-        expect(() => deepRemove(undefined, [''])).toThrow(Error);
+describe("deepRemove", () => {
+    test("throws an error when object is undefined", () => {
+        expect(() => deepRemove(undefined, [""])).toThrow(Error);
     });
-    test('throws an error when property array is undefined', () => {
+    test("throws an error when property array is undefined", () => {
         expect(() => deepRemove({}, undefined)).toThrow(Error);
     });
-    test('removes simple property in object', () => {
+    test("removes simple property in object", () => {
         const inputObject = {
             a: {
                 b: {
-                    c:''
+                    c: "",
                 },
                 d: {
-                    e: ''
-                }
-            }
+                    e: "",
+                },
+            },
         };
-        const toRemove = ['a', 'b', 'c'];
+        const toRemove = ["a", "b", "c"];
         const result = deepRemove(inputObject, toRemove);
         expect(result).toMatchObject({
             a: {
                 b: {
                 },
                 d: {
-                    e: ''
-                }
-            }})
+                    e: "",
+                },
+            }});
     });
-    test('removes object property in object', () => {
+    test("removes object property in object", () => {
         const inputObject = {
             a: {
                 b: {
-                    c:''
+                    c: "",
                 },
                 d: {
-                    e: ''
-                }
-            }
+                    e: "",
+                },
+            },
         };
-        const toRemove = ['a', 'b'];
+        const toRemove = ["a", "b"];
         const result = deepRemove(inputObject, toRemove);
         expect(result).toMatchObject({
             a: {
                 d: {
-                    e: ''
-                }
-            }})
+                    e: "",
+                },
+            }});
     });
-})
+});
