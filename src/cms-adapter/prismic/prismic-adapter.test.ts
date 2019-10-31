@@ -1,11 +1,11 @@
-import { ContentfulAdapter } from "./contentful-adapter";
+import { PrismicAdapter } from "./prismic-adapter";
 
-describe("ContentfulAdapter", () => {
+describe("PrismicAdapter", () => {
     test("throws an error when created with undefined config", () => {
-        expect(() => new ContentfulAdapter(undefined)).toThrow(Error);
+        expect(() => new PrismicAdapter(undefined)).toThrow(Error);
     });
     describe("getNormalizedContentData", () => {
-        const adapter = new ContentfulAdapter({space: "zjrd7s7o2cec", accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"});
+        const adapter = new PrismicAdapter({endpoint: "https://headless-cms-adapter.cdn.prismic.io/api/v2"});
         test("throws an error when no content is associated with content id", async () => {
             await expect(adapter.getNormalizedContentData("fas", "en-US").catch(() => {})).rejects;
         });

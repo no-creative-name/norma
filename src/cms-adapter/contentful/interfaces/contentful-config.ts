@@ -1,4 +1,4 @@
-export interface ContentfulConfig {
+export interface IContentfulConfig {
     space: string;
     accessToken: string;
 }

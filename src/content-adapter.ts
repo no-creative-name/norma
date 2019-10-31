@@ -1,29 +1,32 @@
-import { CmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
-import { ContentConfig } from "./interfaces/adapter-config";
-import { Content } from "./interfaces/content";
+import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
+import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { handleContent } from "./handle-content/handle-content";
+import { IAdapterConfig, IContentConfig } from "./interfaces/adapter-config";
+import { IContent } from "./interfaces/content";
 
 export class ContentAdapter {
-    private cmsAdapter;
-    private contentConfigs;
+    private cmsAdapter: ICmsAdapter;
+    private adapterConfig: IAdapterConfig;
 
-    constructor(cmsAdapter: CmsAdapter, contentConfigs?: ContentConfig[]) {
-        if(!cmsAdapter) {
-            throw new Error(`Creation of content adapter failed: cms adapter is undefined`);
+    constructor(adapterConfig: IAdapterConfig) {
+        if (!adapterConfig) {
+            throw new Error(`Creation of content adapter failed: adapter config is undefined`);
         }
-        this.cmsAdapter = cmsAdapter;
-        this.contentConfigs = contentConfigs || null;
+        this.cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
+        this.adapterConfig = adapterConfig;
     }
 
-    public async getContent (contentId: string, locale: string): Promise<Content> {
-        if(!contentId) {
+    public async getContent(contentId: string, locale: string): Promise<IContent> {
+        if (!contentId) {
             throw new Error(`Couldn't get content: content id is undefined`);
         }
-        if(!locale) {
+        if (!locale) {
             throw new Error(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
-        const handledContent = this.contentConfigs ? handleContent(content, this.contentConfigs): content;
+        const handledContent = this.adapterConfig.contents ?
+            handleContent(content, this.adapterConfig.contents) :
+            content;
         return handledContent;
     }
 

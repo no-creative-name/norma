@@ -1,30 +1,29 @@
-import { AdapterConfig } from "./src/interfaces/adapter-config";
+import { IAdapterConfig } from "./src/interfaces/adapter-config";
 
-export const adapterConfig: AdapterConfig = {
-    cms: {
+export const adapterConfig: IAdapterConfig = {
+    /*cms: {
         type: 'contentful',
         credentials: {
             space: "zjrd7s7o2cec",
             accessToken:"llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE"
         }
+    },*/
+    cms: {
+        credentials: {
+            endpoint: "https://headless-cms-adapter.cdn.prismic.io/api/v2",
+        },
+        type: "prismic",
     },
     contents: [{
-        inputType: 'page',
-        outputType: 'site',
+        inputType: "page",
+        outputType: "website",
         propertyAdjustments: [
             {
-                inputIdentifier: ['mainNavigation'],
-                outputIdentifier: ['subfolder', 'level2', 'content'],
+                inputIdentifier: ["title"],
                 valueConverter: (value) => {
-                    return JSON.stringify(value);
-                }
+                    return JSON.stringify(value[0].text);
+                },
             },
-            {
-                inputIdentifier: ['title'],
-                valueConverter: (value) => {
-                    return `wooooop ${value}`;
-                }
-            }
-        ]
-    }], 
-}
+        ],
+    }],
+};

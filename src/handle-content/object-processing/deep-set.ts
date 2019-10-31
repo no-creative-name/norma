@@ -1,60 +1,58 @@
 
 export const deepSet = (object: any, propertyArray: string[], value: any): any => {
-    const objectCopy = JSON.parse(JSON.stringify(object));
-    
-    if(!object) {
+    const objectCopy = Object.assign({}, object);
+
+    if (!object) {
         throw new Error(`Couldn't set value for ${propertyArray.toString()}: object is undefined`);
     }
-    if(!propertyArray) {
-        throw new Error(`Couldn't set value in ${JSON.stringify(object)}: property array is undefined`);
+    if (!propertyArray) {
+        throw new Error(`Couldn't set value in object: property array is undefined`);
     }
-    if(value === undefined) {
-        throw new Error(`Couldn't set value for ${propertyArray.toString()} in ${JSON.stringify(object)}: value is undefined`);
+    if (value === undefined) {
+        throw new Error(`Couldn't set value for ${propertyArray.toString()} in object: value is undefined`);
     }
 
     let currentLevel = objectCopy;
     let goDeeper = true;
     let restProperties;
-    
+
     // find master object level on where the next property of the array does not exist yet
     propertyArray.forEach((property: string, index: number) => {
-        if(goDeeper) {
-            if(!currentLevel[property]) {
+        if (goDeeper) {
+            if (!currentLevel[property]) {
                 restProperties = propertyArray.slice(index);
                 goDeeper = false;
-            }
-            else {
+            } else {
                 currentLevel = currentLevel[property] || undefined;
             }
         }
     });
-    
+
     // create object to insert into that level of master object
     let dataToInsert = {};
     const reversedRestProperties = [...restProperties].reverse();
-    
+
     reversedRestProperties.map((prop, index) => {
-        let propObj = {};
-        if(index === 0) {
+        const propObj = {};
+        if (index === 0) {
             propObj[prop] = value;
             dataToInsert = propObj;
-        }
-        else if (index < reversedRestProperties.length - 1) {
+        } else if (index < reversedRestProperties.length - 1) {
             propObj[prop] = dataToInsert;
             dataToInsert = propObj;
         }
     });
-    
+
     // insert new object into master object
-    if(currentLevel[restProperties[0]] !== undefined) {
-        console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in ${JSON.stringify(objectCopy)}`)
+    if (currentLevel[restProperties[0]] !== undefined) {
+        // tslint:disable-next-line
+        console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in object`);
     }
-    if(restProperties.length === 1) {
+    if (restProperties.length === 1) {
         currentLevel[restProperties[0]] = dataToInsert[restProperties[0]];
-    }
-    else {
+    } else {
         currentLevel[restProperties[0]] = dataToInsert;
     }
-    
+
     return objectCopy;
-}
+};
