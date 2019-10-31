@@ -13,10 +13,10 @@ describe('contentAdapter', () => {
     test('throws an error if locale is undefined', async () => {
         expect(await contentAdapter.getContent('x', undefined).catch(() => {})).rejects;
     });
-    /*test('calls function to get normalized data from cms adapter', async () => {
+    test('calls function to get normalized data from cms adapter', async () => {
         const getData = jest.fn();
-        cmsAdapter.getNormalizedContentData = getData;
+        contentAdapter["cmsAdapter"].getNormalizedContentData = getData;
         await contentAdapter.getContent('x', 'y').catch(() => {});
-        expect(cmsAdapter.getNormalizedContentData).toHaveBeenCalled();
-    });*/
+        expect(contentAdapter["cmsAdapter"].getNormalizedContentData).toHaveBeenCalled();
+    });
 })

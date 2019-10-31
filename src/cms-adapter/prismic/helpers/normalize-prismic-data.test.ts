@@ -1,4 +1,3 @@
-import { Entry } from "contentful";
 import { normalizePrismicData } from "./normalize-prismic-data";
 import Prismic = require("prismic-javascript");
 
@@ -17,17 +16,7 @@ const expectedInput = {
                     subSubProp1: ''
                 }
             ]
-        },
-        prop4: [
-            {
-                id: '888',
-                type: 'typeY',
-            },
-            {
-                id: '999',
-                type: 'typeZ',
-            },
-        ]
+        }
     },
     first_publication_date: '',
     href: 'string',
@@ -56,21 +45,7 @@ const expectedOutput = {
                     subSubProp1: ''
                 }
             ]
-        },
-        prop4: [
-            {
-                type: 'typeY',
-                data: {
-                    a: 'a'
-                }
-            },
-            {
-                type: 'typeZ',
-                data: {
-                    b: 'b'
-                }
-            },
-        ]
+        }
     }
 }
 
@@ -79,10 +54,11 @@ describe('normalizeContentfulData', () => {
         const api = await Prismic.api('https://headless-cms-adapter.cdn.prismic.io/api/v2');
         expect(normalizePrismicData(undefined, api).catch(() => {})).rejects;
     });
-    /*test('correctly converts raw to normalized data', async () => {
+    test('correctly converts raw to normalized data', async () => {
         await expect(Prismic.api('https://headless-cms-adapter.cdn.prismic.io/api/v2')
             .then(api => {
-                return normalizePrismicData(expectedInput, api)
-            })).resolves.toMatchObject(expectedOutput);;
-    });*/
+                const normalized = normalizePrismicData(expectedInput, api);
+                return normalized;
+            })).resolves.toMatchObject(expectedOutput);
+    });
 })

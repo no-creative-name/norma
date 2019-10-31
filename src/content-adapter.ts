@@ -24,8 +24,6 @@ export class ContentAdapter {
             throw new Error(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
-        console.log(content);
-        
         const handledContent = this.adapterConfig.contents ? handleContent(content, this.adapterConfig.contents): content;
         return handledContent;
     }
