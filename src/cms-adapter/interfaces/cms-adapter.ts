@@ -1,5 +1,5 @@
-import { Content } from "../../interfaces/content";
+import { IContent } from "../../interfaces/content";
 
-export interface CmsAdapter {
-    getNormalizedContentData: (contentId: string, locale: string) => Promise<Content>;
+export interface ICmsAdapter {
+    getNormalizedContentData: (contentId: string, locale: string) => Promise<IContent>;
 }

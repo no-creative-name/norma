@@ -45,6 +45,7 @@ export const deepSet = (object: any, propertyArray: string[], value: any): any =
 
     // insert new object into master object
     if (currentLevel[restProperties[0]] !== undefined) {
+        // tslint:disable-next-line
         console.warn(`Deep set: Overwritten existing property ${restProperties[0]} in object`);
     }
     if (restProperties.length === 1) {

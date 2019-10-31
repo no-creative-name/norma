@@ -1,5 +1,5 @@
-export interface PrismicData {
-    alternate_languages: AlternateLanguage[];
+export interface IPrismicData {
+    alternate_languages: IAlternateLanguage[];
     data: any;
     first_publication_date: string;
     href: string;
@@ -13,7 +13,7 @@ export interface PrismicData {
     uid: string;
 }
 
-interface AlternateLanguage {
+interface IAlternateLanguage {
     id: string;
     type: string;
     lang: string;

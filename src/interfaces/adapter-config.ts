@@ -1,20 +1,20 @@
-export interface AdapterConfig {
-    cms: CMSConfig;
-    contents?: ContentConfig[];
+export interface IAdapterConfig {
+    cms: ICMSConfig;
+    contents?: IContentConfig[];
 }
 
-interface CMSConfig {
+interface ICMSConfig {
     type: string;
     credentials: any;
 }
 
-export interface ContentConfig {
+export interface IContentConfig {
     inputType: string;
     outputType?: string;
-    propertyAdjustments?: PropertyConfig[];
+    propertyAdjustments?: IPropertyConfig[];
 }
 
-interface PropertyConfig {
+interface IPropertyConfig {
     inputIdentifier?: string | string[];
     outputIdentifier?: string | string[];
     valueConverter?: ValueConverter;

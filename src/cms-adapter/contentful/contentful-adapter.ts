@@ -1,12 +1,12 @@
 import * as contentful from "contentful";
-import { CmsAdapter } from "../interfaces/cms-adapter";
+import { ICmsAdapter } from "../interfaces/cms-adapter";
 import { normalizeContentfulData } from "./helpers/normalize-contentful-data";
-import { ContentfulConfig } from "./interfaces/contentful-config";
+import { IContentfulConfig } from "./interfaces/contentful-config";
 
-export class ContentfulAdapter implements CmsAdapter {
+export class ContentfulAdapter implements ICmsAdapter {
     private client: contentful.ContentfulClientApi;
 
-    constructor(config: ContentfulConfig) {
+    constructor(config: IContentfulConfig) {
         if (!config) {
             throw new Error("Creation of cms adapter failed: config is undefined");
         }
@@ -22,7 +22,7 @@ export class ContentfulAdapter implements CmsAdapter {
             });
     }
 
-    private createContentfulClient(config: ContentfulConfig) {
+    private createContentfulClient(config: IContentfulConfig) {
         this.client = contentful.createClient({...config});
     }
 

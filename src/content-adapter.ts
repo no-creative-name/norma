@@ -1,14 +1,14 @@
 import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
-import { CmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
+import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { handleContent } from "./handle-content/handle-content";
-import { AdapterConfig, ContentConfig } from "./interfaces/adapter-config";
-import { Content } from "./interfaces/content";
+import { IAdapterConfig, IContentConfig } from "./interfaces/adapter-config";
+import { IContent } from "./interfaces/content";
 
 export class ContentAdapter {
-    private cmsAdapter: CmsAdapter;
-    private adapterConfig: AdapterConfig;
+    private cmsAdapter: ICmsAdapter;
+    private adapterConfig: IAdapterConfig;
 
-    constructor(adapterConfig: AdapterConfig) {
+    constructor(adapterConfig: IAdapterConfig) {
         if (!adapterConfig) {
             throw new Error(`Creation of content adapter failed: adapter config is undefined`);
         }
@@ -16,7 +16,7 @@ export class ContentAdapter {
         this.adapterConfig = adapterConfig;
     }
 
-    public async getContent(contentId: string, locale: string): Promise<Content> {
+    public async getContent(contentId: string, locale: string): Promise<IContent> {
         if (!contentId) {
             throw new Error(`Couldn't get content: content id is undefined`);
         }

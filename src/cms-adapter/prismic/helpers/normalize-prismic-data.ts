@@ -1,16 +1,16 @@
 import ResolvedApi from "prismic-javascript/d.ts/ResolvedApi";
-import { Content } from "../../../interfaces/content";
-import { PrismicData } from "../interfaces/prismic-data";
+import { IContent } from "../../../interfaces/content";
+import { IPrismicData } from "../interfaces/prismic-data";
 
-export const normalizePrismicData = async (rawContentData: PrismicData, api: ResolvedApi, alreadyNormalizedContents: any = {}): Promise<Content> => {
+export const normalizePrismicData = async (rawContentData: IPrismicData, api: ResolvedApi, alreadyNormalizedContents: any = {}): Promise<IContent> => {
     if (!rawContentData) {
         throw new Error("Normalization of prismic data failed: input undefined");
     }
 
-    const normalizedContent: Content = {
-        type: rawContentData.type,
+    const normalizedContent: IContent = {
         data: {},
         id: rawContentData.id,
+        type: rawContentData.type,
     };
 
     // iterate over fields under data
@@ -44,8 +44,6 @@ export const normalizePrismicData = async (rawContentData: PrismicData, api: Res
         } else {
             // if is a seperate content to be fetched
             if (contentField.id && contentField.type) {
-                console.log(contentField.id);
-
                 const contentFieldData = alreadyNormalizedContents[contentField.id] || await api.getByID(contentField.id).then((res) => normalizePrismicData((res as any), api, alreadyNormalizedContents));
                 normalizedContent.data[fieldIdentifier] = {type: contentField.type, data: contentFieldData.data, id: contentFieldData.id};
             } else {

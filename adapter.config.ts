@@ -1,6 +1,6 @@
-import { AdapterConfig } from "./src/interfaces/adapter-config";
+import { IAdapterConfig } from "./src/interfaces/adapter-config";
 
-export const adapterConfig: AdapterConfig = {
+export const adapterConfig: IAdapterConfig = {
     /*cms: {
         type: 'contentful',
         credentials: {

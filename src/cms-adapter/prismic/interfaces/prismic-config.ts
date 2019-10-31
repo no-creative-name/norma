@@ -1,3 +1,3 @@
-export interface PrismicConfig {
+export interface IPrismicConfig {
     endpoint: string;
 }

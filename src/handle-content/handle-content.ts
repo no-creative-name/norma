@@ -1,11 +1,11 @@
-import { ContentConfig } from "../interfaces/adapter-config";
-import { Content } from "../interfaces/content";
+import { IContentConfig } from "../interfaces/adapter-config";
+import { IContent } from "../interfaces/content";
 import { ContentHandler } from "./content-handler";
 import { deepGet } from "./object-processing/deep-get";
 import { deepRemove } from "./object-processing/deep-remove";
 import { deepSet } from "./object-processing/deep-set";
 
-export const handleContent: ContentHandler = (content: Content, contentConfigs: ContentConfig[]): Content => {
+export const handleContent: ContentHandler = (content: IContent, contentConfigs: IContentConfig[]): IContent => {
     if (!content || !contentConfigs) {
         throw new Error("Input is invalid.");
     }
@@ -19,8 +19,8 @@ export const handleContent: ContentHandler = (content: Content, contentConfigs: 
     return handledContent;
 };
 
-export const adjustContentToConfig = (input: Content, contentConfig: ContentConfig, alreadyHandledContents: any = {}): Content => {
-    const processedInput: Content = Object.assign({}, input);
+export const adjustContentToConfig = (input: IContent, contentConfig: IContentConfig, alreadyHandledContents: any = {}): IContent => {
+    const processedInput: IContent = Object.assign({}, input);
 
     if (processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
         contentConfig.propertyAdjustments.map((propertyAdjustment) => {
@@ -57,9 +57,9 @@ export const adjustContentToConfig = (input: Content, contentConfig: ContentConf
         });
     }
 
-    const output: Content = {
-        type: "",
+    const output: IContent = {
         data: {},
+        type: "",
     };
 
     if (!processedInput.data || !processedInput.type) {

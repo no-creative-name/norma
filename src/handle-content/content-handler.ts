@@ -1,4 +1,4 @@
-import { ContentConfig } from "../interfaces/adapter-config";
-import { Content } from "../interfaces/content";
+import { IContentConfig } from "../interfaces/adapter-config";
+import { IContent } from "../interfaces/content";
 
-export type ContentHandler = (content: Content, contentConfig: ContentConfig[]) => Content;
+export type ContentHandler = (content: IContent, contentConfig: IContentConfig[]) => IContent;

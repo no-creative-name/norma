@@ -1,26 +1,26 @@
 import * as Prismic from "prismic-javascript";
-import { Content } from "../../interfaces/content";
-import { CmsAdapter } from "../interfaces/cms-adapter";
+import { IContent } from "../../interfaces/content";
+import { ICmsAdapter } from "../interfaces/cms-adapter";
 import { normalizePrismicData } from "./helpers/normalize-prismic-data";
-import { PrismicConfig } from "./interfaces/prismic-config";
-import { PrismicData } from "./interfaces/prismic-data";
+import { IPrismicConfig } from "./interfaces/prismic-config";
+import { IPrismicData } from "./interfaces/prismic-data";
 
-export class PrismicAdapter implements CmsAdapter {
+export class PrismicAdapter implements ICmsAdapter {
     private client;
 
-    constructor(config: PrismicConfig) {
+    constructor(config: IPrismicConfig) {
         if (!config) {
             throw new Error("Creation of cms adapter failed: config is undefined");
         }
         this.client = Prismic.api(config.endpoint);
     }
 
-    public async getNormalizedContentData(contentId: string, locale: string): Promise<Content> {
+    public async getNormalizedContentData(contentId: string, locale: string): Promise<IContent> {
         const api = await this.client;
-        let res: PrismicData = await api.getByID(contentId);
+        let res: IPrismicData = await api.getByID(contentId);
 
         if (res.lang !== locale) {
-            const altLang = res.alternate_languages.find((altLang) => altLang.lang === locale);
+            const altLang = res.alternate_languages.find((alternateLang) => alternateLang.lang === locale);
             if (altLang) {
                 res = await api.getByID(altLang.id);
             }

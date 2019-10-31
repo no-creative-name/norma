@@ -2,53 +2,53 @@ import { handleContent } from "./handle-content";
 
 describe("handleContent", () => {
     test("throws an error when content input is undefined.", () => {
-        expect(() => {handleContent(undefined, [{inputType: "componentX"}]);}).toThrow(Error);
+        expect(() => handleContent(undefined, [{inputType: "componentX"}])).toThrow(Error);
     });
     test("renames all instances of a single content type if desired", () => {
         const input = {
-            type: "a",
             data: {
                 x: "",
                 y: "",
                 z: {
-                    type: "a",
                     data: {},
                     id: "5678",
+                    type: "a",
                 },
             },
             id: "1234",
+            type: "a",
         };
         const configs = [{
             inputType: "a",
             outputType: "b",
         }];
         const output = {
-            type: "b",
             data: {
                 x: "",
                 y: "",
                 z: {
-                    type: "b",
                     data: {},
+                    type: "b",
                 },
             },
+            type: "b",
         };
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
     test("converts value if converter if provided", () => {
         const input = {
-            type: "a",
             data: {
                 x: "",
                 y: "",
                 z: {
-                    type: "a",
                     data: {},
                     id: "5678",
+                    type: "a",
                 },
             },
             id: "1234",
+            type: "a",
         };
         const configs = [{
             inputType: "a",
@@ -63,27 +63,27 @@ describe("handleContent", () => {
             ],
         }];
         const output = {
-            type: "a",
             data: {
                 x: "test",
                 y: "",
                 z: {
-                    type: "a",
                     data: {},
+                    type: "a",
                 },
             },
+            type: "a",
         };
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
     test("resolves value with circular references", () => {
         const objA = {
-            type: "self-referencing",
             data: {
-                "title": [],
                 "self-reference": {},
+                "title": [],
             },
             id: "XbK69BIAACEAt2GT",
+            type: "self-referencing",
         };
         objA.data["self-reference"] = objA;
 
@@ -101,6 +101,6 @@ describe("handleContent", () => {
             ],
         }];
 
-        expect(() => {handleContent(objA, configs);}).not.toThrow(RangeError);
+        expect(() => handleContent(objA, configs)).not.toThrow(RangeError);
     });
 });

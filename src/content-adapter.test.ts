@@ -15,8 +15,8 @@ describe("contentAdapter", () => {
     });
     test("calls function to get normalized data from cms adapter", async () => {
         const getData = jest.fn();
-        contentAdapter.cmsAdapter.getNormalizedContentData = getData;
+        contentAdapter['cmsAdapter'].getNormalizedContentData = getData;
         await contentAdapter.getContent("x", "y").catch(() => {});
-        expect(contentAdapter.cmsAdapter.getNormalizedContentData).toHaveBeenCalled();
+        expect(contentAdapter['cmsAdapter'].getNormalizedContentData).toHaveBeenCalled();
     });
 });

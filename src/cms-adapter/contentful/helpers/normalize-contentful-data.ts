@@ -1,14 +1,14 @@
 import { Entry } from "contentful";
-import { Content } from "../../../interfaces/content";
+import { IContent } from "../../../interfaces/content";
 
-export const normalizeContentfulData =(rawContentData: Entry<unknown>, alreadyNormalizedContents: any = {}): Content => {
+export const normalizeContentfulData = (rawContentData: Entry<unknown>, alreadyNormalizedContents: any = {}): IContent => {
     if (!rawContentData) {
         throw new Error("Normalization of contentful data failed: input undefined");
     }
 
     alreadyNormalizedContents[rawContentData.sys.id] = {};
 
-    const normalizedContent: Content = {
+    const normalizedContent: IContent = {
         data: {},
         id: rawContentData.sys.id,
         type: rawContentData.sys.contentType ? rawContentData.sys.contentType.sys.id : rawContentData.sys.type,

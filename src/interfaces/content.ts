@@ -1,9 +1,9 @@
-export interface Content {
+export interface IContent {
   type: string;
-  data: ContentData;
+  data: IContentData;
   id?: string;
 }
 
-interface ContentData {
+interface IContentData {
   [key: string]: any;
 }
