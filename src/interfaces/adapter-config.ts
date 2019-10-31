@@ -1,9 +1,9 @@
 export interface IAdapterConfig {
-    cms: ICMSConfig;
+    cms: ICmsConfig;
     contents?: IContentConfig[];
 }
 
-interface ICMSConfig {
+interface ICmsConfig{
     type: string;
     credentials: any;
 }

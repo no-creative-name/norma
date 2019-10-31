@@ -3,13 +3,17 @@ import { IContent } from "../../../interfaces/content";
 
 export const normalizeContentfulData = (
     rawContentData: Entry<unknown>,
-    alreadyNormalizedContents: any = {},
+    alreadyNormalizedContents: {[key: string]: IContent} = {},
 ): IContent => {
     if (!rawContentData) {
         throw new Error("Normalization of contentful data failed: input undefined");
     }
 
-    alreadyNormalizedContents[rawContentData.sys.id] = {};
+    alreadyNormalizedContents[rawContentData.sys.id] = {
+        data: {},
+        id: "",
+        type: "",
+    };
 
     const normalizedContent: IContent = {
         data: {},
@@ -40,9 +44,10 @@ export const normalizeContentfulData = (
         }
     });
 
-    alreadyNormalizedContents[rawContentData.sys.id].data = normalizedContent.data;
-    alreadyNormalizedContents[rawContentData.sys.id].type = normalizedContent.type;
-    alreadyNormalizedContents[rawContentData.sys.id].id = normalizedContent.id;
+    alreadyNormalizedContents[rawContentData.sys.id] = Object.assign(
+        alreadyNormalizedContents[rawContentData.sys.id],
+        normalizedContent,
+    );
 
     return normalizedContent;
 };
