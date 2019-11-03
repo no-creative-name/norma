@@ -1,4 +1,4 @@
-import { adapterConfig } from "./adapter.config";
+import { adapterConfig } from "./adapter-config";
 import { ContentAdapter } from "./content-adapter";
 
 describe("contentAdapter", () => {

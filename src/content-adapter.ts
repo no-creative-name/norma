@@ -1,7 +1,7 @@
 import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
 import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { handleContent } from "./handle-content/handle-content";
-import { IAdapterConfig, IContentConfig } from "./interfaces/adapter-config";
+import { IAdapterConfig } from "./interfaces/adapter-config";
 import { IContent } from "./interfaces/content";
 
 export class ContentAdapter {

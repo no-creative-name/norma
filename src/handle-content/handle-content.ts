@@ -66,6 +66,7 @@ export const adjustContentToConfig = (
 
     const output: IContent = {
         data: {},
+        id: "",
         type: "",
     };
 
@@ -97,6 +98,9 @@ export const adjustContentToConfig = (
         } else {
             output.type = processedInput.type;
         }
+    }
+    if (processedInput.id) {
+        output.id = processedInput.id;
     }
     return output;
 };
