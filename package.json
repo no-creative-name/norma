@@ -1,12 +1,13 @@
 {
-  "name": "biotope-creek",
+  "name": "headless-cms-adapter",
   "version": "0.0.0",
   "description": "",
-  "main": "fetch.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch --silent",
     "start": "webpack-dev-server --mode development",
+    "build": "webpack",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:fix": "tslint --project tsconfig.json --config tslint.json --fix"
   },
