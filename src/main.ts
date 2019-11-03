@@ -1,5 +1,4 @@
 import { adapterConfig } from "./adapter.config";
-import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
 import { ContentAdapter } from "./content-adapter";
 
 let contentAdapter: ContentAdapter;
@@ -11,7 +10,7 @@ export const getContentAdapter = (): ContentAdapter => {
     return contentAdapter;
 };
 
-module.exports = getContentAdapter;
+module.exports.getContentAdapter = getContentAdapter;
 
 /*window.onload = async () => {
     contentAdapter = new ContentAdapter(adapterConfig);
