@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import { adapterConfig } from "./adapter.config";
 import { ContentAdapter } from "./content-adapter";
 
@@ -10,7 +11,9 @@ export const getContentAdapter = (): ContentAdapter => {
     return contentAdapter;
 };
 
-module.exports.getContentAdapter = getContentAdapter;
+export default {
+    contentAdapter: getContentAdapter,
+};
 
 /*window.onload = async () => {
     contentAdapter = new ContentAdapter(adapterConfig);

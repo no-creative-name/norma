@@ -5,7 +5,9 @@ module.exports = {
     entry: path.join(__dirname, '/src/main.ts'),
     output: {
         filename: 'dist/index.js',
-        path: __dirname
+        path: __dirname,
+        library: 'headlessCmsAdapter'
+        libraryTarget: 'umd',
     },
     module: {
         rules: [
