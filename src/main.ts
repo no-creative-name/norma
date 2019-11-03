@@ -11,10 +11,6 @@ export const getContentAdapter = (): ContentAdapter => {
     return contentAdapter;
 };
 
-export default {
-    contentAdapter: getContentAdapter,
-};
-
 /*window.onload = async () => {
     contentAdapter = new ContentAdapter(adapterConfig);
 
