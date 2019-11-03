@@ -6,7 +6,7 @@ module.exports = {
     output: {
         filename: 'dist/index.js',
         path: __dirname,
-        library: 'headlessCmsAdapter'
+        library: 'headlessCmsAdapter',
         libraryTarget: 'umd',
     },
     module: {
