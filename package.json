@@ -2,7 +2,8 @@
   "name": "headless-cms-adapter",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch --silent",
@@ -15,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "dts-bundle-webpack": "^1.0.2",
     "jest": "^24.8.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.0",

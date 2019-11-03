@@ -1,4 +1,4 @@
-import { adapterConfig } from "../adapter.config";
+import { adapterConfig } from "./adapter.config";
 import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
 import { ContentAdapter } from "./content-adapter";
 
