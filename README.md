@@ -24,7 +24,7 @@ To connect with the headless CMS of your choice you also need to install the res
 
 Then you can import and use norma like this:
 
-```
+```typescript
 import { ContentfulAdapter } from 'norma-connect-contentful';
 import { getContentAdapter } from 'norma';
 
@@ -34,7 +34,7 @@ const contentAdapter = getContentAdapter(cmsAdapter);
 
 Afterwards you can get content like this:
 
-```
+```typescript
 await contentAdapter.getContent('your_content_id', 'lang_code');
 ```
 
