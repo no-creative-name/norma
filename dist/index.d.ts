@@ -2,16 +2,25 @@
 
 declare module 'norma' {
     import "@babel/polyfill";
+    import { ICmsAdapter } from "norma/cms-adapter/interfaces/cms-adapter";
     import { ContentAdapter } from "norma/content-adapter";
-    import { IAdapterConfig } from "norma/interfaces/adapter-config";
-    export const getContentAdapter: (adapterConfig: IAdapterConfig) => ContentAdapter;
+    import { IContentConfig } from "norma/interfaces/adapter-config";
+    export const getContentAdapter: (adapter: ICmsAdapter, contentConfig?: IContentConfig[]) => ContentAdapter;
+}
+
+declare module 'norma/cms-adapter/interfaces/cms-adapter' {
+    import { IContent } from "norma/interfaces/content";
+    export interface ICmsAdapter {
+        getNormalizedContentData: (contentId: string, locale: string) => Promise<IContent>;
+    }
 }
 
 declare module 'norma/content-adapter' {
-    import { IAdapterConfig } from "norma/interfaces/adapter-config";
+    import { ICmsAdapter } from "norma/cms-adapter/interfaces/cms-adapter";
+    import { IContentConfig } from "norma/interfaces/adapter-config";
     import { IContent } from "norma/interfaces/content";
     export class ContentAdapter {
-        constructor(adapterConfig: IAdapterConfig);
+        constructor(cmsAdapter: ICmsAdapter, contentConfig?: IContentConfig[]);
         getContent(contentId: string, locale: string): Promise<IContent>;
     }
 }
@@ -21,7 +30,7 @@ declare module 'norma/interfaces/adapter-config' {
         cms: ICmsConfig;
         contents?: IContentConfig[];
     }
-    interface ICmsConfig {
+    export interface ICmsConfig {
         type: string;
         credentials: any;
     }

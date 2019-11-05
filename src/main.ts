@@ -1,10 +1,11 @@
 import "@babel/polyfill";
+import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { ContentAdapter } from "./content-adapter";
-import { IAdapterConfig } from "./interfaces/adapter-config";
+import { IContentConfig } from "./interfaces/adapter-config";
 
-export const getContentAdapter = (adapterConfig: IAdapterConfig): ContentAdapter => {
-    if (!adapterConfig) {
-        throw new Error(`Couldn't get content adapter: Adapter config is undefined.`);
+export const getContentAdapter = (adapter: ICmsAdapter, contentConfig?: IContentConfig[]): ContentAdapter => {
+    if (!adapter) {
+        throw new Error(`Couldn't get content adapter, cms adapter undefined.`);
     }
-    return new ContentAdapter(adapterConfig);
+    return new ContentAdapter(adapter, contentConfig);
 };
