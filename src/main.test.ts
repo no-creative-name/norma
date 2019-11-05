@@ -26,7 +26,7 @@ const adapterConfig = {
 }
 
 describe("getContentAdapter", () => {
-    test("throws an error if called without adapter config", async () => {
+    test("throws an error if called without adapter", async () => {
         expect(() => getContentAdapter(undefined)).toThrow(Error);
     });
     test("returns content adapter", async () => {
