@@ -1,8 +1,8 @@
 import "@babel/polyfill";
-import { IAdapterConfig } from "headless-cms-adapter/interfaces/adapter-config";
 import merge = require("lodash.merge");
 import { adapterConfig } from "./adapter-config";
 import { ContentAdapter } from "./content-adapter";
+import { IAdapterConfig } from "./interfaces/adapter-config";
 
 let contentAdapter: ContentAdapter;
 
