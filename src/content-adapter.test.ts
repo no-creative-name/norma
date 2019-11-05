@@ -1,5 +1,26 @@
-import { adapterConfig } from "./adapter-config";
 import { ContentAdapter } from "./content-adapter";
+
+const adapterConfig = {
+    cms: {
+        credentials: {
+            accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE",
+            space: "zjrd7s7o2cec",
+        },
+        type: "contentful",
+    },
+    contents: [{
+        inputType: "page",
+        outputType: "website",
+        propertyAdjustments: [
+            {
+                inputIdentifier: ["title"],
+                valueConverter: (value) => {
+                    return value;
+                },
+            },
+        ],
+    }],
+};
 
 describe("contentAdapter", () => {
     const contentAdapter = new ContentAdapter(adapterConfig);

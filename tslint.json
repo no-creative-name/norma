@@ -6,7 +6,9 @@
     "jsRules": {},
     "linterOptions": {
         "exclude": [
-            "src/**/*.test.ts"
+            "src/**/*.test.ts",
+            "webpack.config.js",
+            "dist/*"
         ]
     },
     "rules": {},

@@ -1,0 +1,35 @@
+import { ContentAdapter } from "./content-adapter";
+import { getContentAdapter } from "./main";
+jest.mock("./content-adapter");
+
+const adapterConfig = {
+    cms: {
+        credentials: {
+            accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE",
+            space: "zjrd7s7o2cec",
+        },
+        type: "contentful",
+    },
+    contents: [{
+        inputType: "page",
+        outputType: "website",
+        propertyAdjustments: [
+            {
+                inputIdentifier: ["title"],
+                valueConverter: (value) => {
+                    return value;
+                },
+            },
+        ],
+    }],
+}
+
+describe("getContentAdapter", () => {
+    test("throws an error if called without adapter config", async () => {
+        expect(() => getContentAdapter(undefined)).toThrow(Error);
+    });
+    test("returns content adapter", async () => {
+        getContentAdapter(adapterConfig);
+        expect(ContentAdapter).toHaveBeenCalledTimes(1);
+    });
+});

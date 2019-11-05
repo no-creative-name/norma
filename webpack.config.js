@@ -1,25 +1,32 @@
-const path = require('path');
-const DtsBundleWebpack = require('dts-bundle-webpack')
+const path = require("path");
+const DtsBundleWebpack = require("dts-bundle-webpack");
 
 module.exports = {
-    entry: path.join(__dirname, '/src/main.ts'),
+    devServer: {
+        contentBase: "./",
+        compress: true,
+        hot: true,
+        port: 3000,
+        publicPath: "/",
+    },
+    entry: path.join(__dirname, "/src/main.ts"),
     output: {
-        filename: 'dist/index.js',
+        filename: "dist/index.js",
         path: __dirname,
-        library: 'norma',
-        libraryTarget: 'umd',
+        library: "norma",
+        libraryTarget: "umd",
     },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/
-            }
-        ]
+                loader: "ts-loader",
+                exclude: /node_modules/,
+            },
+        ],
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"]
+        extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
         // new DtsBundleWebpack({
@@ -28,5 +35,5 @@ module.exports = {
         //     out: 'index.d.ts',
         //     removeSource: true
         // })
-    ]
-}
+    ],
+};

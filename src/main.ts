@@ -1,21 +1,10 @@
 import "@babel/polyfill";
-import merge = require("lodash.merge");
-import { adapterConfig } from "./adapter-config";
 import { ContentAdapter } from "./content-adapter";
 import { IAdapterConfig } from "./interfaces/adapter-config";
 
-let contentAdapter: ContentAdapter;
-
-export const getContentAdapter = (customAdapterConfig: IAdapterConfig): ContentAdapter => {
-    if (customAdapterConfig) {
-        merge(adapterConfig, customAdapterConfig);
+export const getContentAdapter = (adapterConfig: IAdapterConfig): ContentAdapter => {
+    if (!adapterConfig) {
+        throw new Error(`Couldn't get content adapter: Adapter config is undefined.`);
     }
-    if (!contentAdapter) {
-        contentAdapter = new ContentAdapter(adapterConfig);
-    }
-    return contentAdapter;
-};
-
-window.onload = async () => {
-    console.log(await getContentAdapter(adapterConfig).getContent("XbGTUBIAACkA2IQ3", "de-de"));
+    return new ContentAdapter(adapterConfig);
 };
