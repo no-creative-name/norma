@@ -1,6 +1,6 @@
 import { IAdapterConfig } from "./interfaces/adapter-config";
 
-export const adapterConfig: IAdapterConfig = {
+export let adapterConfig: IAdapterConfig = {
     cms: {
         credentials: {
             accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE",

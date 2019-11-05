@@ -1,5 +1,5 @@
 {
-  "name": "headless-cms-adapter",
+  "name": "norma",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.11",
     "dts-bundle-webpack": "^1.0.2",
     "jest": "^24.8.0",
     "ts-jest": "^24.1.0",
@@ -27,7 +28,7 @@
     "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
-    "@types/node": "^12.7.11",
+    "@babel/polyfill": "^7.6.0",
     "contentful": "^7.10.0",
     "prismic-javascript": "^2.1.1"
   }

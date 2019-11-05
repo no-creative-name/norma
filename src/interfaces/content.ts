@@ -1,7 +1,7 @@
 export interface IContent {
   type: string;
   data: IContentData;
-  id?: string;
+  id: string;
 }
 
 interface IContentData {

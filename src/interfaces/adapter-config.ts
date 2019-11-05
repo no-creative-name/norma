@@ -3,7 +3,7 @@ export interface IAdapterConfig {
     contents?: IContentConfig[];
 }
 
-interface ICmsConfig{
+interface ICmsConfig {
     type: string;
     credentials: any;
 }

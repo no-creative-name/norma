@@ -5,7 +5,9 @@ module.exports = {
     entry: path.join(__dirname, '/src/main.ts'),
     output: {
         filename: 'dist/index.js',
-        path: __dirname
+        path: __dirname,
+        library: 'norma',
+        libraryTarget: 'umd',
     },
     module: {
         rules: [
@@ -21,7 +23,7 @@ module.exports = {
     },
     plugins: [
         new DtsBundleWebpack({
-            name: 'headless-cms-adapter',
+            name: 'norma',
             main: 'dist/main.d.ts',
             out: 'index.d.ts',
             removeSource: true

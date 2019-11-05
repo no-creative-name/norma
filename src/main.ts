@@ -1,20 +1,21 @@
-import { adapterConfig } from "./adapter.config";
+import "@babel/polyfill";
+import merge = require("lodash.merge");
+import { adapterConfig } from "./adapter-config";
 import { ContentAdapter } from "./content-adapter";
+import { IAdapterConfig } from "./interfaces/adapter-config";
 
 let contentAdapter: ContentAdapter;
 
-export const getContentAdapter = (): ContentAdapter => {
+export const getContentAdapter = (customAdapterConfig: IAdapterConfig): ContentAdapter => {
+    if (customAdapterConfig) {
+        merge(adapterConfig, customAdapterConfig);
+    }
     if (!contentAdapter) {
         contentAdapter = new ContentAdapter(adapterConfig);
     }
     return contentAdapter;
 };
 
-module.exports.getContentAdapter = getContentAdapter;
-
-/*window.onload = async () => {
-    contentAdapter = new ContentAdapter(adapterConfig);
-
-    // tslint:disable-next-line
-    console.log(await contentAdapter.getContent("44eh1S0IXmC0LeMciK6z6t", "de"));
-};*/
+window.onload = async () => {
+    console.log(await getContentAdapter(adapterConfig).getContent("44eh1S0IXmC0LeMciK6z6t", "de"));
+};
