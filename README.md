@@ -11,7 +11,9 @@ norma is the missing piece between your headless CMS and your web components. Sh
 
 Just install norma via npm like any other package:
 
-`npm install https://github.com/no-creative-name/norma --save`
+```shell
+npm install https://github.com/no-creative-name/norma --save
+```
 
 #### before use
 
