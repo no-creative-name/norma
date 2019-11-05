@@ -31,6 +31,6 @@
     "@babel/polyfill": "^7.6.0",
     "lodash.merge": "^4.6.2",
     "norma-connect-contentful": "no-creative-name/norma-connect-contentful",
-    "prismic-javascript": "^2.1.1"
+    "norma-connect-prismic": "no-creative-name/norma-connect-prismic"
   }
 }

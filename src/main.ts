@@ -17,5 +17,5 @@ export const getContentAdapter = (customAdapterConfig: IAdapterConfig): ContentA
 };
 
 window.onload = async () => {
-    console.log(await getContentAdapter(adapterConfig).getContent("44eh1S0IXmC0LeMciK6z6t", "de"));
+    console.log(await getContentAdapter(adapterConfig).getContent("XbGTUBIAACkA2IQ3", "de-de"));
 };

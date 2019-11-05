@@ -1,5 +1,5 @@
 import { ContentfulAdapter } from "norma-connect-contentful";
-import { PrismicAdapter } from "./prismic/prismic-adapter";
+import { PrismicAdapter } from "norma-connect-prismic";
 
 export const adapterNameByCmsType = {
     contentful: ContentfulAdapter,
