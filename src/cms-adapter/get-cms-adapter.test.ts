@@ -1,6 +1,6 @@
-import { ContentfulAdapter } from "./contentful/contentful-adapter";
+import { ContentfulAdapter } from "norma-connect-contentful";
 import { getCmsAdapter } from "./get-cms-adapter";
-jest.mock("./contentful/contentful-adapter");
+jest.mock("norma-connect-contentful");
 
 describe("getCmsAdapter", () => {
     test("throws an error if input is undefined", () => {
