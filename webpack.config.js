@@ -22,6 +22,11 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"]
     },
     plugins: [
-        
+        new DtsBundleWebpack({
+            name: 'headless-cms-adapter',
+            main: 'dist/main.d.ts',
+            out: 'index.d.ts',
+            removeSource: true
+        })
     ]
 }
