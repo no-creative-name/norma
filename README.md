@@ -22,7 +22,7 @@ To connect with the headless CMS of your choice you also need to install the res
 
 #### usage
 
-Then you can import and use norma like this:
+Then you can import and use norma like this (example with contentful connection):
 
 ```typescript
 import { ContentfulAdapter } from 'norma-connect-contentful';
