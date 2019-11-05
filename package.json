@@ -8,7 +8,7 @@
     "test": "jest",
     "test:watch": "jest --watch --silent",
     "start": "webpack-dev-server --mode development",
-    "build": "webpack",
+    "build": "rm -rf dist && webpack",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:fix": "tslint --project tsconfig.json --config tslint.json --fix"
   },

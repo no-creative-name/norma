@@ -1,7 +1,7 @@
 import "@babel/polyfill";
-import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { ContentAdapter } from "./content-adapter";
 import { IContentConfig } from "./interfaces/adapter-config";
+import { ICmsAdapter } from "./interfaces/cms-adapter";
 
 export const getContentAdapter = (adapter: ICmsAdapter, contentConfig?: IContentConfig[]): ContentAdapter => {
     if (!adapter) {
