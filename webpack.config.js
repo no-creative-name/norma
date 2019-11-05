@@ -22,11 +22,11 @@ module.exports = {
         extensions: [".tsx", ".ts", ".js"]
     },
     plugins: [
-        new DtsBundleWebpack({
-            name: 'norma',
-            main: 'dist/main.d.ts',
-            out: 'index.d.ts',
-            removeSource: true
-        })
+        // new DtsBundleWebpack({
+        //     name: 'norma',
+        //     main: 'dist/main.d.ts',
+        //     out: 'index.d.ts',
+        //     removeSource: true
+        // })
     ]
 }
