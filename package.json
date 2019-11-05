@@ -7,8 +7,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch --silent",
-    "start": "webpack-dev-server --mode development",
-    "build": "rm -rf dist && webpack",
+    "start": "webpack-dev-server --mode development --config ./webpack.config.dev.js",
+    "build": "rm -rf dist && webpack --config ./webpack.config.build.js",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:fix": "tslint --project tsconfig.json --config tslint.json --fix"
   },
