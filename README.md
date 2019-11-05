@@ -86,3 +86,6 @@ To use a custom content configuration, you have to pass it into the 'getContentA
 ```typescript
 const contentAdapter = getContentAdapter(cmsAdapter, your_content_config);
 ```
+
+## warning ⚠️
+The delivered content object may contain circular references, regarding to your content in CMS.
