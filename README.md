@@ -49,9 +49,11 @@ The object you receive will have the following data structure:
   "property2": {
    "data": {
    },
+   "id": "content_id",
    "type": "type_of_the_subcontent"
   },
  },
+ "id": "content_id",
  "type": "type_of_the_content"
 }
 ```
