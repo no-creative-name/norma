@@ -1,5 +1,6 @@
 import { ContentAdapter } from "./content-adapter";
 import { getContentAdapter } from "./main";
+import { ContentfulAdapter } from "norma-connect-contentful";
 jest.mock("./content-adapter");
 
 const adapterConfig = {
@@ -29,7 +30,7 @@ describe("getContentAdapter", () => {
         expect(() => getContentAdapter(undefined)).toThrow(Error);
     });
     test("returns content adapter", async () => {
-        getContentAdapter(adapterConfig);
+        getContentAdapter(new ContentfulAdapter(adapterConfig.cms.credentials));
         expect(ContentAdapter).toHaveBeenCalledTimes(1);
     });
 });

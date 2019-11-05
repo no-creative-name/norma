@@ -1,19 +1,18 @@
-import { getCmsAdapter } from "./cms-adapter/get-cms-adapter";
 import { ICmsAdapter } from "./cms-adapter/interfaces/cms-adapter";
 import { handleContent } from "./handle-content/handle-content";
-import { IAdapterConfig } from "./interfaces/adapter-config";
+import { IAdapterConfig, IContentConfig } from "./interfaces/adapter-config";
 import { IContent } from "./interfaces/content";
 
 export class ContentAdapter {
     private cmsAdapter: ICmsAdapter;
-    private adapterConfig: IAdapterConfig;
+    private contentConfig: IContentConfig[];
 
-    constructor(adapterConfig: IAdapterConfig) {
-        if (!adapterConfig) {
-            throw new Error(`Creation of content adapter failed: adapter config is undefined`);
+    constructor(cmsAdapter: ICmsAdapter, contentConfig?: IContentConfig[]) {
+        if (!cmsAdapter) {
+            throw new Error(`Creation of content adapter failed: adapter is undefined`);
         }
-        this.cmsAdapter = getCmsAdapter(adapterConfig.cms.type, adapterConfig.cms.credentials);
-        this.adapterConfig = adapterConfig;
+        this.cmsAdapter = cmsAdapter;
+        this.contentConfig = contentConfig;
     }
 
     public async getContent(contentId: string, locale: string): Promise<IContent> {
@@ -24,8 +23,8 @@ export class ContentAdapter {
             throw new Error(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
-        const handledContent = this.adapterConfig.contents ?
-            handleContent(content, this.adapterConfig.contents) :
+        const handledContent = this.contentConfig ?
+            handleContent(content, this.contentConfig) :
             content;
         return handledContent;
     }
