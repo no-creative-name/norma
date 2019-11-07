@@ -29,13 +29,13 @@ export const adjustContentToConfig = (
     if (processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
         contentConfig.propertyAdjustments.map((propertyAdjustment) => {
             let value;
-            if (Array.isArray(propertyAdjustment.inputIdentifier)) {
-                value = deepGet(processedInput.data, propertyAdjustment.inputIdentifier);
-                processedInput.data = deepRemove(processedInput.data, propertyAdjustment.inputIdentifier);
-            } else {
-                value = deepGet(processedInput.data, [propertyAdjustment.inputIdentifier]);
-                processedInput.data = deepRemove(processedInput.data, [propertyAdjustment.inputIdentifier]);
-            }
+            const seperatedInputIdentifier = propertyAdjustment.inputIdentifier.split(".");
+            const seperatedOutputIdentifier =
+                propertyAdjustment.outputIdentifier ? propertyAdjustment.outputIdentifier.split(".") : undefined;
+
+            value = deepGet(processedInput.data, seperatedInputIdentifier);
+
+            processedInput.data = deepRemove(processedInput.data, [propertyAdjustment.inputIdentifier]);
 
             if (propertyAdjustment.valueConverter) {
                 try {
@@ -48,19 +48,11 @@ export const adjustContentToConfig = (
                 }
             }
 
-            if (propertyAdjustment.outputIdentifier) {
-                if (Array.isArray(propertyAdjustment.outputIdentifier)) {
-                    processedInput.data = deepSet(processedInput.data, propertyAdjustment.outputIdentifier, value);
-                } else {
-                    processedInput.data = deepSet(processedInput.data, [propertyAdjustment.outputIdentifier], value);
-                }
-            } else {
-                if (Array.isArray(propertyAdjustment.inputIdentifier)) {
-                    processedInput.data = deepSet(processedInput.data, propertyAdjustment.inputIdentifier, value);
-                } else {
-                    processedInput.data = deepSet(processedInput.data, [propertyAdjustment.inputIdentifier], value);
-                }
-            }
+            processedInput.data = deepSet(
+                processedInput.data,
+                seperatedOutputIdentifier || seperatedInputIdentifier,
+                value,
+            );
         });
     }
 

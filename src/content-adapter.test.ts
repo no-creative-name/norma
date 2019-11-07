@@ -1,5 +1,5 @@
 import { ContentAdapter } from "./content-adapter";
-import { ContentfulAdapter } from "norma-connect-contentful";
+import { ICmsAdapter } from "./interfaces/cms-adapter";
 
 const adapterConfig = {
     cms: {
@@ -14,7 +14,7 @@ const adapterConfig = {
         outputType: "website",
         propertyAdjustments: [
             {
-                inputIdentifier: ["title"],
+                inputIdentifier: "title",
                 valueConverter: (value) => {
                     return value;
                 },
@@ -24,7 +24,7 @@ const adapterConfig = {
 };
 
 describe("contentAdapter", () => {
-    const contentAdapter = new ContentAdapter(new ContentfulAdapter(adapterConfig.cms.credentials), adapterConfig.contents);
+    const contentAdapter = new ContentAdapter(({} as ICmsAdapter), adapterConfig.contents);
 
     test("throws an error if initialized without adapter config", async () => {
         expect(() => new ContentAdapter(undefined)).toThrow(Error);
