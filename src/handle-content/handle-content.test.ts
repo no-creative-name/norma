@@ -121,7 +121,6 @@ describe("handleContent", () => {
             propertyAdjustments: [
                 {
                     inputIdentifier: "title",
-                    outputIdentifier: "",
                     valueConverter: (value) => {
                         return JSON.stringify(value[0].text);
                     },
