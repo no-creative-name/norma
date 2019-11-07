@@ -7,8 +7,12 @@ export const deepGet = (object: any, propertyArray: string[]): any => {
     }
 
     let value = object;
-    propertyArray.forEach((property) => {
-        value = value[property] || undefined;
-    });
+    for (const property of propertyArray) {
+        if (value[property]) {
+            value = value[property];
+        } else {
+            return undefined;
+        }
+    }
     return value;
 };

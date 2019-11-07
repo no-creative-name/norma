@@ -55,7 +55,7 @@ describe("handleContent", () => {
             outputType: "a",
             propertyAdjustments: [
                 {
-                    inputIdentifier: ["x"],
+                    inputIdentifier: "x",
                     valueConverter: (value) => {
                         return undefined;
                     },
@@ -83,7 +83,7 @@ describe("handleContent", () => {
             outputType: "a",
             propertyAdjustments: [
                 {
-                    inputIdentifier: ["x"],
+                    inputIdentifier: "x",
                     valueConverter: (value) => {
                         return `test`;
                     },
@@ -120,8 +120,8 @@ describe("handleContent", () => {
             outputType: "asd",
             propertyAdjustments: [
                 {
-                    inputIdentifier: ["title"],
-                    outputIdentifier: [""],
+                    inputIdentifier: "title",
+                    outputIdentifier: "",
                     valueConverter: (value) => {
                         return JSON.stringify(value[0].text);
                     },
@@ -130,5 +130,50 @@ describe("handleContent", () => {
         }];
 
         expect(() => handleContent(objA, configs)).not.toThrow(RangeError);
+    });
+    test("can move and rename properties", () => {
+        const input = {
+            data: {
+                x: {
+                    a: {
+                        b: "value"
+                    }
+                },
+                y: "",
+                z: {
+                    data: {},
+                    id: "5678",
+                    type: "b",
+                },
+            },
+            id: "1234",
+            type: "a",
+        };
+        const configs = [{
+            inputType: "a",
+            propertyAdjustments: [
+                {
+                    inputIdentifier: "x.a.b",
+                    outputIdentifier: "v.b.e"
+                },
+            ],
+        }];
+        const output = {
+            data: {
+                v: {
+                    b: {
+                        e: "value"
+                    }
+                },
+                y: "",
+                z: {
+                    data: {},
+                    type: "b",
+                },
+            },
+            type: "a",
+        };
+        const result = handleContent(input, configs);
+        expect(result).toMatchObject(output);
     });
 });

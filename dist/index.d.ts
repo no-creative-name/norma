@@ -33,8 +33,8 @@ declare module 'norma/interfaces/adapter-config' {
         propertyAdjustments?: IPropertyConfig[];
     }
     interface IPropertyConfig {
-        inputIdentifier?: string | string[];
-        outputIdentifier?: string | string[];
+        inputIdentifier?: string;
+        outputIdentifier?: string;
         valueConverter?: ValueConverter;
     }
     type ValueConverter = (value: any) => any;
