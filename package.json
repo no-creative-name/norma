@@ -28,9 +28,6 @@
     "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
-    "lodash.merge": "^4.6.2",
-    "norma-connect-contentful": "no-creative-name/norma-connect-contentful",
-    "norma-connect-prismic": "no-creative-name/norma-connect-prismic"
+    "@babel/polyfill": "^7.6.0"
   }
 }

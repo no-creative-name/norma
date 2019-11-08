@@ -15,8 +15,8 @@ export interface IContentConfig {
 }
 
 interface IPropertyConfig {
-    inputIdentifier?: string | string[];
-    outputIdentifier?: string | string[];
+    inputIdentifier?: string;
+    outputIdentifier?: string;
     valueConverter?: ValueConverter;
 }
 

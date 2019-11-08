@@ -16,7 +16,7 @@ describe("deepGet", () => {
                 d: {
                     e: "",
                 },
-            }}, ["a", "b", "e"]);
+            }}, ["a", "b", "c", "e"]);
         expect(result).toBe(undefined);
     });
     test("gets a value by an array of strings", () => {
