@@ -1,36 +1,18 @@
 import { ContentAdapter } from "./content-adapter";
 import { getContentAdapter } from "./main";
+import { ICmsAdapter } from "./interfaces/cms-adapter";
 jest.mock("./content-adapter");
-
-const adapterConfig = {
-    cms: {
-        credentials: {
-            accessToken: "llgJXPycQ8ey-VF-piNoqwinwOjgnX6DN44TmElwtXE",
-            space: "zjrd7s7o2cec",
-        },
-        type: "contentful",
-    },
-    contents: [{
-        inputType: "page",
-        outputType: "website",
-        propertyAdjustments: [
-            {
-                inputIdentifier: ["title"],
-                valueConverter: (value) => {
-                    return value;
-                },
-            },
-        ],
-    }],
-}
 
 describe("getContentAdapter", () => {
     test("throws an error if called without adapter", async () => {
         expect(() => getContentAdapter(undefined)).toThrow(Error);
     });
-    // TODO fix test
-    /*test("returns content adapter", async () => {
-        getContentAdapter(new ContentfulAdapter(adapterConfig.cms.credentials));
+    test("returns content adapter", async () => {
+        let cmsAdapter: ICmsAdapter = {
+            supportsFieldWiseAdjustment: false,
+            getNormalizedContentData: undefined
+        };
+        getContentAdapter(cmsAdapter);
         expect(ContentAdapter).toHaveBeenCalledTimes(1);
-    });*/
+    });
 });
