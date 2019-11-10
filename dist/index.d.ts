@@ -9,11 +9,11 @@ declare module 'norma' {
 }
 
 declare module 'norma/content-adapter' {
-    import { IContentConfig } from "norma/interfaces/adapter-config";
+    import { IContentConfig, IFieldConfig } from "norma/interfaces/adapter-config";
     import { ICmsAdapter } from "norma/interfaces/cms-adapter";
     import { IContent } from "norma/interfaces/content";
     export class ContentAdapter {
-        constructor(cmsAdapter: ICmsAdapter, contentConfig?: IContentConfig[]);
+        constructor(cmsAdapter: ICmsAdapter, contentConfigs?: IContentConfig[], fieldConfigs?: IFieldConfig[]);
         getContent(contentId: string, locale: string): Promise<IContent>;
     }
 }
@@ -22,6 +22,7 @@ declare module 'norma/interfaces/adapter-config' {
     export interface IAdapterConfig {
         cms: ICmsConfig;
         contents?: IContentConfig[];
+        fields?: IFieldConfig[];
     }
     export interface ICmsConfig {
         type: string;
@@ -37,6 +38,10 @@ declare module 'norma/interfaces/adapter-config' {
         outputIdentifier?: string;
         valueConverter?: ValueConverter;
     }
+    export interface IFieldConfig {
+        fieldIdentifier: string;
+        valueConverter?: ValueConverter;
+    }
     type ValueConverter = (value: any) => any;
     export {};
 }
@@ -44,6 +49,7 @@ declare module 'norma/interfaces/adapter-config' {
 declare module 'norma/interfaces/cms-adapter' {
     import { IContent } from "norma/interfaces/content";
     export interface ICmsAdapter {
+        supportsFieldWiseAdjustment: boolean;
         getNormalizedContentData: (contentId: string, locale: string) => Promise<IContent>;
     }
 }
@@ -54,9 +60,19 @@ declare module 'norma/interfaces/content' {
         data: IContentData;
         id: string;
     }
-    interface IContentData {
+    export interface IContentResolved {
+        type: string;
+        data: IContentDataResolved;
+        id: string;
+    }
+    export interface IContentData {
+        [key: string]: {
+            value: any;
+            fieldType?: string;
+        };
+    }
+    export interface IContentDataResolved {
         [key: string]: any;
     }
-    export {};
 }
 
