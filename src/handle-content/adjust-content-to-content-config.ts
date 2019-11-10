@@ -8,7 +8,7 @@ export const adjustContentToContentConfig = (
     input: IContent | any,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
-): IContentResolved => {
+): IContent => {
     if (!input.data || !input.type) {
         return input;
     }
@@ -66,7 +66,7 @@ const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: ICon
 
         value = deepGetFromFields(processedInput.data, seperatedInputIdentifier);
 
-        processedInput.data = deepRemoveFromFields(processedInput.data, [propertyAdjustment.inputIdentifier]);
+        processedInput.data = deepRemoveFromFields(processedInput.data, seperatedInputIdentifier);
 
         if (propertyAdjustment.valueConverter) {
             try {

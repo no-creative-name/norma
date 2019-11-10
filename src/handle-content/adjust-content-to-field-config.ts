@@ -18,7 +18,6 @@ export const adjustContentToFieldConfig = (
         // array
         if (Array.isArray(fieldValue)) {
             newValue = fieldValue.map((subContent) => {
-
                 // if subcontent is another field to resolve
                 if (subContent.value && isContent(subContent.value)) {
                     return alreadyHandledContents[subContent.value.id] ||
@@ -38,19 +37,16 @@ export const adjustContentToFieldConfig = (
                     throw new Error(`Couldn't convert value: ${error}`);
                 }
             }
-        // string or number
-        } else {
-            if (fieldType === fieldConfig.fieldIdentifier) {
-                try {
-                    newValue = fieldConfig.valueConverter(fieldValue);
-                } catch (error) {
-                    throw new Error(`Couldn't convert value: ${error}`);
-                }
+        }
+        if (fieldType === fieldConfig.fieldIdentifier) {
+            try {
+                newValue = fieldConfig.valueConverter(fieldValue);
+            } catch (error) {
+                throw new Error(`Couldn't convert value: ${error}`);
             }
         }
-
         if (newValue !== undefined) {
-            processedInput.data[contentFieldIdentifier] = newValue;
+            processedInput.data[contentFieldIdentifier].value = newValue;
         }
     });
 
