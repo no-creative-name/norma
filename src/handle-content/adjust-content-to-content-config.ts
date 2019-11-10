@@ -1,8 +1,8 @@
 import { IContentConfig } from "../interfaces/adapter-config";
 import { IContent, IContentResolved } from "../interfaces/content";
-import { deepGetFromFields } from "./object-processing/deep-get";
-import { deepRemoveFromFields } from "./object-processing/deep-remove";
-import { deepSetToFields } from "./object-processing/deep-set";
+import { deepGetFromFields } from "./object-processing/deep-get-from-fields";
+import { deepRemoveFromFields } from "./object-processing/deep-remove-from-fields";
+import { deepSetToFields } from "./object-processing/deep-set-to-fields";
 
 export const adjustContentToContentConfig = (
     input: IContent | any,
