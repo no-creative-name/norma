@@ -5,11 +5,14 @@ import { deepRemoveFromFields } from "./object-processing/deep-remove";
 import { deepSetToFields } from "./object-processing/deep-set";
 
 export const adjustContentToContentConfig = (
-    // TODO: wrong type
-    input: IContent,
+    input: IContent | any,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
 ): IContentResolved => {
+    if (!input.data || !input.type) {
+        return input;
+    }
+
     let processedInput: IContent = Object.assign({}, input);
 
     // move & convert values
@@ -23,25 +26,20 @@ export const adjustContentToContentConfig = (
         type: "",
     };
 
-    if (!processedInput.data || !processedInput.type) {
-        return processedInput;
-    }
-
     alreadyHandledContents[processedInput.id] = processedInput;
 
     Object.keys(processedInput.data || {}).forEach((key) => {
-        if (Array.isArray(processedInput.data[key].value)) {
+        const propValue = processedInput.data[key].value;
+        if (Array.isArray(propValue)) {
+            output.data[key] = propValue.map(
+                (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
+            );
+        } else if (typeof propValue === "object") {
             output.data[key] =
-                alreadyHandledContents[processedInput.data[key].value.id] ||
-                processedInput.data[key].value.map(
-                    (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
-                );
-        } else if (typeof processedInput.data[key].value === "object") {
-            output.data[key] =
-                alreadyHandledContents[processedInput.data[key].value.id] ||
-                adjustContentToContentConfig(processedInput.data[key].value, contentConfig, alreadyHandledContents);
+                alreadyHandledContents[propValue.id] ||
+                adjustContentToContentConfig(propValue, contentConfig, alreadyHandledContents);
         } else {
-            output.data[key] = processedInput.data[key].value;
+            output.data[key] = propValue;
         }
     });
 
