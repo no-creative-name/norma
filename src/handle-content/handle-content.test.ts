@@ -1,4 +1,4 @@
-import { handleContent } from "./handle-content";
+import { handleContent, adjustContentToFieldConfig } from "./handle-content";
 
 describe("handleContent", () => {
     test("throws an error when content input is undefined.", () => {
@@ -7,12 +7,21 @@ describe("handleContent", () => {
     test("renames all instances of a single content type if desired", () => {
         const input = {
             data: {
-                x: "",
-                y: "",
+                x: {
+                    fieldType: "",
+                    value: ""
+                },
+                y: {
+                    fieldType: "",
+                    value: ""
+                },
                 z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
+                    fieldType: "",
+                    value: {
+                        data: {},
+                        id: "5678",
+                        type: "a",
+                    }
                 },
             },
             id: "1234",
@@ -39,12 +48,21 @@ describe("handleContent", () => {
     test("throws TypeError if value converter returns undefined", () => {
         const input = {
             data: {
-                x: "",
-                y: "",
+                x: {
+                    fieldType: "",
+                    value: ""
+                },
+                y: {
+                    fieldType: "",
+                    value: ""
+                },
                 z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
+                    fieldType: "",
+                    value: {
+                        data: {},
+                        id: "5678",
+                        type: "a",
+                    }
                 },
             },
             id: "1234",
@@ -67,12 +85,21 @@ describe("handleContent", () => {
     test("converts value if converter if provided", () => {
         const input = {
             data: {
-                x: "",
-                y: "",
+                x: {
+                    fieldType: "",
+                    value: ""
+                },
+                y: {
+                    fieldType: "",
+                    value: ""
+                },
                 z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
+                    fieldType: "",
+                    value: {
+                        data: {},
+                        id: "5678",
+                        type: "a",
+                    }
                 },
             },
             id: "1234",
@@ -107,13 +134,18 @@ describe("handleContent", () => {
     test("resolves value with circular references", () => {
         const objA = {
             data: {
-                "self-reference": {},
-                "title": [],
+                "self-reference": {
+                    fieldType: "",
+                    value: {}
+                },
             },
             id: "XbK69BIAACEAt2GT",
             type: "self-referencing",
         };
-        objA.data["self-reference"] = objA;
+        objA.data["self-reference"] = {
+            fieldType: "",
+            value: objA
+        };
 
         const configs = [{
             inputType: "page",
@@ -134,15 +166,24 @@ describe("handleContent", () => {
         const input = {
             data: {
                 x: {
-                    a: {
-                        b: "value"
+                    fieldType: "",
+                    value: {
+                        a: {
+                            b: "value"
+                        }
                     }
                 },
-                y: "",
+                y: {
+                    fieldType: "",
+                    value: ""
+                },
                 z: {
-                    data: {},
-                    id: "5678",
-                    type: "b",
+                    fieldType: "",
+                    value: {
+                        data: {},
+                        id: "5678",
+                        type: "b",
+                    }
                 },
             },
             id: "1234",
@@ -175,4 +216,87 @@ describe("handleContent", () => {
         const result = handleContent(input, configs);
         expect(result).toMatchObject(output);
     });
+});
+
+describe("adjustContentToFieldConfig", () => {
+    test("converts correctly", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    value: "yes",
+                    fieldType: "string"
+                },
+                fieldB: {
+                    value: "no",
+                    fieldType: "string"
+                },
+                fieldC: {
+                    value: {
+                        data: {
+                            fieldCA: {
+                                value: "perhaps",
+                                fieldType: "string"
+                            }
+                        },
+                        id: '1',
+                        type: 'nice'
+                    },
+                    fieldType: "reference"
+                },
+                fieldD: {
+                    value: [
+                        {
+                            value: {
+                                data: {
+                                    fieldCA: {
+                                        value: "perhaps",
+                                        fieldType: "string"
+                                    }
+                                },
+                                id: '3',
+                                type: 'nice'
+                            },
+                            fieldType: "reference"
+                        }
+                    ],
+                    fieldType: "referenceArray"
+                }
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldIdentifier: "string",
+            valueConverter: (value) => {
+                return "maybe";
+            }
+        };
+        const output = {
+            data: {
+                fieldA: "maybe",
+                fieldB: "maybe",
+                fieldC: {
+                    data: {
+                        fieldCA: "maybe"
+                    },
+                    id: '1',
+                    type: 'nice'
+                },
+                fieldD: [
+                    {
+                        data: {
+                            fieldCA: "maybe"
+                        },
+                        id: '3',
+                        type: 'nice'
+                    }
+                ]
+            },
+            id: '2',
+            type: ''
+        };
+        const result = adjustContentToFieldConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    })
 });

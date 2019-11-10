@@ -1,6 +1,7 @@
 export interface IAdapterConfig {
     cms: ICmsConfig;
     contents?: IContentConfig[];
+    fields?: IFieldConfig[];
 }
 
 export interface ICmsConfig {
@@ -17,6 +18,11 @@ export interface IContentConfig {
 interface IPropertyConfig {
     inputIdentifier?: string;
     outputIdentifier?: string;
+    valueConverter?: ValueConverter;
+}
+
+export interface IFieldConfig {
+    fieldIdentifier: string;
     valueConverter?: ValueConverter;
 }
 

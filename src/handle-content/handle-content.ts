@@ -1,29 +1,43 @@
-import { IContentConfig } from "../interfaces/adapter-config";
-import { IContent } from "../interfaces/content";
+import { IContentConfig, IFieldConfig } from "../interfaces/adapter-config";
+import { IContent, IContentDataResolved, IContentResolved } from "../interfaces/content";
 import { ContentHandler } from "./content-handler";
-import { deepGet } from "./object-processing/deep-get";
-import { deepRemove } from "./object-processing/deep-remove";
-import { deepSet } from "./object-processing/deep-set";
+import { deepGet, deepGetFromFields } from "./object-processing/deep-get";
+import { deepRemove, deepRemoveFromFields } from "./object-processing/deep-remove";
+import { deepSet, deepSetToFields } from "./object-processing/deep-set";
 
-export const handleContent: ContentHandler = (content: IContent, contentConfigs: IContentConfig[]): IContent => {
-    if (!content || !contentConfigs) {
-        throw new Error("Input is invalid.");
+export const handleContent: ContentHandler = (
+    content: IContent,
+    contentConfigs?: IContentConfig[],
+    fieldConfigs?: IFieldConfig[],
+): IContent => {
+    if (!content) {
+        throw new Error("Couldn't handle content: Input content is undefined.");
     }
 
     let handledContent = Object.assign({}, content);
 
-    contentConfigs.forEach((contentConfig) => {
-        handledContent = adjustContentToConfig(handledContent, contentConfig);
-    });
+    if (contentConfigs) {
+        contentConfigs.forEach((contentConfig) => {
+            handledContent = adjustContentToContentConfig(handledContent, contentConfig);
+        });
+    }
+
+    let handledContent2 = Object.assign({}, handledContent);
+
+    if (fieldConfigs) {
+        fieldConfigs.forEach((fieldConfig) => {
+            handledContent2 = adjustContentToFieldConfig(handledContent2, fieldConfig);
+        });
+    }
 
     return handledContent;
 };
 
-export const adjustContentToConfig = (
+export const adjustContentToContentConfig = (
     input: IContent,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
-): IContent => {
+): IContentResolved => {
     const processedInput: IContent = Object.assign({}, input);
 
     if (processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
@@ -33,9 +47,9 @@ export const adjustContentToConfig = (
             const seperatedOutputIdentifier =
                 propertyAdjustment.outputIdentifier ? propertyAdjustment.outputIdentifier.split(".") : undefined;
 
-            value = deepGet(processedInput.data, seperatedInputIdentifier);
+            value = deepGetFromFields(processedInput.data, seperatedInputIdentifier);
 
-            processedInput.data = deepRemove(processedInput.data, [propertyAdjustment.inputIdentifier]);
+            processedInput.data = deepRemoveFromFields(processedInput.data, [propertyAdjustment.inputIdentifier]);
 
             if (propertyAdjustment.valueConverter) {
                 try {
@@ -48,7 +62,7 @@ export const adjustContentToConfig = (
                 }
             }
 
-            processedInput.data = deepSet(
+            processedInput.data = deepSetToFields(
                 processedInput.data,
                 seperatedOutputIdentifier || seperatedInputIdentifier,
                 value,
@@ -56,7 +70,7 @@ export const adjustContentToConfig = (
         });
     }
 
-    const output: IContent = {
+    const output: IContentResolved = {
         data: {},
         id: "",
         type: "",
@@ -69,18 +83,18 @@ export const adjustContentToConfig = (
     alreadyHandledContents[processedInput.id] = processedInput;
 
     Object.keys(processedInput.data || {}).forEach((key) => {
-        if (Array.isArray(processedInput.data[key])) {
+        if (Array.isArray(processedInput.data[key].value)) {
             output.data[key] =
-                alreadyHandledContents[processedInput.data[key].id] ||
-                processedInput.data[key].map(
-                    (prop) => adjustContentToConfig(prop, contentConfig, alreadyHandledContents),
+                alreadyHandledContents[processedInput.data[key].value.id] ||
+                processedInput.data[key].value.map(
+                    (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
                 );
-        } else if (typeof processedInput.data[key] === "object") {
+        } else if (typeof processedInput.data[key].value === "object") {
             output.data[key] =
-                alreadyHandledContents[processedInput.data[key].id] ||
-                adjustContentToConfig(processedInput.data[key], contentConfig, alreadyHandledContents);
+                alreadyHandledContents[processedInput.data[key].value.id] ||
+                adjustContentToContentConfig(processedInput.data[key].value, contentConfig, alreadyHandledContents);
         } else {
-            output.data[key] = processedInput.data[key];
+            output.data[key] = processedInput.data[key].value;
         }
     });
 
@@ -96,3 +110,64 @@ export const adjustContentToConfig = (
     }
     return output;
 };
+
+export const adjustContentToFieldConfig = (
+    input: IContent,
+    fieldConfig: IFieldConfig,
+    alreadyHandledContents: {[key: string]: IContent} = {},
+): IContentResolved => {
+    const processedInput: IContent = Object.assign({}, input);
+
+    alreadyHandledContents[processedInput.id] = processedInput;
+
+    Object.keys(processedInput.data).forEach((contentFieldIdentifier) => {
+        const fieldType = processedInput.data[contentFieldIdentifier].fieldType;
+        const fieldValue = processedInput.data[contentFieldIdentifier].value;
+        let newValue;
+
+        // array
+        if (Array.isArray(fieldValue)) {
+            newValue = fieldValue.map((subContent) => {
+
+                // if subcontent is another field to resolve
+                if (subContent.value && isContent(subContent.value)) {
+                    return alreadyHandledContents[subContent.value.id] ||
+                        adjustContentToFieldConfig(subContent.value, fieldConfig, alreadyHandledContents);
+                }
+                return subContent;
+            });
+        // object
+        } else if (typeof fieldValue === "object") {
+            if (isContent(fieldValue)) {
+                newValue = alreadyHandledContents[fieldValue.id] ||
+                    adjustContentToFieldConfig(fieldValue, fieldConfig, alreadyHandledContents);
+            } else if (fieldValue.fieldType !== undefined && fieldValue.fieldType === fieldConfig.fieldIdentifier) {
+                try {
+                    newValue = fieldConfig.valueConverter(fieldValue.value);
+                } catch (error) {
+                    throw new Error(`Couldn't convert value: ${error}`);
+                }
+            }
+        // string or number
+        } else {
+            if (fieldType === fieldConfig.fieldIdentifier) {
+                try {
+                    newValue = fieldConfig.valueConverter(fieldValue);
+                } catch (error) {
+                    throw new Error(`Couldn't convert value: ${error}`);
+                }
+            }
+        }
+
+        if (newValue !== undefined) {
+            processedInput.data[contentFieldIdentifier] = newValue;
+        }
+    });
+
+    return processedInput;
+};
+
+const isContent = (value: any) =>
+    value.data !== undefined &&
+    value.type !== undefined &&
+    value.id !== undefined;
