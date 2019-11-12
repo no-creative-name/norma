@@ -8,7 +8,7 @@ export const adjustContentToContentConfig = (
     input: IContent | any,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
-): IContent => {
+): IContentResolved => {
     if (!input.data || !input.type) {
         return input;
     }

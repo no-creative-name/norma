@@ -56,24 +56,42 @@ describe("adjustContentToFieldConfig", () => {
         };
         const output = {
             data: {
-                fieldA: "maybe",
-                fieldB: "maybe",
-                fieldC: {
-                    data: {
-                        fieldCA: "maybe"
-                    },
-                    id: '1',
-                    type: 'nice'
+                fieldA: {
+                    fieldType: "string",
+                    value: "maybe"
                 },
-                fieldD: [
-                    {
+                fieldB: {
+                    fieldType: "string",
+                    value: "maybe"
+                },
+                fieldC: {
+                    fieldType: "reference",
+                    value: {
                         data: {
-                            fieldCA: "maybe"
+                            fieldCA: {
+                                fieldType: "string",
+                                value: "maybe"
+                            },
                         },
-                        id: '3',
+                        id: '1',
                         type: 'nice'
                     }
-                ]
+                },
+                fieldD: {
+                    fieldType: "referenceArray",
+                    value: [
+                        {
+                            data: {
+                                fieldCA: {
+                                    fieldType: "string",
+                                    value: "maybe"
+                                },
+                            },
+                            id: '3',
+                            type: 'nice'
+                        }
+                    ]
+                }
             },
             id: '2',
             type: ''

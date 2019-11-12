@@ -5,7 +5,7 @@ export const adjustContentToFieldConfig = (
     input: IContent,
     fieldConfig: IFieldConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
-): IContentResolved => {
+): IContent => {
     const processedInput: IContent = Object.assign({}, input);
 
     alreadyHandledContents[processedInput.id] = processedInput;
