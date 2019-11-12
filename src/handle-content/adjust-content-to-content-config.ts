@@ -68,7 +68,7 @@ const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: ICon
 
         processedInput.data = deepRemoveFromFields(processedInput.data, seperatedInputIdentifier);
 
-        if (propertyAdjustment.valueConverter) {
+        if (propertyAdjustment.valueConverter && value !== undefined) {
             try {
                 value = propertyAdjustment.valueConverter(value);
             } catch (error) {

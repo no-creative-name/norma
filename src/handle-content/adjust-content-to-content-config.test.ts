@@ -35,13 +35,15 @@ describe("adjustContentToContentConfig", () => {
                 y: "",
                 z: {
                     data: {},
+                    id: "5678",
                     type: "b",
                 },
             },
+            id: "1234",
             type: "b",
         };
         const result = adjustContentToContentConfig(input, config);
-        expect(result).toMatchObject(output);
+        expect(result).toEqual(expect.objectContaining(output));
     });
     test("throws TypeError if value converter returns undefined", () => {
         const input = {
@@ -121,13 +123,14 @@ describe("adjustContentToContentConfig", () => {
                 y: "",
                 z: {
                     data: {},
+                    id: "5678",
                     type: "a",
                 },
             },
             type: "a",
         };
         const result = adjustContentToContentConfig(input, config);
-        expect(result).toMatchObject(output);
+        expect(result).toEqual(expect.objectContaining(output));
     });
     test("resolves value with circular references", () => {
         const objA = {
@@ -160,7 +163,7 @@ describe("adjustContentToContentConfig", () => {
 
         expect(() => adjustContentToContentConfig(objA, config)).not.toThrow(RangeError);
     });
-    test("can move and rename properties", () => {
+    test("removes parent objects if they're empty after adjustment", () => {
         const input = {
             data: {
                 x: {
@@ -169,6 +172,45 @@ describe("adjustContentToContentConfig", () => {
                         a: {
                             b: "value"
                         }
+                    }
+                }
+            },
+            id: "1234",
+            type: "a",
+        };
+        const config = {
+            inputType: "a",
+            propertyAdjustments: [
+                {
+                    inputIdentifier: "x.a.b",
+                    outputIdentifier: "v.b.e"
+                },
+            ],
+        };
+        const output = {
+            data: {
+                v: {
+                    b: {
+                        e: "value"
+                    }
+                }
+            },
+            id: "1234",
+            type: "a",
+        };
+        const result = adjustContentToContentConfig(input, config);
+        expect(result).toEqual(expect.objectContaining(output));
+    });
+    test("can move and rename properties", () => {
+        const input = {
+            data: {
+                x: {
+                    fieldType: "",
+                    value: {
+                        a: {
+                            b: "value"
+                        },
+                        c: ""
                     }
                 },
                 y: {
@@ -198,6 +240,9 @@ describe("adjustContentToContentConfig", () => {
         };
         const output = {
             data: {
+                x: {
+                    c: ""
+                },
                 v: {
                     b: {
                         e: "value"
@@ -206,12 +251,14 @@ describe("adjustContentToContentConfig", () => {
                 y: "",
                 z: {
                     data: {},
+                    id: "5678",
                     type: "b",
                 },
             },
+            id: "1234",
             type: "a",
         };
         const result = adjustContentToContentConfig(input, config);
-        expect(result).toMatchObject(output);
+        expect(result).toEqual(expect.objectContaining(output));
     });
 })
