@@ -10,7 +10,7 @@ export const handleContent: ContentHandler = (
     fieldConfigs: IFieldConfig[] = undefined,
 ): IContent => {
     if (!content) {
-        throw new Error("Couldn't handle content: Input content is undefined.");
+        throw new ReferenceError("Couldn't handle content: Input content is undefined.");
     }
     const _ = require("lodash");
 

@@ -45,7 +45,7 @@ describe("adjustContentToContentConfig", () => {
         const result = adjustContentToContentConfig(input, config);
         expect(result).toEqual(expect.objectContaining(output));
     });
-    test("throws TypeError if value converter returns undefined", () => {
+    test("throws ReferenceError if value converter returns undefined", () => {
         const input = {
             data: {
                 x: {
@@ -80,7 +80,7 @@ describe("adjustContentToContentConfig", () => {
                 },
             ],
         };
-        expect(() => adjustContentToContentConfig(input, config)).toThrow(TypeError)
+        expect(() => adjustContentToContentConfig(input, config)).toThrow(ReferenceError)
     });
     test("converts value if converter if provided", () => {
         const input = {

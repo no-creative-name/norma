@@ -7,7 +7,7 @@ jest.mock('./adjust-content-to-field-config');
 
 describe("handleContent", () => {
     test("throws an error when content input is undefined.", () => {
-        expect(() => handleContent(undefined, [{inputType: "componentX"}])).toThrow(Error);
+        expect(() => handleContent(undefined, [{inputType: "componentX"}])).toThrow(ReferenceError);
     });
     test("calls adjustContentToContentConfig for every content config", () => {
         const content = {

@@ -10,7 +10,7 @@ export class ContentAdapter {
 
     constructor(cmsAdapter: ICmsAdapter, contentConfigs?: IContentConfig[], fieldConfigs?: IFieldConfig[]) {
         if (!cmsAdapter) {
-            throw new Error(`Creation of content adapter failed: adapter is undefined`);
+            throw new ReferenceError(`Creation of content adapter failed: adapter is undefined`);
         }
         this.cmsAdapter = cmsAdapter;
         this.contentConfigs = contentConfigs;
@@ -21,10 +21,10 @@ export class ContentAdapter {
 
     public async getContent(contentId: string, locale: string): Promise<IContent> {
         if (!contentId) {
-            throw new Error(`Couldn't get content: content id is undefined`);
+            throw new ReferenceError(`Couldn't get content: content id is undefined`);
         }
         if (!locale) {
-            throw new Error(`Couldn't get content: locale is undefined`);
+            throw new ReferenceError(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
         const handledContent = this.contentConfigs ?

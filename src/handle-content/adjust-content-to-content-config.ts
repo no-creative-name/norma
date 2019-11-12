@@ -72,10 +72,10 @@ const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: ICon
             try {
                 value = propertyAdjustment.valueConverter(value);
             } catch (error) {
-                throw new Error(`Couldn't convert value: ${error}`);
+                throw new ReferenceError(`Couldn't convert value: ${error}`);
             }
             if (value === undefined) {
-                throw new TypeError(`Value converter for ${propertyAdjustment.inputIdentifier} returned undefined`);
+                throw new ReferenceError(`Value converter for ${propertyAdjustment.inputIdentifier} returned undefined`);
             }
         }
 

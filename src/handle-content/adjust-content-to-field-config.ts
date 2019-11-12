@@ -1,11 +1,18 @@
 import { IFieldConfig } from "../interfaces/adapter-config";
-import { IContent, IContentResolved } from "../interfaces/content";
+import { IContent } from "../interfaces/content";
 
 export const adjustContentToFieldConfig = (
     input: IContent,
     fieldConfig: IFieldConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
 ): IContent => {
+    if (input === undefined) {
+        throw new ReferenceError(`Couldn't adjust input to fieldConfig: input is undefined`);
+    }
+    if (fieldConfig === undefined) {
+        throw new ReferenceError(`Couldn't adjust ${JSON.stringify(input)} to fieldConfig: fieldConfig is undefined`);
+    }
+
     const processedInput: IContent = Object.assign({}, input);
 
     alreadyHandledContents[processedInput.id] = processedInput;

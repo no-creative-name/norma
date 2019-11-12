@@ -9,7 +9,7 @@ export const getContentAdapter = (
     fieldConfig: IFieldConfig[] = undefined,
 ): ContentAdapter => {
     if (!adapter) {
-        throw new Error(`Couldn't get content adapter, cms adapter undefined.`);
+        throw new ReferenceError(`Couldn't get content adapter, cms adapter undefined.`);
     }
     return new ContentAdapter(adapter, contentConfig, fieldConfig);
 };

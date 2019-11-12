@@ -23,7 +23,7 @@ interface IPropertyConfig {
 
 export interface IFieldConfig {
     fieldIdentifier: string;
-    valueConverter?: ValueConverter;
+    valueConverter: ValueConverter;
 }
 
 type ValueConverter = (value: any) => any;

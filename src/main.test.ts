@@ -5,7 +5,7 @@ jest.mock("./content-adapter");
 
 describe("getContentAdapter", () => {
     test("throws an error if called without adapter", async () => {
-        expect(() => getContentAdapter(undefined)).toThrow(Error);
+        expect(() => getContentAdapter(undefined)).toThrow(ReferenceError);
     });
     test("returns content adapter", async () => {
         let cmsAdapter: ICmsAdapter = {

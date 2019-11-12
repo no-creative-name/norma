@@ -1,6 +1,19 @@
 import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
 
 describe("adjustContentToFieldConfig", () => {
+    test("throws error if input is undefined", () => {
+        expect(() => adjustContentToFieldConfig(undefined, {
+            fieldIdentifier: '',
+            valueConverter: () => {}
+        })).toThrow(ReferenceError);
+    });
+    test("throws error if fieldConfig is undefined", () => {
+        expect(() => adjustContentToFieldConfig({
+            data: {},
+            type: '',
+            id: ''
+        }, undefined)).toThrow(ReferenceError);
+    });
     test("converts correctly", () => {
         const input = {
             data: {
