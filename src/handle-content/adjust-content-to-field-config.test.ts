@@ -1,7 +1,6 @@
 import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
 
 describe("adjustContentToFieldConfig", () => {
-    // TODO adapt test/function
     test("converts correctly", () => {
         const input = {
             data: {

@@ -1,6 +1,6 @@
 import { IContentData } from "../../interfaces/content";
 
-export const deepGetFromFields = (fieldObject: IContentData, propertyArray: string[]) => {
+export const deepGetFromFields = (fieldObject: IContentData, propertyArray: string[]): any => {
     const correctKey = Object.keys(fieldObject).find((key) => key === propertyArray[0]);
     const _ = require("lodash");
 
