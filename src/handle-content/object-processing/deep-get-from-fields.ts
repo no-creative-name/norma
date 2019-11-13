@@ -8,7 +8,7 @@ export const deepGetFromFields = (fieldObject: IContentData, propertyArray: stri
         if (propertyArray.slice(1).length > 0) {
             return _.get(fieldObject[correctKey].value, propertyArray.slice(1));
         }
-        return fieldObject;
+        return fieldObject[correctKey].value;
     }
     return undefined;
 };

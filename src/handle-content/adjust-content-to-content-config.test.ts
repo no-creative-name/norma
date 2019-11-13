@@ -236,6 +236,10 @@ describe("adjustContentToContentConfig", () => {
                     inputIdentifier: "x.a.b",
                     outputIdentifier: "v.b.e"
                 },
+                {
+                    inputIdentifier: "y",
+                    outputIdentifier: "d"
+                }
             ],
         };
         const output = {
@@ -248,7 +252,7 @@ describe("adjustContentToContentConfig", () => {
                         e: "value"
                     }
                 },
-                y: "",
+                d: "",
                 z: {
                     data: {},
                     id: "5678",

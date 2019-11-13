@@ -17,12 +17,13 @@ export const deepRemoveFromFields = (fieldObject: IContentData, propertyArray: s
                     _.unset(field.value, propertyArray.slice(1, i));
                 }
             }
+
             if (Object.entries(field.value).length === 0) {
                 delete fieldObject[correctKey];
             }
-        } else {
-            delete fieldObject[correctKey];
         }
+    } else {
+        delete fieldObject[correctKey];
     }
     return fieldObject;
 };
