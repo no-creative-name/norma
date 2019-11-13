@@ -5,15 +5,16 @@ import { deepRemoveFromFields } from "./object-processing/deep-remove-from-field
 import { deepSetToFields } from "./object-processing/deep-set-to-fields";
 
 export const adjustContentToContentConfig = (
-    input: IContent | any,
+    input: IContentResolved | any,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
 ): IContentResolved => {
     if (!input.data || !input.type) {
         return input;
     }
+    const _ = require("lodash");
 
-    let processedInput: IContent = Object.assign({}, input);
+    let processedInput: IContentResolved = _.cloneDeep(input);
 
     // move & convert values
     if (processedInput.type === contentConfig.inputType && contentConfig.propertyAdjustments) {
@@ -29,7 +30,7 @@ export const adjustContentToContentConfig = (
     alreadyHandledContents[processedInput.id] = processedInput;
 
     Object.keys(processedInput.data || {}).forEach((key) => {
-        const propValue = processedInput.data[key].value;
+        const propValue = processedInput.data[key];
         if (Array.isArray(propValue)) {
             output.data[key] = propValue.map(
                 (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
@@ -57,7 +58,8 @@ export const adjustContentToContentConfig = (
 };
 
 const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: IContentConfig): IContent => {
-    const processedInput = Object.assign({}, input);
+    const _ = require("lodash");
+    const processedInput = _.cloneDeep(input);
     contentConfig.propertyAdjustments.map((propertyAdjustment) => {
         let value;
         const seperatedInputIdentifier = propertyAdjustment.inputIdentifier.split(".");
@@ -75,7 +77,9 @@ const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: ICon
                 throw new ReferenceError(`Couldn't convert value: ${error}`);
             }
             if (value === undefined) {
-                throw new ReferenceError(`Value converter for ${propertyAdjustment.inputIdentifier} returned undefined`);
+                throw new ReferenceError(
+                    `Value converter for ${propertyAdjustment.inputIdentifier} returned undefined`,
+                );
             }
         }
 

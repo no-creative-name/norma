@@ -29,8 +29,8 @@ describe("adjustContentToFieldConfig", () => {
                     value: {
                         data: {
                             fieldCA: {
-                                value: "perhaps",
-                                fieldType: "string"
+                                value: 1234,
+                                fieldType: "number"
                             }
                         },
                         id: '1',
@@ -41,20 +41,29 @@ describe("adjustContentToFieldConfig", () => {
                 fieldD: {
                     value: [
                         {
-                            value: {
-                                data: {
-                                    fieldCA: {
-                                        value: "perhaps",
-                                        fieldType: "string"
-                                    }
-                                },
-                                id: '3',
-                                type: 'nice'
+                            data: {
+                                fieldCA: {
+                                    value: "perhaps",
+                                    fieldType: "string"
+                                }
                             },
-                            fieldType: "reference"
+                            id: '3',
+                            type: 'nice'
                         }
                     ],
                     fieldType: "referenceArray"
+                },
+                fieldE: {
+                    fieldType: "object",
+                    value: {
+                        a: "x"
+                    }
+                },
+                fieldF: {
+                    fieldType: "array",
+                    value: [
+                        'a', 'b'
+                    ]
                 }
             },
             id: '2',
@@ -68,41 +77,104 @@ describe("adjustContentToFieldConfig", () => {
         };
         const output = {
             data: {
-                fieldA: {
-                    fieldType: "string",
-                    value: "maybe"
-                },
-                fieldB: {
-                    fieldType: "string",
-                    value: "maybe"
-                },
+                fieldA: "maybe",
+                fieldB: "maybe",
                 fieldC: {
-                    fieldType: "reference",
-                    value: {
+                    data: {
+                        fieldCA: 1234
+                    },
+                    id: '1',
+                    type: 'nice'
+                },
+                fieldD: [
+                    {
                         data: {
-                            fieldCA: {
-                                fieldType: "string",
-                                value: "maybe"
-                            },
+                            fieldCA: "maybe"
                         },
-                        id: '1',
+                        id: '3',
                         type: 'nice'
                     }
+                ],
+                fieldE: {
+                    a: "x"
                 },
-                fieldD: {
-                    fieldType: "referenceArray",
+                fieldF: [
+                    'a','b'
+                ]
+            },
+            id: '2',
+            type: ''
+        };
+        const result = adjustContentToFieldConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    });
+    test("converts arrays", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    fieldType: "array",
                     value: [
-                        {
-                            data: {
-                                fieldCA: {
-                                    fieldType: "string",
-                                    value: "maybe"
-                                },
-                            },
-                            id: '3',
-                            type: 'nice'
-                        }
+                        1,
+                        2
                     ]
+                },
+                fieldB: {
+                    fieldType: "array",
+                    value: [
+                        3,
+                        4
+                    ]
+                }
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldIdentifier: "array",
+            valueConverter: (value) => {
+                return value.map(v => v + 1);
+            }
+        };
+        const output = {
+            data: {
+                fieldA: [2, 3],
+                fieldB: [4, 5]
+            },
+            id: '2',
+            type: ''
+        };
+        const result = adjustContentToFieldConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    });
+    test("converts objects", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    fieldType: "object",
+                    value: {
+                        a: {
+                            x: ""
+                        },
+                        b: 1,
+                        c: "!"
+                    }
+                },
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldIdentifier: "object",
+            valueConverter: (value) => {
+                return value.a
+            }
+        };
+        const output = {
+            data: {
+                fieldA: {
+                    x: ""
                 }
             },
             id: '2',
@@ -111,5 +183,5 @@ describe("adjustContentToFieldConfig", () => {
         const result = adjustContentToFieldConfig(input, config);
         
         expect(result).toEqual(expect.objectContaining(output));
-    })
+    });
 });

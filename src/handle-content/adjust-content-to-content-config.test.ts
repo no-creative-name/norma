@@ -5,22 +5,13 @@ describe("adjustContentToContentConfig", () => {
     test("renames all instances of a single content type if desired", () => {
         const input = {
             data: {
-                x: {
-                    fieldType: "",
-                    value: ""
-                },
-                y: {
-                    fieldType: "",
-                    value: ""
-                },
+                x: "",
+                y: "",
                 z: {
-                    fieldType: "",
-                    value: {
-                        data: {},
-                        id: "5678",
-                        type: "a",
-                    }
-                },
+                    data: {},
+                    id: "5678",
+                    type: "a",
+                }
             },
             id: "1234",
             type: "a",
@@ -48,22 +39,13 @@ describe("adjustContentToContentConfig", () => {
     test("throws ReferenceError if value converter returns undefined", () => {
         const input = {
             data: {
-                x: {
-                    fieldType: "",
-                    value: ""
-                },
-                y: {
-                    fieldType: "",
-                    value: ""
-                },
+                x: "",
+                y: "",
                 z: {
-                    fieldType: "",
-                    value: {
-                        data: {},
-                        id: "5678",
-                        type: "a",
-                    }
-                },
+                    data: {},
+                    id: "5678",
+                    type: "a",
+                }
             },
             id: "1234",
             type: "a",
@@ -85,22 +67,13 @@ describe("adjustContentToContentConfig", () => {
     test("converts value if converter if provided", () => {
         const input = {
             data: {
-                x: {
-                    fieldType: "",
-                    value: ""
-                },
-                y: {
-                    fieldType: "",
-                    value: ""
-                },
+                x: "",
+                y: "",
                 z: {
-                    fieldType: "",
-                    value: {
-                        data: {},
-                        id: "5678",
-                        type: "a",
-                    }
-                },
+                    data: {},
+                    id: "5678",
+                    type: "a",
+                }
             },
             id: "1234",
             type: "a",
@@ -136,17 +109,12 @@ describe("adjustContentToContentConfig", () => {
         const objA = {
             data: {
                 "self-reference": {
-                    fieldType: "",
-                    value: {}
                 },
             },
             id: "XbK69BIAACEAt2GT",
             type: "self-referencing",
         };
-        objA.data["self-reference"] = {
-            fieldType: "",
-            value: objA
-        };
+        objA.data["self-reference"] = objA;
 
         const config = {
             inputType: "page",
@@ -167,11 +135,8 @@ describe("adjustContentToContentConfig", () => {
         const input = {
             data: {
                 x: {
-                    fieldType: "",
-                    value: {
-                        a: {
-                            b: "value"
-                        }
+                    a: {
+                        b: "value"
                     }
                 }
             },
@@ -205,26 +170,17 @@ describe("adjustContentToContentConfig", () => {
         const input = {
             data: {
                 x: {
-                    fieldType: "",
-                    value: {
-                        a: {
-                            b: "value"
-                        },
-                        c: ""
-                    }
+                    a: {
+                        b: "value"
+                    },
+                    c: ""
                 },
-                y: {
-                    fieldType: "",
-                    value: ""
-                },
+                y: 123,
                 z: {
-                    fieldType: "",
-                    value: {
-                        data: {},
-                        id: "5678",
-                        type: "b",
-                    }
-                },
+                    data: {},
+                    id: "5678",
+                    type: "b",
+                }
             },
             id: "1234",
             type: "a",
@@ -252,7 +208,7 @@ describe("adjustContentToContentConfig", () => {
                         e: "value"
                     }
                 },
-                d: "",
+                d: 123,
                 z: {
                     data: {},
                     id: "5678",

@@ -12,22 +12,26 @@ export const handleContent: ContentHandler = (
     if (!content) {
         throw new ReferenceError("Couldn't handle content: Input content is undefined.");
     }
+    console.log(content);
+    
     const _ = require("lodash");
 
-    let handledContent = Object.assign({}, content);
+    let handledContent = _.cloneDeep(content);
 
     if (fieldConfigs) {
         const handledResults = fieldConfigs.map((fieldConfig) => {
+            console.log(fieldConfig);
+            
             return adjustContentToFieldConfig(handledContent, fieldConfig);
         });
+        console.log(handledResults);
         handledContent = _.merge(...handledResults);
     }
 
     if (contentConfigs) {
-        const handledResults = contentConfigs.map((contentConfig) => {
-            return adjustContentToContentConfig(handledContent, contentConfig);
+        contentConfigs.map((contentConfig) => {
+            handledContent = adjustContentToContentConfig(handledContent, contentConfig);
         });
-        handledContent = _.merge(...handledResults);
     }
 
     return handledContent;
