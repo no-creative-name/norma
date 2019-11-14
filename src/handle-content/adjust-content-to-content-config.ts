@@ -58,7 +58,6 @@ export const adjustContentToContentConfig = (
 };
 
 const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: IContentConfig): IContent => {
-    const _ = require("lodash");
     const processedInput = _.cloneDeep(input);
     contentConfig.propertyAdjustments.map((propertyAdjustment) => {
         let value;

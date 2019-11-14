@@ -9,6 +9,7 @@ export const handleContent: ContentHandler = (
     content: IContent,
     contentConfigs: IContentConfig[] = undefined,
     fieldConfigs: IFieldConfig[] = undefined,
+    supportsFieldWiseAdjustment: boolean = false,
 ): IContent => {
     if (!content) {
         throw new ReferenceError("Couldn't handle content: Input content is undefined.");
@@ -17,13 +18,15 @@ export const handleContent: ContentHandler = (
 
     let handledContent = _.cloneDeep(content);
 
-    if (fieldConfigs) {
-        fieldConfigs.map((fieldConfig) => {
-            handledContent = adjustContentToFieldConfig(handledContent, fieldConfig);
-        });
-    }
+    if (supportsFieldWiseAdjustment) {
+        if (fieldConfigs) {
+            fieldConfigs.map((fieldConfig) => {
+                handledContent = adjustContentToFieldConfig(handledContent, fieldConfig);
+            });
+        }
 
-    handledContent = resolveContent(handledContent);
+        handledContent = resolveContent(handledContent);
+    }
 
     if (contentConfigs) {
         contentConfigs.map((contentConfig) => {

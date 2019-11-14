@@ -59,7 +59,7 @@ describe("handleContent", () => {
             fieldIdentifier: "b",
             valueConverter: (v) => v
         }];
-        handleContent(content, undefined, fields);
+        handleContent(content, undefined, fields, true);
         expect(adjustContentToFieldConfig).toHaveBeenCalledTimes(2);
     });
 });

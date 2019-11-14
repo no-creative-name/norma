@@ -5,4 +5,5 @@ export type ContentHandler = (
     content: IContent,
     contentConfigs?: IContentConfig[],
     fieldConfigs?: IFieldConfig[],
+    supportsFieldWiseAdjustment?: boolean,
 ) => IContent;
