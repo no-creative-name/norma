@@ -9,7 +9,6 @@ export const handleContent = (
     content: IContent,
     contentConfigs: IContentConfig[] = undefined,
     fieldConfigs: IFieldConfig[] = undefined,
-    supportsFieldWiseAdjustment: boolean = false,
 ): IContent => {
     if (!content) {
         throw new ReferenceError("Couldn't handle content: Input content is undefined.");

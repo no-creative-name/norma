@@ -32,7 +32,6 @@ export class ContentAdapter {
             content,
             this.contentConfigs,
             this.fieldConfigs,
-            this.cmsAdapter.supportsFieldWiseAdjustment,
         );
         return handledContent;
     }
