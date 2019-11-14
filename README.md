@@ -89,7 +89,7 @@ const contentAdapter = getContentAdapter(cmsAdapter, your_content_config);
 ```
 #### field-wise processing
 
-You are also able to customize the values for the same field types. This comes in handy when you want to convert the same fields like images the same way throughout all content types.
+You are also able to customize the values for the same field types. This comes in handy when you want to convert the same fields like images the same way throughout all content types. Please note that not all CMS connector modules may support this functionality.
 
 ```js
 [{
