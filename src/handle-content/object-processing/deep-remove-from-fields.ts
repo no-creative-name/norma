@@ -1,11 +1,10 @@
-import { IContentData, IContentDataResolved } from "../../interfaces/content";
+import _ from "lodash";
+import { IContentDataResolved } from "../../interfaces/content";
 
 export const deepRemoveFromFields = (
     fieldObject: IContentDataResolved,
     propertyArray: string[],
 ): IContentDataResolved => {
-    const _ = require("lodash");
-
     for (let i = propertyArray.length; i > 0; i--) {
         const propValue = _.get(fieldObject, propertyArray.slice(0, i));
 

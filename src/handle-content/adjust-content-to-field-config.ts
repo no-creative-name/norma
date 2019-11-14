@@ -1,20 +1,18 @@
+import _ from "lodash";
 import { IFieldConfig } from "../interfaces/adapter-config";
 import { IContent } from "../interfaces/content";
-import { IContentResolved } from "../interfaces/content";
 
 export const adjustContentToFieldConfig = (
-    input: IContentResolved,
+    input: IContent,
     fieldConfig: IFieldConfig,
     alreadyHandledContents: {[key: string]: IContent} = {},
-): IContentResolved => {
+): IContent => {
     if (input === undefined) {
         throw new ReferenceError(`Couldn't adjust input to fieldConfig: input is undefined`);
     }
     if (fieldConfig === undefined) {
         throw new ReferenceError(`Couldn't adjust ${JSON.stringify(input)} to fieldConfig: fieldConfig is undefined`);
     }
-    const _ = require("lodash");
-
     const processedInput: IContent = _.cloneDeep(input);
 
     alreadyHandledContents[processedInput.id] = processedInput;
@@ -65,11 +63,9 @@ export const adjustContentToFieldConfig = (
             }
         }
         if (newValue !== undefined) {
-            processedInput.data[contentFieldIdentifier] = newValue;
-            
+            processedInput.data[contentFieldIdentifier].value = newValue;
         }
     });
-
     return processedInput;
 };
 

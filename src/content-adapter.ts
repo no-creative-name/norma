@@ -27,9 +27,7 @@ export class ContentAdapter {
             throw new ReferenceError(`Couldn't get content: locale is undefined`);
         }
         const content = await this.cmsAdapter.getNormalizedContentData(contentId, locale);
-        const handledContent = this.contentConfigs ?
-            handleContent(content, this.contentConfigs, this.fieldConfigs) :
-            content;
+        const handledContent = handleContent(content, this.contentConfigs, this.fieldConfigs);
         return handledContent;
     }
 

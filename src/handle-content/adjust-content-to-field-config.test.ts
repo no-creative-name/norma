@@ -77,30 +77,54 @@ describe("adjustContentToFieldConfig", () => {
         };
         const output = {
             data: {
-                fieldA: "maybe",
-                fieldB: "maybe",
+                fieldA: {
+                    value: "maybe",
+                    fieldType: "string"
+                },
+                fieldB: {
+                    value: "maybe",
+                    fieldType: "string"
+                },
                 fieldC: {
-                    data: {
-                        fieldCA: 1234
-                    },
-                    id: '1',
-                    type: 'nice'
-                },
-                fieldD: [
-                    {
+                    value: {
                         data: {
-                            fieldCA: "maybe"
+                            fieldCA: {
+                                value: 1234,
+                                fieldType: "number"
+                            }
                         },
-                        id: '3',
+                        id: '1',
                         type: 'nice'
-                    }
-                ],
-                fieldE: {
-                    a: "x"
+                    },
+                    fieldType: "reference"
                 },
-                fieldF: [
-                    'a','b'
-                ]
+                fieldD: {
+                    value: [
+                        {
+                            data: {
+                                fieldCA: {
+                                    value: "maybe",
+                                    fieldType: "string"
+                                }
+                            },
+                            id: '3',
+                            type: 'nice'
+                        }
+                    ],
+                    fieldType: "referenceArray"
+                },
+                fieldE: {
+                    fieldType: "object",
+                    value: {
+                        a: "x"
+                    }
+                },
+                fieldF: {
+                    fieldType: "array",
+                    value: [
+                        'a', 'b'
+                    ]
+                }
             },
             id: '2',
             type: ''
@@ -138,8 +162,20 @@ describe("adjustContentToFieldConfig", () => {
         };
         const output = {
             data: {
-                fieldA: [2, 3],
-                fieldB: [4, 5]
+                fieldA: {
+                    fieldType: "array",
+                    value: [
+                        2,
+                        3
+                    ]
+                },
+                fieldB: {
+                    fieldType: "array",
+                    value: [
+                        4,
+                        5
+                    ]
+                }
             },
             id: '2',
             type: ''
@@ -174,8 +210,11 @@ describe("adjustContentToFieldConfig", () => {
         const output = {
             data: {
                 fieldA: {
-                    x: ""
-                }
+                    fieldType: "object",
+                    value: {
+                        x: ""
+                    }
+                },
             },
             id: '2',
             type: ''

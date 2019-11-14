@@ -3,6 +3,7 @@ import { IContent } from "../interfaces/content";
 import { adjustContentToContentConfig } from "./adjust-content-to-content-config";
 import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
 import { ContentHandler } from "./content-handler";
+import { resolveContent } from "./resolve-content";
 
 export const handleContent: ContentHandler = (
     content: IContent,
@@ -12,21 +13,17 @@ export const handleContent: ContentHandler = (
     if (!content) {
         throw new ReferenceError("Couldn't handle content: Input content is undefined.");
     }
-    console.log(content);
-    
     const _ = require("lodash");
 
     let handledContent = _.cloneDeep(content);
 
     if (fieldConfigs) {
-        const handledResults = fieldConfigs.map((fieldConfig) => {
-            console.log(fieldConfig);
-            
-            return adjustContentToFieldConfig(handledContent, fieldConfig);
+        fieldConfigs.map((fieldConfig) => {
+            handledContent = adjustContentToFieldConfig(handledContent, fieldConfig);
         });
-        console.log(handledResults);
-        handledContent = _.merge(...handledResults);
     }
+
+    handledContent = resolveContent(handledContent);
 
     if (contentConfigs) {
         contentConfigs.map((contentConfig) => {

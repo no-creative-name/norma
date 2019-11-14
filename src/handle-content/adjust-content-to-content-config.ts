@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { IContentConfig } from "../interfaces/adapter-config";
 import { IContent, IContentResolved } from "../interfaces/content";
 import { deepGetFromFields } from "./object-processing/deep-get-from-fields";
@@ -7,12 +8,11 @@ import { deepSetToFields } from "./object-processing/deep-set-to-fields";
 export const adjustContentToContentConfig = (
     input: IContentResolved | any,
     contentConfig: IContentConfig,
-    alreadyHandledContents: {[key: string]: IContent} = {},
+    alreadyHandledContents: {[key: string]: IContentResolved} = {},
 ): IContentResolved => {
     if (!input.data || !input.type) {
         return input;
     }
-    const _ = require("lodash");
 
     let processedInput: IContentResolved = _.cloneDeep(input);
 

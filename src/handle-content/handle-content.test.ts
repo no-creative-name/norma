@@ -4,6 +4,7 @@ import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
 
 jest.mock('./adjust-content-to-content-config');
 jest.mock('./adjust-content-to-field-config');
+jest.mock('./resolve-content');
 
 describe("handleContent", () => {
     test("throws an error when content input is undefined.", () => {
@@ -11,7 +12,12 @@ describe("handleContent", () => {
     });
     test("calls adjustContentToContentConfig for every content config", () => {
         const content = {
-            data: {},
+            data: {
+                a: {
+                    fieldType: '',
+                    value: ''
+                }
+            },
             id: "",
             type: ""
         };
@@ -37,16 +43,21 @@ describe("handleContent", () => {
     });
     test("calls adjustContentToFieldConfig for every field config", () => {
         const content = {
-            data: {},
+            data: {
+                a: {
+                    fieldType: 'x',
+                    value: 'a'
+                }
+            },
             id: "",
             type: ""
         };
         const fields = [{
             fieldIdentifier: "a",
-            valueConverter: () => {}
+            valueConverter: (v) => v
         },{
-            fieldIdentifier: "a",
-            valueConverter: () => {}
+            fieldIdentifier: "b",
+            valueConverter: (v) => v
         }];
         handleContent(content, undefined, fields);
         expect(adjustContentToFieldConfig).toHaveBeenCalledTimes(2);
