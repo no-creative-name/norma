@@ -1,5 +1,6 @@
 import { ContentAdapter } from "./content-adapter";
 import { ICmsAdapter } from "./interfaces/cms-adapter";
+import { IFieldConfig } from "./interfaces/adapter-config";
 
 const adapterConfig = {
     cms: {
@@ -28,6 +29,9 @@ describe("contentAdapter", () => {
 
     test("throws an error if initialized without adapter config", async () => {
         expect(() => new ContentAdapter(undefined)).toThrow(ReferenceError);
+    });
+    test("throws an error if initialized with field config, but CMS doesn't support it", async () => {
+        expect(() => new ContentAdapter(({supportsFieldWiseAdjustment: false} as ICmsAdapter), undefined, ({} as IFieldConfig[]))).toThrow(Error);
     });
     test("throws an error if content id is undefined", async () => {
         expect(await contentAdapter.getContent(undefined, "y").catch(() => {})).rejects;
