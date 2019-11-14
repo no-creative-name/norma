@@ -27,7 +27,7 @@ describe("contentAdapter", () => {
     const contentAdapter = new ContentAdapter(({} as ICmsAdapter), adapterConfig.contents);
 
     test("throws an error if initialized without adapter config", async () => {
-        expect(() => new ContentAdapter(undefined)).toThrow(Error);
+        expect(() => new ContentAdapter(undefined)).toThrow(ReferenceError);
     });
     test("throws an error if content id is undefined", async () => {
         expect(await contentAdapter.getContent(undefined, "y").catch(() => {})).rejects;

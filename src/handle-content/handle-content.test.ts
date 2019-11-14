@@ -1,152 +1,25 @@
 import { handleContent } from "./handle-content";
+import { adjustContentToContentConfig } from "./adjust-content-to-content-config";
+import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
+
+jest.mock('./adjust-content-to-content-config');
+jest.mock('./adjust-content-to-field-config');
+jest.mock('./resolve-content');
 
 describe("handleContent", () => {
     test("throws an error when content input is undefined.", () => {
-        expect(() => handleContent(undefined, [{inputType: "componentX"}])).toThrow(Error);
+        expect(() => handleContent(undefined, [{inputType: "componentX"}])).toThrow(ReferenceError);
     });
-    test("renames all instances of a single content type if desired", () => {
-        const input = {
+    test("calls adjustContentToContentConfig for every content config", () => {
+        const content = {
             data: {
-                x: "",
-                y: "",
-                z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
-                },
+                a: {
+                    fieldType: '',
+                    value: ''
+                }
             },
-            id: "1234",
-            type: "a",
-        };
-        const configs = [{
-            inputType: "a",
-            outputType: "b",
-        }];
-        const output = {
-            data: {
-                x: "",
-                y: "",
-                z: {
-                    data: {},
-                    type: "b",
-                },
-            },
-            type: "b",
-        };
-        const result = handleContent(input, configs);
-        expect(result).toMatchObject(output);
-    });
-    test("throws TypeError if value converter returns undefined", () => {
-        const input = {
-            data: {
-                x: "",
-                y: "",
-                z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
-                },
-            },
-            id: "1234",
-            type: "a",
-        };
-        const configs = [{
-            inputType: "a",
-            outputType: "a",
-            propertyAdjustments: [
-                {
-                    inputIdentifier: "x",
-                    valueConverter: (value) => {
-                        return undefined;
-                    },
-                },
-            ],
-        }];
-        expect(() => handleContent(input, configs)).toThrow(TypeError)
-    });
-    test("converts value if converter if provided", () => {
-        const input = {
-            data: {
-                x: "",
-                y: "",
-                z: {
-                    data: {},
-                    id: "5678",
-                    type: "a",
-                },
-            },
-            id: "1234",
-            type: "a",
-        };
-        const configs = [{
-            inputType: "a",
-            outputType: "a",
-            propertyAdjustments: [
-                {
-                    inputIdentifier: "x",
-                    valueConverter: (value) => {
-                        return `test`;
-                    },
-                },
-            ],
-        }];
-        const output = {
-            data: {
-                x: "test",
-                y: "",
-                z: {
-                    data: {},
-                    type: "a",
-                },
-            },
-            type: "a",
-        };
-        const result = handleContent(input, configs);
-        expect(result).toMatchObject(output);
-    });
-    test("resolves value with circular references", () => {
-        const objA = {
-            data: {
-                "self-reference": {},
-                "title": [],
-            },
-            id: "XbK69BIAACEAt2GT",
-            type: "self-referencing",
-        };
-        objA.data["self-reference"] = objA;
-
-        const configs = [{
-            inputType: "page",
-            outputType: "asd",
-            propertyAdjustments: [
-                {
-                    inputIdentifier: "title",
-                    valueConverter: (value) => {
-                        return JSON.stringify(value[0].text);
-                    },
-                },
-            ],
-        }];
-
-        expect(() => handleContent(objA, configs)).not.toThrow(RangeError);
-    });
-    test("can move and rename properties", () => {
-        const input = {
-            data: {
-                x: {
-                    a: {
-                        b: "value"
-                    }
-                },
-                y: "",
-                z: {
-                    data: {},
-                    id: "5678",
-                    type: "b",
-                },
-            },
-            id: "1234",
-            type: "a",
+            id: "",
+            type: ""
         };
         const configs = [{
             inputType: "a",
@@ -156,23 +29,37 @@ describe("handleContent", () => {
                     outputIdentifier: "v.b.e"
                 },
             ],
+        },{
+            inputType: "a",
+            propertyAdjustments: [
+                {
+                    inputIdentifier: "x.a.b",
+                    outputIdentifier: "v.b.e"
+                },
+            ],
         }];
-        const output = {
+        handleContent(content, configs);
+        expect(adjustContentToContentConfig).toHaveBeenCalledTimes(2);
+    });
+    test("calls adjustContentToFieldConfig for every field config", () => {
+        const content = {
             data: {
-                v: {
-                    b: {
-                        e: "value"
-                    }
-                },
-                y: "",
-                z: {
-                    data: {},
-                    type: "b",
-                },
+                a: {
+                    fieldType: 'x',
+                    value: 'a'
+                }
             },
-            type: "a",
+            id: "",
+            type: ""
         };
-        const result = handleContent(input, configs);
-        expect(result).toMatchObject(output);
+        const fields = [{
+            fieldIdentifier: "a",
+            valueConverter: (v) => v
+        },{
+            fieldIdentifier: "b",
+            valueConverter: (v) => v
+        }];
+        handleContent(content, undefined, fields, true);
+        expect(adjustContentToFieldConfig).toHaveBeenCalledTimes(2);
     });
 });
