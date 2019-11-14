@@ -1,9 +1,3 @@
-export interface IAdapterConfig {
-    cms: ICmsConfig;
-    contents?: IContentConfig[];
-    fields?: IFieldConfig[];
-}
-
 export interface ICmsConfig {
     type: string;
     credentials: any;

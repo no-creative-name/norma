@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { IContent, IContentResolved } from "../interfaces/content";
 
 export const resolveContent = (
@@ -7,8 +8,6 @@ export const resolveContent = (
     if (input === undefined) {
         throw new ReferenceError("Could not resolve content: content is undefined");
     }
-    const _ = require("lodash");
-
     const processedInput = _.cloneDeep(input);
 
     alreadyHandledContents[processedInput.id] = processedInput;

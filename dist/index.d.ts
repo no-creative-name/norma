@@ -19,11 +19,6 @@ declare module 'norma/content-adapter' {
 }
 
 declare module 'norma/interfaces/adapter-config' {
-    export interface IAdapterConfig {
-        cms: ICmsConfig;
-        contents?: IContentConfig[];
-        fields?: IFieldConfig[];
-    }
     export interface ICmsConfig {
         type: string;
         credentials: any;
