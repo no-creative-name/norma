@@ -6,7 +6,7 @@ import { deepRemoveFromFields } from "./object-processing/deep-remove-from-field
 import { deepSetToFields } from "./object-processing/deep-set-to-fields";
 
 export const adjustContentToContentConfig = (
-    input: IContentResolved | any,
+    input: IContentResolved,
     contentConfig: IContentConfig,
     alreadyHandledContents: {[key: string]: IContentResolved} = {},
 ): IContentResolved => {
@@ -29,18 +29,26 @@ export const adjustContentToContentConfig = (
 
     alreadyHandledContents[processedInput.id] = processedInput;
 
-    Object.keys(processedInput.data || {}).forEach((key) => {
+    // find & recurse over deeper contents
+    Object.keys(processedInput.data).forEach((key) => {
         const propValue = processedInput.data[key];
+        output.data[key] = propValue;
+
+        // array
         if (Array.isArray(propValue)) {
-            output.data[key] = propValue.map(
-                (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
-            );
+            // if array consists of sub contents
+            if (isContent(propValue[0])) {
+                output.data[key] = propValue.map(
+                    (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
+                );
+            }
         } else if (typeof propValue === "object") {
-            output.data[key] =
-                alreadyHandledContents[propValue.id] ||
-                adjustContentToContentConfig(propValue, contentConfig, alreadyHandledContents);
-        } else {
-            output.data[key] = propValue;
+            // if object is a sub content
+            if (isContent(propValue)) {
+                output.data[key] =
+                    alreadyHandledContents[propValue.id] ||
+                    adjustContentToContentConfig(propValue, contentConfig, alreadyHandledContents);
+            }
         }
     });
 
@@ -90,3 +98,8 @@ const adjustContentToPropertyAdjustments = (input: IContent, contentConfig: ICon
     });
     return processedInput;
 };
+
+const isContent = (value: any) =>
+    value.data !== undefined &&
+    value.type !== undefined &&
+    value.id !== undefined;

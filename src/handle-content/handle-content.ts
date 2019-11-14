@@ -16,15 +16,12 @@ export const handleContent = (
     }
     let handledContent = _.cloneDeep(content);
 
-    if (supportsFieldWiseAdjustment) {
-        if (fieldConfigs) {
-            fieldConfigs.map((fieldConfig) => {
-                handledContent = adjustContentToFieldConfig(handledContent, fieldConfig);
-            });
-        }
-
-        handledContent = resolveContent(handledContent);
+    if (fieldConfigs) {
+        fieldConfigs.map((fieldConfig) => {
+            handledContent = adjustContentToFieldConfig(handledContent, fieldConfig);
+        });
     }
+    handledContent = resolveContent(handledContent);
 
     if (contentConfigs) {
         contentConfigs.map((contentConfig) => {

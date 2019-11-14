@@ -14,8 +14,9 @@ export class ContentAdapter {
         }
         this.cmsAdapter = cmsAdapter;
         this.contentConfigs = contentConfigs;
-        if (cmsAdapter.supportsFieldWiseAdjustment) {
-            this.fieldConfigs = fieldConfigs;
+        this.fieldConfigs = fieldConfigs;
+        if (!cmsAdapter.supportsFieldWiseAdjustment && fieldConfigs) {
+            throw new Error(`Selected CMS connection module doesn't support field-wise adjustments yet. Please don't input this config.`);
         }
     }
 

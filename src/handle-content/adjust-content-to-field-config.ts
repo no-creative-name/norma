@@ -17,14 +17,15 @@ export const adjustContentToFieldConfig = (
 
     alreadyHandledContents[processedInput.id] = processedInput;
 
+    // recursively find fields and convert content
     Object.keys(processedInput.data).forEach((contentFieldIdentifier) => {
         const fieldType = processedInput.data[contentFieldIdentifier].fieldType;
         const fieldValue = processedInput.data[contentFieldIdentifier].value;
-        let newValue;
+        let newValue = fieldValue;
 
         // array
         if (Array.isArray(fieldValue)) {
-            // if subcontents are fields to resolve
+            // if subcontents are contents to resolve
             if (isContent(fieldValue[0])) {
                 newValue = fieldValue.map((subContent) => {
                     if (isContent(subContent)) {
@@ -33,33 +34,24 @@ export const adjustContentToFieldConfig = (
                     }
                     return subContent;
                 });
-            } else {
-                newValue = fieldValue;
             }
+            // if array is field to be converted
             if (fieldType === fieldConfig.fieldIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
             }
         // object
         } else if (typeof fieldValue === "object") {
+            // if object is another content to resolve
             if (isContent(fieldValue)) {
                 newValue = alreadyHandledContents[fieldValue.id] ||
                     adjustContentToFieldConfig(fieldValue, fieldConfig, alreadyHandledContents);
-            } else if (fieldValue.fieldType !== undefined && fieldValue.fieldType === fieldConfig.fieldIdentifier) {
-                try {
-                    newValue = fieldConfig.valueConverter(fieldValue.value);
-                } catch (error) {
-                    throw new Error(`Couldn't convert value: ${error}`);
-                }
+            // if object is field to be converted
             } else if (fieldType === fieldConfig.fieldIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
-            } else {
-                newValue = fieldValue;
             }
         } else {
             if (fieldType === fieldConfig.fieldIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
-            } else {
-                newValue = fieldValue;
             }
         }
         if (newValue !== undefined) {
