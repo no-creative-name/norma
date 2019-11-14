@@ -29,6 +29,7 @@ export const adjustContentToContentConfig = (
 
     alreadyHandledContents[processedInput.id] = processedInput;
 
+    // find & recurse over deeper contents
     Object.keys(processedInput.data || {}).forEach((key) => {
         const propValue = processedInput.data[key];
         if (Array.isArray(propValue)) {
