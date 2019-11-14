@@ -1,3 +1,4 @@
+
 # norma 👵🏼
 
 ### what is norma?
@@ -60,7 +61,7 @@ The object you receive will have the following data structure:
 
 The property data contains all the fields of your content, including the normalized subcontents.
 
-#### content processing
+#### content-type-wise processing
 
 If you want to customize the values of some properties for all instances of a content type, you have the option to pass a content configuration. To see what's possible, let's have a look at the following examplory config:
 
@@ -70,8 +71,8 @@ If you want to customize the values of some properties for all instances of a co
   outputType: "intro",
   propertyAdjustments: [
     {
-      inputIdentifier: ["headline", "textualContent", "title"],
-      outputIdentifier: ["headline", "title"],
+      inputIdentifier: "headline.textualContent.title",
+      outputIdentifier: "headline.title",
       valueConverter: (value) => {
       	return `${value} yay!`;
       },
@@ -86,6 +87,28 @@ To use a custom content configuration, you have to pass it into the 'getContentA
 ```typescript
 const contentAdapter = getContentAdapter(cmsAdapter, your_content_config);
 ```
+#### field-wise processing
+
+You are also able to customize the values for the same field types. This comes in handy when you want to convert the same fields like images the same way throughout all content types.
+
+```js
+[{
+	fieldIdentifier: "image",
+	valueConverter: (image) => {
+		return {
+			imgUrl: image.url,
+			imgAltText: image.alternativeText
+		}
+	}
+}]
+```
+
+This configuration will find all fields of the type "image" and then apply the valueConverter function to its value.
+To use a custom field configuration, you have to pass it into the 'getContentAdapter' method like this:
+```typescript
+const contentAdapter = getContentAdapter(cmsAdapter, undefined, your_field_config);
+```
+Note that there's an 'undefined' as second parameter, since here we don't want any content-type-wise adjustments and therefore don't pass in a config for that.
 
 ## warning ⚠️
 The delivered content object may contain circular references, regarding to your content in CMS.
