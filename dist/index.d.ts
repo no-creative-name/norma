@@ -34,7 +34,7 @@ declare module 'norma/interfaces/adapter-config' {
         valueConverter?: ValueConverter;
     }
     export interface IFieldConfig {
-        fieldIdentifier: string;
+        fieldTypeIdentifier: string;
         valueConverter: ValueConverter;
     }
     type ValueConverter = (value: any) => any;

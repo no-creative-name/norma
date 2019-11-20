@@ -36,7 +36,7 @@ export const adjustContentToFieldConfig = (
                 });
             }
             // if array is field to be converted
-            if (fieldType === fieldConfig.fieldIdentifier) {
+            if (fieldType === fieldConfig.fieldTypeIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
             }
         // object
@@ -46,11 +46,11 @@ export const adjustContentToFieldConfig = (
                 newValue = alreadyHandledContents[fieldValue.id] ||
                     adjustContentToFieldConfig(fieldValue, fieldConfig, alreadyHandledContents);
             // if object is field to be converted
-            } else if (fieldType === fieldConfig.fieldIdentifier) {
+            } else if (fieldType === fieldConfig.fieldTypeIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
             }
         } else {
-            if (fieldType === fieldConfig.fieldIdentifier) {
+            if (fieldType === fieldConfig.fieldTypeIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
             }
         }

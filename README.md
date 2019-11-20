@@ -93,7 +93,7 @@ You are also able to customize the values for the same field types. This comes i
 
 ```js
 [{
-	fieldIdentifier: "image",
+	fieldTypeIdentifier: "image",
 	valueConverter: (image) => {
 		return {
 			imgUrl: image.url,

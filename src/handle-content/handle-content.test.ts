@@ -53,10 +53,10 @@ describe("handleContent", () => {
             type: ""
         };
         const fields = [{
-            fieldIdentifier: "a",
+            fieldTypeIdentifier: "a",
             valueConverter: (v) => v
         },{
-            fieldIdentifier: "b",
+            fieldTypeIdentifier: "b",
             valueConverter: (v) => v
         }];
         handleContent(content, undefined, fields);

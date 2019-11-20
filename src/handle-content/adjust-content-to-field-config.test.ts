@@ -3,7 +3,7 @@ import { adjustContentToFieldConfig } from "./adjust-content-to-field-config";
 describe("adjustContentToFieldConfig", () => {
     test("throws error if input is undefined", () => {
         expect(() => adjustContentToFieldConfig(undefined, {
-            fieldIdentifier: '',
+            fieldTypeIdentifier: '',
             valueConverter: () => {}
         })).toThrow(ReferenceError);
     });
@@ -70,7 +70,7 @@ describe("adjustContentToFieldConfig", () => {
             type: ''
         };
         const config = {
-            fieldIdentifier: "string",
+            fieldTypeIdentifier: "string",
             valueConverter: (value) => {
                 return "maybe";
             }
@@ -155,7 +155,7 @@ describe("adjustContentToFieldConfig", () => {
             type: ''
         };
         const config = {
-            fieldIdentifier: "array",
+            fieldTypeIdentifier: "array",
             valueConverter: (value) => {
                 return value.map(v => v + 1);
             }
@@ -202,7 +202,7 @@ describe("adjustContentToFieldConfig", () => {
             type: ''
         };
         const config = {
-            fieldIdentifier: "object",
+            fieldTypeIdentifier: "object",
             valueConverter: (value) => {
                 return value.a
             }

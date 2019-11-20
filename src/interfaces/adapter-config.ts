@@ -16,7 +16,7 @@ interface IPropertyConfig {
 }
 
 export interface IFieldConfig {
-    fieldIdentifier: string;
+    fieldTypeIdentifier: string;
     valueConverter: ValueConverter;
 }
 
