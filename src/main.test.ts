@@ -9,7 +9,7 @@ describe("getContentAdapter", () => {
     });
     test("returns content adapter", async () => {
         let cmsAdapter: ICmsAdapter = {
-            supportsFieldWiseAdjustment: false,
+            supportsFieldTypeWiseAdjustment: false,
             getNormalizedContentData: undefined
         };
         getContentAdapter(cmsAdapter);

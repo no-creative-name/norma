@@ -31,7 +31,7 @@ describe("contentAdapter", () => {
         expect(() => new ContentAdapter(undefined)).toThrow(ReferenceError);
     });
     test("throws an error if initialized with field config, but CMS doesn't support it", async () => {
-        expect(() => new ContentAdapter(({supportsFieldWiseAdjustment: false} as ICmsAdapter), undefined, ({} as IFieldConfig[]))).toThrow(Error);
+        expect(() => new ContentAdapter(({supportsFieldTypeWiseAdjustment: false} as ICmsAdapter), undefined, ({} as IFieldConfig[]))).toThrow(Error);
     });
     test("throws an error if content id is undefined", async () => {
         expect(await contentAdapter.getContent(undefined, "y").catch(() => {})).rejects;
