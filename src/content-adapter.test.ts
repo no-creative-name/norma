@@ -1,6 +1,7 @@
 import { ContentAdapter } from "./content-adapter";
 import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { IFieldConfig } from "./interfaces/adapter-config";
+import { handleContent } from "./handle-content/handle-content";
 
 const adapterConfig = {
     cms: {
@@ -40,8 +41,7 @@ describe("contentAdapter", () => {
         expect(await contentAdapter.getContent("x", undefined).catch(() => {})).rejects;
     });
     test("calls function to get normalized data from cms adapter", async () => {
-        const getData = jest.fn();
-        contentAdapter['cmsAdapter'].getNormalizedContentData = getData;
+        contentAdapter['cmsAdapter'].getNormalizedContentData = jest.fn();
         await contentAdapter.getContent("x", "y").catch(() => {});
         expect(contentAdapter['cmsAdapter'].getNormalizedContentData).toHaveBeenCalled();
     });

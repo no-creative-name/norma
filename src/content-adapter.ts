@@ -33,7 +33,7 @@ export class ContentAdapter {
             this.contentConfigs,
             this.fieldConfigs,
         );
+
         return handledContent;
     }
-
 }

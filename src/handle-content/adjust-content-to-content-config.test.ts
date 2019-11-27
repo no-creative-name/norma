@@ -1,7 +1,14 @@
 import { adjustContentToContentConfig } from "./adjust-content-to-content-config";
 
 describe("adjustContentToContentConfig", () => {
-
+    test("returns unaltered input if input is not a valid content", () => {
+        const input = {
+            prop1: "x",
+            prop2: "y"
+        };
+        const result = adjustContentToContentConfig((input as any), ({} as any));
+        expect(result).toEqual(input);
+    })
     test("renames all instances of a single content type if desired", () => {
         const input = {
             data: {
@@ -35,6 +42,34 @@ describe("adjustContentToContentConfig", () => {
         };
         const result = adjustContentToContentConfig(input, config);
         expect(result).toEqual(expect.objectContaining(output));
+    });
+    test("throws error if value converter could not be applied", () => {
+        const input = {
+            data: {
+                x: "",
+                y: "",
+                z: {
+                    data: {},
+                    id: "5678",
+                    type: "a",
+                }
+            },
+            id: "1234",
+            type: "a",
+        };
+        const config = {
+            inputType: "a",
+            outputType: "a",
+            propertyAdjustments: [
+                {
+                    inputIdentifier: "x",
+                    valueConverter: (value) => {
+                        return value.content.x;
+                    },
+                },
+            ],
+        };
+        expect(() => adjustContentToContentConfig(input, config)).toThrow(Error);
     });
     test("throws ReferenceError if value converter returns undefined", () => {
         const input = {
@@ -169,6 +204,18 @@ describe("adjustContentToContentConfig", () => {
     test("can move and rename properties", () => {
         const input = {
             data: {
+                w: [
+                    {
+                        data: {},
+                        id: "2345",
+                        type: "g"
+                    },
+                    {
+                        data: {},
+                        id: "1234",
+                        type: "g"
+                    }
+                ],
                 x: {
                     a: {
                         b: "value"
@@ -200,6 +247,18 @@ describe("adjustContentToContentConfig", () => {
         };
         const output = {
             data: {
+                w: [
+                    {
+                        data: {},
+                        id: "2345",
+                        type: "g"
+                    },
+                    {
+                        data: {},
+                        id: "1234",
+                        type: "g"
+                    }
+                ],
                 x: {
                     c: ""
                 },
