@@ -1,7 +1,6 @@
 import { ContentAdapter } from "./content-adapter";
 import { ICmsAdapter } from "./interfaces/cms-adapter";
 import { IFieldConfig } from "./interfaces/adapter-config";
-import { handleContent } from "./handle-content/handle-content";
 
 const adapterConfig = {
     cms: {

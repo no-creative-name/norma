@@ -37,11 +37,14 @@ export const adjustContentToContentConfig = (
         // array
         if (Array.isArray(propValue)) {
             // if array consists of sub contents
-            if (isContent(propValue[0])) {
-                output.data[key] = propValue.map(
-                    (prop) => adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents),
-                );
-            }
+            output.data[key] = propValue.map(
+                (prop) => {
+                    if (isContent(prop)) {
+                        return adjustContentToContentConfig(prop, contentConfig, alreadyHandledContents);
+                    }
+                    return prop;
+                },
+            );
         } else if (typeof propValue === "object") {
             // if object is a sub content
             if (isContent(propValue)) {
@@ -52,16 +55,13 @@ export const adjustContentToContentConfig = (
         }
     });
 
-    if (processedInput.type) {
-        if (processedInput.type === contentConfig.inputType && contentConfig.outputType) {
-            output.type = contentConfig.outputType;
-        } else {
-            output.type = processedInput.type;
-        }
+    if (processedInput.type === contentConfig.inputType && contentConfig.outputType) {
+        output.type = contentConfig.outputType;
+    } else {
+        output.type = processedInput.type;
     }
-    if (processedInput.id) {
-        output.id = processedInput.id;
-    }
+    output.id = processedInput.id;
+
     return output;
 };
 

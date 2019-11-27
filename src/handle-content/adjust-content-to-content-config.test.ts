@@ -201,6 +201,36 @@ describe("adjustContentToContentConfig", () => {
         const result = adjustContentToContentConfig(input, config);
         expect(result).toEqual(expect.objectContaining(output));
     });
+    test("converts arrays", () => {
+        const input = {
+            data: {
+                fieldA: [
+                    'a', 'b', 'c'
+                ]
+            },
+            id: '2',
+            type: 'type'
+        };
+        const config = {
+            inputType: "type",
+            propertyAdjustments: [{
+                inputIdentifier: "fieldA",
+                outputIdentifier: "fieldB"
+            }]
+        };
+        const output = {
+            data: {
+                fieldB: [
+                    'a', 'b', 'c'
+                ]
+            },
+            id: '2',
+            type: 'type'
+        };
+        const result = adjustContentToContentConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    });
     test("can move and rename properties", () => {
         const input = {
             data: {
