@@ -14,6 +14,29 @@ describe("adjustContentToFieldConfig", () => {
             id: ''
         }, undefined)).toThrow(ReferenceError);
     });
+    test("throws error if valueConverter couldn't be applied", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    fieldType: "object",
+                    value: {
+                        a: {
+                            x: ""
+                        }
+                    }
+                },
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldTypeIdentifier: "object",
+            valueConverter: (value) => {
+                return value.b.c;
+            }
+        };
+        expect(() => adjustContentToFieldConfig(input, config)).toThrow(Error);
+    });
     test("converts correctly", () => {
         const input = {
             data: {
@@ -184,6 +207,28 @@ describe("adjustContentToFieldConfig", () => {
         
         expect(result).toEqual(expect.objectContaining(output));
     });
+    test("does not overwrite original value if converted value is undefined", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    fieldType: "number",
+                    value: 1
+                }
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldTypeIdentifier: "number",
+            valueConverter: (value) => {
+                return undefined;
+            }
+        };
+        const output = input;
+        const result = adjustContentToFieldConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    });
     test("converts objects", () => {
         const input = {
             data: {
@@ -213,6 +258,61 @@ describe("adjustContentToFieldConfig", () => {
                     fieldType: "object",
                     value: {
                         x: ""
+                    }
+                },
+            },
+            id: '2',
+            type: ''
+        };
+        const result = adjustContentToFieldConfig(input, config);
+        
+        expect(result).toEqual(expect.objectContaining(output));
+    });
+    test("converts nested contents", () => {
+        const input = {
+            data: {
+                fieldA: {
+                    fieldType: "object",
+                    value: {
+                        data: {
+                            fieldX: {
+                                fieldType: "type",
+                                value: {
+                                    a: {
+                                        b: 1
+                                    }
+                                }
+                            }
+                        },
+                        id: '3',
+                        type: ''
+                    }
+                },
+            },
+            id: '2',
+            type: ''
+        };
+        const config = {
+            fieldTypeIdentifier: "type",
+            valueConverter: (value) => {
+                return value.a
+            }
+        };
+        const output = {
+            data: {
+                fieldA: {
+                    fieldType: "object",
+                    value: {
+                        data: {
+                            fieldX: {
+                                fieldType: "type",
+                                value: {
+                                    b: 1
+                                }
+                            }
+                        },
+                        id: '3',
+                        type: ''
                     }
                 },
             },

@@ -26,15 +26,13 @@ export const adjustContentToFieldConfig = (
         // array
         if (Array.isArray(fieldValue)) {
             // if subcontents are contents to resolve
-            if (isContent(fieldValue[0])) {
-                newValue = fieldValue.map((subContent) => {
-                    if (isContent(subContent)) {
-                        return alreadyHandledContents[subContent.id] ||
-                            adjustContentToFieldConfig(subContent, fieldConfig, alreadyHandledContents);
-                    }
-                    return subContent;
-                });
-            }
+            newValue = fieldValue.map((subContent) => {
+                if (isContent(subContent)) {
+                    return alreadyHandledContents[subContent.id] ||
+                        adjustContentToFieldConfig(subContent, fieldConfig, alreadyHandledContents);
+                }
+                return subContent;
+            });
             // if array is field to be converted
             if (fieldType === fieldConfig.fieldTypeIdentifier) {
                 newValue = applyValueConverter(fieldValue, fieldConfig);
